@@ -1,0 +1,102 @@
+import { useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuthStore } from './stores/authStore';
+import Layout from './components/layout/Layout';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Courses from './pages/Courses';
+import CourseDetail from './pages/CourseDetail';
+import Profile from './pages/Profile';
+import Census from './pages/Census';
+import Jobs from './pages/Jobs';
+import SponsorPortal from './pages/SponsorPortal';
+import Reports from './pages/Reports';
+import Resilience from './pages/Resilience';
+import Directory from './pages/Directory';
+import SupportNetworkRegister from './pages/SupportNetworkRegister';
+import LoadingSpinner from './components/ui/LoadingSpinner';
+
+// Protected Route component
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuthStore();
+  
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+}
+
+// Public Route component (redirect if logged in)
+function PublicRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuthStore();
+  
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <>{children}</>;
+}
+
+function App() {
+  const { initialize } = useAuthStore();
+  
+  useEffect(() => {
+    const unsubscribe = initialize();
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, [initialize]);
+  
+  return (
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
+      } />
+      <Route path="/register" element={
+        <PublicRoute>
+          <Register />
+        </PublicRoute>
+      } />
+      
+      {/* Protected routes with Layout */}
+      <Route element={
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      }>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/courses/:courseId" element={<CourseDetail />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/census" element={<Census />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/sponsor-portal" element={<SponsorPortal />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/resilience" element={<Resilience />} />
+        <Route path="/directory" element={<Directory />} />
+        <Route path="/support-network-register" element={<SupportNetworkRegister />} />
+      </Route>
+      
+      {/* Default redirect */}
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
+  );
+}
+
+export default App;

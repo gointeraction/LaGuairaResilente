@@ -1,0 +1,306 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'ADMIN';
+    }
+    
+    function isCoordinator() {
+      return isAuthenticated() && getUserRole() == 'COORDINATOR';
+    }
+    
+    function isTrainer() {
+      return isAuthenticated() && getUserRole() == 'TRAINER';
+    }
+    
+    function isStudent() {
+      return isAuthenticated() && getUserRole() == 'STUDENT';
+    }
+    
+    function isSponsor() {
+      return isAuthenticated() && getUserRole() == 'SPONSOR';
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // ============================================
+    // USERS COLLECTION
+    // ============================================
+    match /users/{userId} {
+      // Anyone authenticated can read basic user info
+      allow read: if isAuthenticated();
+      
+      // Users can create their own profile
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      
+      // Users can update their own profile, admins can update anyone
+      allow update: if isOwner(userId) || isAdmin();
+      
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // CENSUS SURVEYS COLLECTION
+    // ============================================
+    match /census_surveys/{surveyId} {
+      // Coordinators and admins can read all surveys
+      allow read: if isCoordinator() || isAdmin();
+      
+      // Coordinators can create surveys
+      allow create: if isCoordinator() || isAdmin();
+      
+      // Coordinators can update their own surveys
+      allow update: if isCoordinator() || isAdmin();
+      
+      // Only admins can delete surveys
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // CAMPS COLLECTION
+    // ============================================
+    match /camps/{campId} {
+      // Authenticated users can read camps
+      allow read: if isAuthenticated();
+      
+      // Only coordinators and admins can manage camps
+      allow write: if isCoordinator() || isAdmin();
+    }
+
+    // ============================================
+    // TRACKS COLLECTION
+    // ============================================
+    match /tracks/{trackId} {
+      // Anyone can read tracks
+      allow read: if true;
+      
+      // Only admins and trainers can manage tracks
+      allow write: if isAdmin() || isTrainer();
+    }
+
+    // ============================================
+    // COURSES COLLECTION
+    // ============================================
+    match /courses/{courseId} {
+      // Anyone can read courses
+      allow read: if true;
+      
+      // Only admins and trainers can manage courses
+      allow write: if isAdmin() || isTrainer();
+    }
+
+    // ============================================
+    // COURSE RESOURCES COLLECTION
+    // ============================================
+    match /course_resources/{resourceId} {
+      // Authenticated users can read resources
+      allow read: if isAuthenticated();
+      
+      // Only admins and trainers can manage resources
+      allow write: if isAdmin() || isTrainer();
+    }
+
+    // ============================================
+    // STUDENT ENROLLMENTS COLLECTION
+    // ============================================
+    match /enrollments/{enrollmentId} {
+      // Students can read their own enrollments
+      allow read: if isStudent() && resource.data.student_id == request.auth.uid
+                  || isTrainer() || isAdmin();
+      
+      // Students can enroll in courses
+      allow create: if isStudent() && request.resource.data.student_id == request.auth.uid;
+      
+      // Trainers and admins can update enrollments
+      allow update: if isTrainer() || isAdmin()
+                    || (isStudent() && resource.data.student_id == request.auth.uid);
+      
+      // Only admins can delete enrollments
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // QUIZ SUBMISSIONS COLLECTION
+    // ============================================
+    match /quiz_submissions/{submissionId} {
+      // Students can read their own submissions
+      allow read: if isStudent() && resource.data.student_id == request.auth.uid
+                  || isTrainer() || isAdmin();
+      
+      // Students can submit quizzes
+      allow create: if isStudent() && request.resource.data.student_id == request.auth.uid;
+      
+      // No updates allowed after submission
+      allow update: if false;
+      
+      // Only admins can delete submissions
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // RESILIENCE POINTS COLLECTION
+    // ============================================
+    match /resilience_points/{pointId} {
+      // Students can read their own points
+      allow read: if isStudent() && resource.data.student_id == request.auth.uid
+                  || isAdmin();
+      
+      // Points are created by Cloud Functions only
+      allow create: if isAdmin() || isTrainer();
+      
+      // No updates or deletes allowed
+      allow update, delete: if false;
+    }
+
+    // ============================================
+    // SPONSORS COLLECTION
+    // ============================================
+    match /sponsors/{sponsorId} {
+      // Sponsors can read their own profile
+      allow read: if isOwner(sponsorId) || isAdmin();
+      
+      // Sponsors can create their profile
+      allow create: if isAuthenticated() && request.auth.uid == sponsorId;
+      
+      // Sponsors can update their own profile
+      allow update: if isOwner(sponsorId) || isAdmin();
+      
+      // Only admins can delete sponsors
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // SPONSORSHIPS COLLECTION
+    // ============================================
+    match /sponsorships/{sponsorshipId} {
+      // Sponsors can read their own sponsorships
+      // Admins and coordinators can read all
+      allow read: if isAuthenticated() && (
+                    resource.data.sponsor_id == request.auth.uid 
+                    || isAdmin() 
+                    || isCoordinator()
+                  );
+      
+      // Sponsors can create sponsorships
+      allow create: if isSponsor() && request.resource.data.sponsor_id == request.auth.uid;
+      
+      // Sponsors can update their own, admins can update any
+      allow update: if isAuthenticated() && (
+                      resource.data.sponsor_id == request.auth.uid 
+                      || isAdmin()
+                    );
+      
+      // Only admins can delete sponsorships
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // BENEFICIARIES COLLECTION (Anonymous profiles for sponsors)
+    // ============================================
+    match /beneficiaries/{beneficiaryId} {
+      // Sponsors can read anonymous beneficiary data
+      allow read: if isSponsor() || isAdmin() || isCoordinator();
+      
+      // Only coordinators and admins can manage beneficiaries
+      allow write: if isCoordinator() || isAdmin();
+    }
+
+    // ============================================
+    // JOB OPPORTUNITIES COLLECTION
+    // ============================================
+    match /job_opportunities/{jobId} {
+      // Authenticated users can read jobs
+      allow read: if isAuthenticated();
+      
+      // Sponsors and admins can create jobs
+      allow create: if isSponsor() || isAdmin();
+      
+      // Sponsors can update their own jobs
+      allow update: if isSponsor() && resource.data.company_id == request.auth.uid
+                    || isAdmin();
+      
+      // Sponsors can close their own jobs
+      allow delete: if isSponsor() && resource.data.company_id == request.auth.uid
+                    || isAdmin();
+    }
+
+    // ============================================
+    // EMPLOYMENTS COLLECTION
+    // ============================================
+    match /employments/{employmentId} {
+      // Students can read their own employment
+      allow read: if isAuthenticated() && (
+                    resource.data.graduate_id == request.auth.uid
+                    || resource.data.company_id == request.auth.uid
+                    || isAdmin()
+                  );
+      
+      // Create employment (when sponsor hires a graduate)
+      allow create: if isSponsor() || isAdmin();
+      
+      // Update employment status
+      allow update: if isSponsor() || isAdmin();
+      
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // MILESTONES COLLECTION (Sponsorship tracking)
+    // ============================================
+    match /milestones/{milestoneId} {
+      // Read milestones for own sponsorships
+      allow read: if isAuthenticated();
+      
+      // Coordinators and admins create milestones
+      allow create: if isCoordinator() || isAdmin();
+      
+      // Coordinators and admins update milestones
+      allow update: if isCoordinator() || isAdmin();
+      
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // NOTIFICATIONS COLLECTION
+    // ============================================
+    match /notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if isOwner(resource.data.user_id);
+      
+      // Cloud Functions create notifications
+      allow create: if isAdmin();
+      
+      // Users can mark as read
+      allow update: if isOwner(resource.data.user_id);
+      
+      // Users can delete their own
+      allow delete: if isOwner(resource.data.user_id);
+    }
+
+    // ============================================
+    // IMPACT METRICS COLLECTION (Dashboard)
+    // ============================================
+    match /impact_metrics/{metricId} {
+      // Admins and coordinators can read all metrics
+      allow read: if isAdmin() || isCoordinator() || isSponsor();
+      
+      // Only Cloud Functions write metrics
+      allow write: if false;
+    }
+  }
+}

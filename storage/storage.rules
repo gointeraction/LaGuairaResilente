@@ -1,0 +1,98 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      return get(/databases/(default)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'ADMIN';
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // ============================================
+    // USER AVATARS
+    // ============================================
+    match /avatars/{userId}/{allPaths=**} {
+      // Anyone can view avatars
+      allow read: if true;
+      
+      // Users can upload their own avatar
+      allow write: if isOwner(userId) && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    // ============================================
+    // COURSE RESOURCES (Videos, Documents)
+    // ============================================
+    match /courses/{courseId}/{allPaths=**} {
+      // Authenticated users can read course resources
+      allow read: if isAuthenticated();
+      
+      // Only admins and trainers can upload course resources
+      allow write: if isAdmin() || getUserRole() == 'TRAINER';
+    }
+
+    // ============================================
+    // CENSUS ATTACHMENTS
+    // ============================================
+    match /census/{surveyId}/{allPaths=**} {
+      // Coordinators and admins can read census attachments
+      allow read: if getUserRole() == 'COORDINATOR' || isAdmin();
+      
+      // Coordinators can upload census attachments
+      allow write: if getUserRole() == 'COORDINATOR' || isAdmin();
+    }
+
+    // ============================================
+    // SPONSOR DOCUMENTS (Certificates, Reports)
+    // ============================================
+    match /sponsors/{sponsorId}/{allPaths=**} {
+      // Sponsors can read their own documents
+      allow read: if isOwner(sponsorId) || isAdmin();
+      
+      // Sponsors can upload their documents
+      allow write: if isOwner(sponsorId) && request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // ============================================
+    // BENEFICIARY DOCUMENTS
+    // ============================================
+    match /beneficiaries/{beneficiaryId}/{allPaths=**} {
+      // Coordinators and admins can manage beneficiary documents
+      allow read: if getUserRole() == 'COORDINATOR' || isAdmin();
+      allow write: if getUserRole() == 'COORDINATOR' || isAdmin();
+    }
+
+    // ============================================
+    // JOB ATTACHMENTS
+    // ============================================
+    match /jobs/{jobId}/{allPaths=**} {
+      // Authenticated users can read job attachments
+      allow read: if isAuthenticated();
+      
+      // Sponsors and admins can upload job attachments
+      allow write: if getUserRole() == 'SPONSOR' || isAdmin();
+    }
+
+    // ============================================
+    // TEMP UPLOADS (General purpose)
+    // ============================================
+    match /temp/{userId}/{allPaths=**} {
+      // Users can read their own temp files
+      allow read: if isOwner(userId);
+      
+      // Users can upload temp files (max 10MB)
+      allow write: if isOwner(userId) && request.resource.size < 10 * 1024 * 1024;
+    }
+  }
+}
