@@ -23,6 +23,13 @@ import CoverageMap from './pages/CoverageMap';
 import CoordinationDashboard from './pages/CoordinationDashboard';
 import EventsManagement from './pages/EventsManagement';
 import MeetingsManagement from './pages/MeetingsManagement';
+import CampsManagement from './pages/CampsManagement';
+import WiFiNodesManagement from './pages/WiFiNodesManagement';
+import LogisticsPage from './pages/LogisticsPage';
+import MatchingPage from './pages/MatchingPage';
+import AnonymousDashboardPage from './pages/AnonymousDashboardPage';
+import PointsRedemptionPage from './pages/PointsRedemptionPage';
+import CertificatesPage from './pages/CertificatesPage';
 
 // Protected Route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -104,6 +111,13 @@ function App() {
         <Route path="/coordination" element={<CoordinationDashboard />} />
         <Route path="/coordination/events" element={<EventsManagement />} />
         <Route path="/coordination/meetings" element={<MeetingsManagement />} />
+        <Route path="/coordination/camps" element={<CampsManagement />} />
+        <Route path="/coordination/wifi" element={<WiFiNodesManagement />} />
+        <Route path="/coordination/logistics" element={<LogisticsPage />} />
+        <Route path="/coordination/matching" element={<MatchingPage />} />
+        <Route path="/sponsor-portal/anonymous" element={<AnonymousDashboardPage />} />
+        <Route path="/redemption" element={<PointsRedemptionPage />} />
+        <Route path="/certificates" element={<CertificatesPage />} />
       </Route>
       
       {/* Default redirect */}
