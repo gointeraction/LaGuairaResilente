@@ -1,6 +1,6 @@
 # 🌊 La Guaira Resiliente Digital
 
-> Plataforma Integral de Capacitación, Inclusión Laboral y Apadrinamiento Corporativo para la Reconstrucción Económica de La Guaira.
+> Plataforma Integral de Capacitación, Inclusión Laboral, Apadrinamiento Corporativo y Coordinación de Emergencias para la Reconstrucción de La Guaira.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)](https://firebase.google.com)
@@ -11,22 +11,57 @@
 
 ## 📋 Descripción
 
-Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** del Estado La Guaira después del desastre sísmico, ofreciendo un ecosistema completo de recuperación económica y bienestar emocional.
+Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** del Estado La Guaira después del desastre sísmico, ofreciendo un ecosistema completo de recuperación económica, bienestar emocional y coordinación de emergencias.
 
-### 🎯 Módulos Principales
+---
 
-| Módulo | Descripción | Estado |
-|--------|-------------|--------|
-| 🎓 **Aula Resiliente** | Capacitación digital con 3 tracks y gamificación | ✅ |
-| 💼 **Portal de Empleo** | Vinculación laboral y ofertas de trabajo | ✅ |
-| 🤝 **Portal de Patrocinio** | Conexión empresas-beneficiarios | ✅ |
-| 🧠 **Centro de Resiliencia** | 6 actividades basadas en APA | ✅ |
-| 👨‍⚕️ **Directorio Psicólogos** | 8 especialistas pre-cargados | ✅ |
-| 📊 **Panel Admin** | Gestión completa de usuarios | ✅ |
-| 🏆 **Leaderboard** | Ranking de ciudadanos resilientes | ✅ |
-| 🗺️ **Mapa Cobertura** | Visualización de municipios | ✅ |
-| 📋 **Censo Digital** | 17 preguntas de-diagnóstico | ✅ |
-| 📈 **Reportes** | Métricas e impacto | ✅ |
+## 🎯 Módulos Principales (22 Módulos)
+
+### 📚 Educación y Capacitación
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 🎓 **Aula Resiliente** | 3 tracks, 19 cursos, gamificación | `/courses` |
+| 📖 **Detalle Curso** | Contenido, quizzes, progreso | `/courses/:id` |
+| 🏆 **Tabla de Líderes** | Ranking por puntos de resiliencia | `/leaderboard` |
+
+### 🧠 Bienestar Emocional
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 🧠 **Centro de Resiliencia** | 6 actividades basadas en APA | `/resilience` |
+| 🎨 **Emotional Canvas** | Mandala SVG interactivo | Componente |
+| 📔 **Daily Journal** | Diario con seguimiento de ánimo | Componente |
+| 🧘 **Mindfulness** | 4 sesiones guiadas con timer | Componente |
+| 📋 **Action Plan** | Planes de acción personales | Componente |
+| 📊 **APA Assessment** | Evaluación de 10 principios | Componente |
+| 🎁 **My Gifts Quiz** | 20 talentos predefinidos | Componente |
+
+### 👨‍⚕️ Salud Mental
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 👨‍⚕️ **Directorio Psicólogos** | 8 especialistas pre-cargados | `/directory` |
+| 📝 **Registro Red Apoyo** | Flujo de verificación FPV/MPPS | `/support-network-register` |
+
+### 💼 Empleo y Patrocinio
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 💼 **Portal de Empleo** | Ofertas laborales y postulaciones | `/jobs` |
+| 🤝 **Portal de Patrocinio** | Conexión empresas-beneficiarios | `/sponsor-portal` |
+
+### 📊 Administración
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 📊 **Panel Admin** | Gestión de usuarios y roles | `/admin` |
+| 📈 **Admin Dashboard** | Evolución individual y por módulo | `/admin/dashboard` |
+| 📋 **Censo Digital** | 17 preguntas de-diagnóstico | `/census` |
+| 🗺️ **Mapa de Cobertura** | Visualización de 4 municipios | `/coverage-map` |
+| 📊 **Centro de Reportes** | 35 reportes exportables | `/reports` |
+
+### 🏠 Coordinación de Emergencias
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 🏠 **Centro de Coordinación** | Gestión táctica de albergues | `/coordination` |
+| 🎤 **Charlas y Eventos** | Gestión de eventos por albergue | `/coordination/events` |
+| 👥 **Reuniones** | Coordinación y compromisos | `/coordination/meetings` |
 
 ---
 
@@ -37,6 +72,7 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 │                    FRONTEND                             │
 ├─────────────────────────────────────────────────────────┤
 │  React 18 │ TypeScript │ Vite │ Tailwind CSS │ PWA     │
+│  Zustand │ Framer Motion │ Lucide Icons                │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
@@ -48,66 +84,6 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Dependencias Principales
-
-- **React 18** - UI Library
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Tailwind CSS** - Utility-first CSS
-- **Zustand** - State management
-- **Framer Motion** - Animations
-- **Firebase** - Backend as a Service
-- **Vite PWA** - Progressive Web App
-
----
-
-## 🚀 Inicio Rápido
-
-### Prerrequisitos
-
-- Node.js 20+ 
-- npm o yarn
-- Firebase CLI (`npm install -g firebase-tools`)
-
-### Instalación
-
-```bash
-# 1. Clonar repositorio
-git clone https://github.com/gointeraction/LaGuairaResiliente.git
-cd LaGuairaResiliente
-
-# 2. Instalar dependencias
-cd app
-npm install
-
-# 3. Configurar variables de entorno
-cp .env.example .env
-# Editar .env con tus credenciales Firebase
-
-# 4. Iniciar servidor de desarrollo
-npm run dev
-```
-
-### Configuración Firebase
-
-```bash
-# 1. Login en Firebase
-firebase login
-
-# 2. Seleccionar proyecto
-firebase use --add
-
-# 3. Deploy reglas Firestore
-firebase deploy --only firestore:rules
-
-# 4. Deploy Cloud Functions
-cd functions && npm install && cd ..
-firebase deploy --only functions
-
-# 5. Deploy Storage Rules
-firebase deploy --only storage
-```
-
 ---
 
 ## 📁 Estructura del Proyecto
@@ -117,29 +93,46 @@ LaGuairaResiliente/
 ├── app/                          # Frontend React
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── admin/            # AdminDashboard, UserEvolution, ModuleProgress, UserTracking
 │   │   │   ├── layout/           # Layout y Navigation
 │   │   │   ├── resilience/       # 6 actividades de resiliencia
-│   │   │   └── ui/               # Componentes reutilizables
-│   │   ├── pages/                # 17 páginas
-│   │   ├── services/             # 9 servicios Firebase
+│   │   │   └── ui/               # 7 componentes reutilizables
+│   │   ├── pages/                # 22 páginas
+│   │   ├── services/             # 10 servicios
 │   │   ├── stores/               # 3 Zustand stores
 │   │   ├── hooks/                # Hooks personalizados
 │   │   ├── types/                # Tipos TypeScript (313 líneas)
 │   │   └── utils/                # Utilidades
 │   └── public/                   # Assets estáticos
-├── functions/                    # Cloud Functions (370 líneas)
+├── functions/                    # Cloud Functions
 ├── firestore/                    # Security Rules (15 colecciones)
 ├── storage/                      # Storage Rules
 ├── design-system/                # Documentación UI
 ├── specs/                        # Especificaciones SDD
+├── docs/                         # Documentación (REPORTES.md)
 └── SPECIFICATIONS.md             # Doc técnica completa
 ```
 
 ---
 
-## 🎓 Módulos Detallados
+## 📊 Estadísticas del Sistema
 
-### 1. Aula Resiliente - Tracks de Capacitación
+```
+Total Páginas:           22
+Total Componentes:       20+
+Total Servicios:         10
+Total Stores:            3
+Total Reportes:          35
+Cursos Disponibles:      19 (3 tracks)
+Actividades Resiliencia: 6
+Psicólogos Registrados:  8
+Municipios Cubiertos:    4
+Preguntas Censo:         17
+```
+
+---
+
+## 🎓 Tracks de Capacitación
 
 | Track | Módulos | Duración | Descripción |
 |-------|---------|----------|-------------|
@@ -147,7 +140,9 @@ LaGuairaResiliente/
 | 🔧 Micro-oficios Remotos | 6 | 30h | Freelancing, servicios digitales |
 | 📦 Logística de Suministros | 5 | 25h | Cadena de suministro, distribución |
 
-### 2. Centro de Resiliencia (Basado en APA)
+---
+
+## 🧠 Actividades de Resiliencia (Basado en APA)
 
 | Actividad | Puntos | Descripción |
 |-----------|--------|-------------|
@@ -158,27 +153,79 @@ LaGuairaResiliente/
 | 📋 Action Plan Builder | +5 | Planes de acción por pasos |
 | 📊 APA Assessment | +25 | 30 preguntas sobre 10 principios APA |
 
-### 3. Sistema de Gamificación
+---
+
+## 📊 Sistema de Gamificación
 
 ```
 Puntos por actividad:
-├── Completar módulo:     +10 pts
-├── Aprobar quiz:         +25 pts
-├── Completar curso:      +100 pts
-├── Completar track:      +300 pts
-├── Día consecutivo:      +5 pts
-├── Referir amigo:        +50 pts
-├── Actividades Resiliencia: +5-25 pts
-└── Completar plan acción: +5 pts
+├── Completar módulo:      +10 pts
+├── Aprobar quiz:          +25 pts
+├── Completar curso:       +100 pts
+├── Completar track:       +300 pts
+├── Día consecutivo:       +5 pts
+├── Referir amigo:         +50 pts
+├── Emotional Canvas:      +15 pts
+├── My Gifts Quiz:         +20 pts
+├── Daily Journal:         +10 pts
+├── Mindfulness:           +10-15 pts
+├── Action Plan:           +5 pts
+└── APA Assessment:        +25 pts
 ```
 
-### 4. Directorio de Psicólogos
+---
 
-8 especialistas pre-cargados con:
-- Perfil completo y especialidades
-- Sistema de verificación (FPV/MPPS/COP/OPQ)
-- Flujo de registro y aprobación
-- Filtros por municipio y especialidad
+## 📊 Centro de Reportes (35 Reportes)
+
+### Por Módulo
+| Módulo | Reportes | IDs |
+|--------|----------|-----|
+| 🎓 Educación | 8 | RPT-001 a RPT-008 |
+| 🧠 Resiliencia | 7 | RPT-009 a RPT-015 |
+| 👨‍⚕️ Psicólogos | 4 | RPT-016 a RPT-019 |
+| 💼 Empleo | 4 | RPT-020 a RPT-023 |
+| 🤝 Patrocinio | 4 | RPT-024 a RPT-027 |
+| 📋 Censo | 3 | RPT-028 a RPT-030 |
+| 🏆 Gamificación | 3 | RPT-031 a RPT-033 |
+| 📈 Impacto | 2 | RPT-034 a RPT-035 |
+
+### Frecuencia
+| Frecuencia | Cantidad |
+|------------|----------|
+| Diario | 4 |
+| Semanal | 7 |
+| Quincenal | 5 |
+| Mensual | 17 |
+| Trimestral | 2 |
+
+### Exportación
+- CSV
+- Excel
+- PDF
+
+---
+
+## 🏠 Coordinación de Emergencias
+
+### Albergues
+- Gestión de 4 municipios
+- Control de ocupación
+- Coordinadores asignados
+- Amenidades disponibles
+
+### Charlas y Eventos
+- Charlas informativas
+- Talleres prácticos
+- Capacitaciones
+- Eventos sociales
+- Emergencias
+
+### Reuniones
+- Reuniones ordinarias
+- Reuniones extraordinarias
+- Seguimiento
+- Emergencias
+- Sistema de compromisos
 
 ---
 
@@ -193,15 +240,45 @@ Puntos por actividad:
 
 ---
 
-## 📊 Métricas del Sistema
+## 🚀 Inicio Rápido
 
+### Prerrequisitos
+- Node.js 20+
+- npm o yarn
+- Firebase CLI
+
+### Instalación
+
+```bash
+# Clonar repositorio
+git clone https://github.com/gointeraction/LaGuairaResiliente.git
+cd LaGuairaResiliente
+
+# Instalar dependencias
+cd app
+npm install
+
+# Configurar variables de entorno
+cp .env.example .env
+
+# Iniciar servidor de desarrollo
+npm run dev
 ```
-Total Usuarios:          100,000+ (objetivo)
-Cursos Disponibles:      19 (3 tracks)
-Actividades Resiliencia: 6
-Psicólogos Registrados:  8
-Municipios Cubiertos:    4
-Preguntas Censo:         17
+
+### Configuración Firebase
+
+```bash
+# Login en Firebase
+firebase login
+
+# Seleccionar proyecto
+firebase use --add
+
+# Deploy reglas
+firebase deploy --only firestore:rules
+
+# Deploy funciones
+firebase deploy --only functions
 ```
 
 ---
@@ -217,37 +294,10 @@ Preguntas Censo:         17
 
 ## 📱 PWA - Offline First
 
-La plataforma funciona como Progressive Web App:
 - ✅ Instalable en dispositivos móviles
 - ✅ Service Worker para cache
 - ✅ Funcionalidad offline limitada
 - ✅ Sincronización automática al reconectar
-
----
-
-## 🚀 Deploy
-
-### Firebase Hosting
-
-```bash
-# Build producción
-cd app
-npm run build
-
-# Deploy a Firebase Hosting
-firebase deploy --only hosting
-```
-
-### Variables de Entorno
-
-```env
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
-```
 
 ---
 
@@ -265,10 +315,11 @@ VITE_FIREBASE_APP_ID=
 
 ## 📚 Documentación
 
-- 📄 [Especificación Técnica](SPECIFICATIONS.md) - Doc completa del sistema
-- 🎨 [Design System](design-system/MASTER.md) - Guía de diseño
-- 📐 [Guía de Escala](design-system/SCALE-GUIDE.md) - Optimización
-- 🔧 [Specs Técnicos](specs/) - Desarrollo guiado por specs
+- 📄 [Especificación Técnica](SPECIFICATIONS.md)
+- 🎨 [Design System](design-system/MASTER.md)
+- 📐 [Guía de Escala](design-system/SCALE-GUIDE.md)
+- 📊 [Catálogo de Reportes](docs/REPORTES.md)
+- 🔧 [Specs Técnicos](specs/)
 
 ---
 
@@ -305,17 +356,28 @@ MIT License - Ver [LICENSE](LICENSE) para detalles.
 
 ## 🆕 Changelog
 
-### v1.0.0 (Actual)
-- ✅ 17 páginas completas
-- ✅ 13 componentes UI
-- ✅ 9 servicios Firebase
+### v1.1.0 (Actual)
+- ✅ 22 páginas completas
+- ✅ 20+ componentes UI
+- ✅ 10 servicios
 - ✅ 6 actividades de resiliencia
 - ✅ Sistema de gamificación
 - ✅ Directorio de psicólogos
 - ✅ Panel de administración
+- ✅ Admin Dashboard con seguimiento individual
 - ✅ Leaderboard interactivo
 - ✅ Mapa de cobertura
+- ✅ Centro de coordinación de emergencias
+- ✅ Gestión de charlas y eventos
+- ✅ Gestión de reuniones
+- ✅ 35 reportes exportables
 - ✅ PWA configurada
+
+### v1.0.0
+- ✅ Estructura base del proyecto
+- ✅ Módulos de educación y resiliencia
+- ✅ Sistema de autenticación
+- ✅ Firebase configurado
 
 ---
 
