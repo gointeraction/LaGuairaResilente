@@ -98,6 +98,7 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 ├─────────────────────────────────────────────────────────┤
 │  Firebase Auth │ Cloud Firestore │ Cloud Functions      │
 │  Firebase Storage │ Firebase Hosting                    │
+│  25+ colecciones │ 18 funciones │ 30+ índices          │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
@@ -114,40 +115,58 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 
 ```
 LaGuairaResiliente/
-├── app/                          # Frontend React
+├── app/                              # Frontend React
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── admin/            # AdminDashboard, UserEvolution, ModuleProgress, UserTracking
-│   │   │   ├── layout/           # Layout, Navigation, TutorialProvider, TutorialButton
-│   │   │   ├── resilience/       # 6 actividades de resiliencia
-│   │   │   └── ui/               # 7 componentes reutilizables
-│   │   ├── games/                # Phaser.js integration
-│   │   │   ├── PhaserGame.tsx    # Componente principal + 5 escenas
-│   │   │   └── socket/           # GameSocket client
-│   │   ├── pages/                # 22+ páginas
-│   │   ├── services/             # 15+ servicios
-│   │   ├── stores/               # 3 Zustand stores
-│   │   ├── hooks/                # Hooks personalizados
-│   │   ├── types/                # Tipos TypeScript
-│   │   └── utils/                # Utilidades
-│   └── public/                   # Assets estáticos
-├── functions/                    # Cloud Functions
-├── firestore/                    # Security Rules (15 colecciones)
-├── storage/                      # Storage Rules
-├── games-server/                 # Servidor de juegos (Express + Socket.io)
+│   │   │   ├── admin/                # AdminDashboard, UserEvolution, ModuleProgress, UserTracking
+│   │   │   ├── layout/               # Layout, Navigation, TutorialProvider, TutorialButton
+│   │   │   ├── resilience/           # 6 actividades de resiliencia
+│   │   │   └── ui/                   # 7 componentes reutilizables
+│   │   ├── games/                    # Phaser.js integration
+│   │   │   ├── PhaserGame.tsx        # Componente principal + 5 escenas
+│   │   │   └── socket/               # GameSocket client
+│   │   ├── pages/                    # 22+ páginas
+│   │   ├── services/                 # 15+ servicios
+│   │   ├── stores/                   # 3 Zustand stores
+│   │   ├── hooks/                    # Hooks personalizados
+│   │   ├── types/                    # Tipos TypeScript
+│   │   └── utils/                    # Utilidades
+│   └── public/                       # Assets estáticos
+├── functions/                        # Cloud Functions (modular)
 │   ├── src/
-│   │   ├── server.js             # Servidor principal
-│   │   ├── games/                # 9 clases de juegos
-│   │   └── data/                 # Datos de juegos
+│   │   ├── index.ts                  # Entry point - exports all modules
+│   │   ├── lib/
+│   │   │   ├── admin.ts              # Firebase Admin initialization
+│   │   │   └── helpers.ts            # Utilities (notifications, points, metrics)
+│   │   ├── triggers/                 # Firestore triggers (6 functions)
+│   │   ├── callable/                 # Callable functions (6 functions)
+│   │   ├── jobs/                     # Scheduled functions (5 functions)
+│   │   └── http/                     # HTTP functions (3 functions)
+│   ├── tsconfig.json
+│   └── package.json
+├── firestore/                        # Firestore Security Rules
+│   ├── firestore.rules               # 25+ colecciones con reglas por rol
+│   └── firestore.indexes.json        # 30+ índices compuestos
+├── storage/                          # Storage Rules
+│   └── storage.rules                 # Reglas para avatars, cursos, documentos
+├── games-server/                     # Servidor de juegos (Express + Socket.io)
+│   ├── src/
+│   │   ├── server.js                 # Servidor principal
+│   │   ├── games/                    # 9 clases de juegos
+│   │   └── data/                     # Datos de juegos
 │   └── package.json
 ├── scripts/
-│   └── firestore/                # Scripts de seed para Firestore
-│       ├── seed.js               # Script principal de seed
+│   └── firestore/                    # Scripts de seed para Firestore
+│       ├── seed.js                   # Script principal de seed
 │       └── package.json
-├── design-system/                # Documentación UI
-├── specs/                        # Especificaciones SDD
-├── docs/                         # Documentación
-└── SPECIFICATIONS.md             # Doc técnica completa
+├── .env.example                      # Template de variables de entorno
+├── .firebaserc                       # Configuración de proyecto Firebase
+├── firebase.json                     # Configuración Firebase (emulators, hosting)
+├── design-system/                    # Documentación UI
+├── specs/                            # Especificaciones SDD
+├── docs/                             # Documentación
+├── SPECIFICATIONS.md                 # Doc técnica completa
+└── README.md                         # Este archivo
 ```
 
 ---
@@ -155,19 +174,22 @@ LaGuairaResiliente/
 ## 📊 Estadísticas del Sistema
 
 ```
-Total Páginas:           22+
-Total Componentes:       30+
-Total Servicios:         15+
-Total Stores:            3
-Total Reportes:          35
-Cursos Disponibles:      19 (3 tracks)
-Actividades Resiliencia: 6
-Psicólogos Registrados:  8
-Municipios Cubiertos:    4
-Preguntas Censo:         17
-Juegos Multijugador:     9
-Campamentos:             15
-Nodos WiFi:              10
+Total Páginas:              22+
+Total Componentes:          30+
+Total Servicios:            15+
+Total Stores:               3
+Total Reportes:             35
+Cursos Disponibles:         19 (3 tracks)
+Actividades Resiliencia:    6
+Psicólogos Registrados:     8
+Municipios Cubiertos:       4
+Preguntas Censo:            17
+Juegos Multijugador:        9
+Campamentos:                15
+Nodos WiFi:                 10
+Cloud Functions:            18
+Firestore Collections:      25+
+Firestore Indexes:          30+
 ```
 
 ---
@@ -231,71 +253,102 @@ Puntos por actividad:
 
 ---
 
-## 📊 Centro de Reportes (35 Reportes)
+## 🔐 Seguridad y Reglas Firestore
 
-### Por Módulo
-| Módulo | Reportes | IDs |
-|--------|----------|-----|
-| 🎓 Educación | 8 | RPT-001 a RPT-008 |
-| 🧠 Resiliencia | 7 | RPT-009 a RPT-015 |
-| 👨‍⚕️ Psicólogos | 4 | RPT-016 a RPT-019 |
-| 💼 Empleo | 4 | RPT-020 a RPT-023 |
-| 🤝 Patrocinio | 4 | RPT-024 a RPT-027 |
-| 📋 Censo | 3 | RPT-028 a RPT-030 |
-| 🏆 Gamificación | 3 | RPT-031 a RPT-033 |
-| 📈 Impacto | 2 | RPT-034 a RPT-035 |
+### Reglas por Colección (25+ colecciones)
 
-### Frecuencia
-| Frecuencia | Cantidad |
-|------------|----------|
-| Diario | 4 |
-| Semanal | 7 |
-| Quincenal | 5 |
-| Mensual | 17 |
-| Trimestral | 2 |
+| Colección | Lectura | Escritura | Descripción |
+|-----------|---------|-----------|-------------|
+| `users` | Authenticated | Owner + Admin | Perfiles de usuario |
+| `tracks` | Público | Admin + Trainer | Rutas de aprendizaje |
+| `courses` | Público | Admin + Trainer | Cursos por track |
+| `enrollments` | Student own / Staff | Student create / Staff | Inscripciones |
+| `quiz_submissions` | Student own / Staff | Student create | Resultados de quizzes |
+| `points_transactions` | Student own / Staff | Staff only | Historial de puntos |
+| `camps` | Authenticated | Coordinator + Admin | Campamentos |
+| `wifiNodes` | Authenticated | Coordinator + Admin | Nodos WiFi |
+| `psychologists` | Authenticated | Admin | Directorio psicólogos |
+| `resilienceActivities` | Authenticated | Admin + Trainer | Actividades resiliencia |
+| `deliveries` | Staff | Coordinator + Admin | Entregas logísticas |
+| `sponsors` | Owner + Admin | Owner + Admin | Patrocinadores |
+| `sponsorships` | Sponsor + Staff | Sponsor + Staff | Patrocinios |
+| `beneficiaries` | Sponsor + Staff | Staff | Perfiles anónimos |
+| `job_opportunities` | Authenticated | Sponsor + Admin | Ofertas de empleo |
+| `employments` | Owner + Staff | Sponsor + Admin | Empleos |
+| `census_surveys` | Staff | Staff | Encuestas de censo |
+| `milestones` | Authenticated | Coordinator + Admin | Hitos de patrocinio |
+| `notifications` | Owner | Owner mark read | Notificaciones |
+| `impact_metrics` | Staff + Sponsor | Cloud Functions | Métricas globales |
+| `redemptions` | Student own / Staff | Student create / Staff | Canjes de puntos |
+| `certificates` | Authenticated | Staff | Certificados digitales |
+| `game_sessions` | Authenticated | Authenticated | Sesiones de juego |
+| `events` | Authenticated | Coordinator + Admin | Eventos |
+| `meetings` | Authenticated | Coordinator + Admin | Reuniones |
 
-### Exportación
-- CSV
-- Excel
-- PDF
+### Funciones Helper
+```javascript
+isAuthenticated()    // Verifica autenticación
+getUserRole()        // Obtiene rol del usuario
+isAdmin()            // Verifica rol ADMIN
+isCoordinator()      // Verifica rol COORDINATOR
+isTrainer()          // Verifica rol TRAINER
+isStudent()          // Verifica rol STUDENT
+isSponsor()          // Verifica rol SPONSOR
+isOwner(userId)      // Verifica propiedad
+isApproved()         // Verifica aprobación
+isStaff()            // Admin, Trainer o Coordinator
+```
+
+### Storage Rules
+| Ruta | Lectura | Escritura | Límite |
+|------|---------|-----------|--------|
+| `/avatars/{userId}/` | Público | Owner | 5MB, imagen |
+| `/courses/{courseId}/` | Authenticated | Staff | — |
+| `/census/{surveyId}/` | Staff | Staff | — |
+| `/sponsors/{sponsorId}/` | Owner + Admin | Owner | 10MB |
+| `/beneficiaries/{beneficiaryId}/` | Staff | Staff | — |
+| `/jobs/{jobId}/` | Authenticated | Sponsor + Admin | — |
+| `/temp/{userId}/` | Owner | Owner | 10MB |
 
 ---
 
-## 🏠 Coordinación de Emergencias
+## ☁️ Cloud Functions (18 funciones)
 
-### Campamentos (15)
-- **Catia La Mar**: 5 campamentos
-- **Maiquetía**: 4 campamentos
-- **Macuto**: 3 campamentos
-- **Caraballeda**: 3 campamentos
+### Triggers Firestore (6)
+| Función | Evento | Descripción |
+|---------|--------|-------------|
+| `onUserCreated` | `users/create` | Bienvenida + actualizar métricas |
+| `onEnrollmentCompleted` | `enrollments/update` | Otorgar puntos + verificar track |
+| `onSponsorshipCreated` | `sponsorships/create` | Notificar sponsor + métricas |
+| `onMilestoneCompleted` | `milestones/update` | Completar patrocinio si todos hitos listos |
+| `onRedemptionCreated` | `redemptions/create` | Deductir puntos + notificar |
+| `onCampUpdated` | `camps/update` | Alertar si campamento >90% capacidad |
 
-### Nodos WiFi (10)
-- Fibra Óptica: 4 nodos
-- 4G LTE: 3 nodos
-- Satelital: 2 nodos
-- MESH: 1 nodo
+### Callable Functions (6)
+| Función | Descripción |
+|---------|-------------|
+| `getStudentTotalPoints` | Obtener total de puntos de un estudiante |
+| `awardDailyAttendance` | Otorgar puntos de asistencia diaria (5 pts) |
+| `submitQuiz` | Enviar quiz, calcular score, otorgar puntos si aprueba |
+| `awardReferral` | Otorgar puntos por referido (50 referrer, 25 referido) |
+| `autoMatchSponsors` | Algoritmo de matching automático patrocinador-beneficiario |
+| `approveUser` | Aprobar/rechazar usuario (solo admins) |
 
-### Logística
-- Seguimiento de entregas
-- Distribución de alimentos
-- Recargas móviles
-- Rutas de distribución
+### Scheduled Jobs (5)
+| Función | Frecuencia | Descripción |
+|---------|------------|-------------|
+| `scheduledMetricsUpdate` | Cada 24h | Actualizar métricas de impacto |
+| `scheduledStreakCheck` | Cada 24h | Verificar rachas diarias de actividad |
+| `scheduledMilestoneCheck` | Cada 24h | Marcar hitos vencidos como OVERDUE |
+| `scheduledWeeklyReport` | Lunes 9am | Enviar reporte semanal a admins |
+| `scheduledCampMonitor` | Cada 6h | Monitorear capacidad de campamentos |
 
-### Matching
-- Algoritmo de puntuación automática
-- Asignación patrocinador-beneficiario
-- Seguimiento de progreso
-
----
-
-## 🗺️ Cobertura - 4 Municipios
-
-| Municipio | Población Objetivo | Color |
-|-----------|-------------------|-------|
-| 🏖️ Catia La Mar | 35,000+ | 🔵 Azul |
-| ✈️ Maiquetía | 25,000+ | 🟢 Verde |
-| 🌴 Macuto | 20,000+ | 🟣 Púrpura |
-| 🏔️ Caraballeda | 20,000+ | 🟠 Naranja |
+### HTTP Functions (3)
+| Función | Método | Descripción |
+|---------|--------|-------------|
+| `verifyCertificate` | GET | Verificar certificado por código QR (público) |
+| `getPublicStats` | GET | Estadísticas públicas de la plataforma |
+| `processWebhook` | POST | Webhooks para integraciones externas |
 
 ---
 
@@ -320,7 +373,7 @@ La plataforma incluye un sistema interactivo de tutoriales usando [Driver.js](ht
 - **Tutorial de página**: Selecciona "Tutorial de esta página" para la sección actual
 - **Reiniciar**: Opción para ver el tutorial de bienvenida de nuevo
 
-### Elementos Tutoriados
+### Elementos Tutoriados (35+)
 - Logo de la plataforma
 - Navegación lateral (13 items)
 - Header (notificaciones, menú de usuario)
@@ -383,31 +436,16 @@ npm run seed:clear
 | `deliveries` | 5 | Entregas logísticas |
 | `points_transactions` | ~150 | Transacciones de puntos |
 
-### Colecciones Firestore
-```
-users/              # Usuarios de la plataforma
-├── uid
-├── email
-├── full_name
-├── role            # ADMIN | TRAINER | COORDINATOR | STUDENT | SPONSOR
-├── municipality    # CATIA_LA_MAR | MAIQUETIA | MACUTO | CARABALLEDA
-├── points
-├── courses_completed
-├── current_streak
-└── is_approved
+---
 
-tracks/             # Rutas de aprendizaje
-courses/            # Cursos por track
-enrollments/        # Inscripciones de estudiantes
-points_transactions/ # Historial de puntos
-camps/              # Campamentos
-wifiNodes/          # Nodos WiFi
-psychologists/      # Directorio de psicólogos
-jobs/               # Ofertas de empleo
-sponsors/           # Patrocinadores
-resilienceActivities/ # Actividades de resiliencia
-deliveries/         # Entregas logísticas
-```
+## 🗺️ Cobertura - 4 Municipios
+
+| Municipio | Población Objetivo | Color |
+|-----------|-------------------|-------|
+| 🏖️ Catia La Mar | 35,000+ | 🔵 Azul |
+| ✈️ Maiquetía | 25,000+ | 🟢 Verde |
+| 🌴 Macuto | 20,000+ | 🟣 Púrpura |
+| 🏔️ Caraballeda | 20,000+ | 🟠 Naranja |
 
 ---
 
@@ -418,7 +456,7 @@ deliveries/         # Entregas logísticas
 - npm o yarn
 - Firebase CLI
 
-### Instalación
+### 1. Clonar e Instalar
 
 ```bash
 # Clonar repositorio
@@ -428,15 +466,21 @@ cd LaGuairaResiliente
 # Instalar dependencias del frontend
 cd app
 npm install
-
-# Configurar variables de entorno
-cp .env.example .env
-
-# Iniciar servidor de desarrollo
-npm run dev
 ```
 
-### Configuración Firebase
+### 2. Configurar Variables de Entorno
+
+```bash
+# Copiar template
+cp .env.example .env
+
+# Editar .env con tus credenciales de Firebase
+# VITE_FIREBASE_API_KEY=tu-api-key
+# VITE_FIREBASE_PROJECT_ID=tu-project-id
+# ... etc
+```
+
+### 3. Configurar Firebase
 
 ```bash
 # Login en Firebase
@@ -445,48 +489,51 @@ firebase login
 # Seleccionar proyecto
 firebase use --add
 
-# Deploy reglas
-firebase deploy --only firestore:rules
-
-# Deploy funciones
-firebase deploy --only functions
+# Iniciar emuladores (desarrollo)
+firebase emulators:start
 ```
 
-### Ejecutar Servidor de Juegos
+### 4. Ejecutar Frontend
 
 ```bash
-# Navegar al directorio de juegos
+cd app
+npm run dev
+# Abrir http://localhost:5173
+```
+
+### 5. Ejecutar Servidor de Juegos
+
+```bash
 cd games-server
-
-# Instalar dependencias
 npm install
-
-# Iniciar servidor (puerto 3001)
 npm start
+# Servidor en http://localhost:3001
 ```
 
-### Poblar Base de Datos
+### 6. Poblar Base de Datos
 
 ```bash
-# Navegar al directorio de scripts
 cd scripts/firestore
-
-# Instalar dependencias
 npm install
-
-# Ejecutar seed contra emulador
 npm run seed:dev
 ```
 
----
+### 7. Deploy a Producción
 
-## 🔐 Seguridad
+```bash
+# Build del frontend
+cd app
+npm run build
 
-- **Firestore Rules**: 15 colecciones con reglas por rol
-- **Authentication**: Email/Password + Google OAuth
-- **Storage Rules**: Acceso controlado por usuario
-- **Roles**: ADMIN, TRAINER, COORDINATOR, STUDENT, SPONSOR
-- **Tutorial**: Driver.js para onboarding seguro
+# Deploy completo
+firebase deploy
+
+# Deploy solo functions
+firebase deploy --only functions
+
+# Deploy solo reglas
+firebase deploy --only firestore:rules
+```
 
 ---
 
@@ -518,6 +565,8 @@ npm run seed:dev
 - 📐 [Guía de Escala](design-system/SCALE-GUIDE.md)
 - 📊 [Catálogo de Reportes](docs/REPORTES.md)
 - 🔧 [Specs Técnicos](specs/)
+- 🔐 [Firestore Rules](firestore/firestore.rules)
+- ☁️ [Cloud Functions](functions/src/)
 - 🎓 [Guía de Tutoriales](#-sistema-de-tutoriales-driverjs)
 - 🗄️ [Scripts de Seed Firestore](#-base-de-datos-firestore)
 
@@ -556,7 +605,19 @@ MIT License - Ver [LICENSE](LICENSE) para detalles.
 
 ## 🆕 Changelog
 
-### v1.2.0 (Actual)
+### v1.3.0 (Actual)
+- ✅ Firestore Rules completas (25+ colecciones, 30+ índices)
+- ✅ Cloud Functions modulares (18 funciones)
+  - 6 triggers Firestore
+  - 6 callable functions
+  - 5 scheduled jobs
+  - 3 HTTP functions
+- ✅ Storage Rules (7 rutas)
+- ✅ `.env.example` con todas las variables de entorno
+- ✅ `functions/tsconfig.json` para compilación TypeScript
+- ✅ Arquitectura modular de Cloud Functions
+
+### v1.2.0
 - ✅ Sistema de tutoriales con Driver.js
 - ✅ 7 tours interactivos
 - ✅ 35+ elementos tutoriados
