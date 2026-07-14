@@ -170,7 +170,7 @@ export default function CoordinationDashboard() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-6 border-b overflow-x-auto">
+        <div className="flex gap-2 mb-6 border-b overflow-x-auto" data-tutorial-id="coordination-camps">
           {([
             { id: 'overview', label: '📊 Vista General' },
             { id: 'shelters', label: '🏠 Albergues' },

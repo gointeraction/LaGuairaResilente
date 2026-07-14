@@ -144,7 +144,7 @@ export default function Resilience() {
         {currentView === 'menu' ? (
           <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" data-tutorial-id="resilience-points">
               <div className="card">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
@@ -201,7 +201,7 @@ export default function Resilience() {
                 Completa estas actividades para fortalecer tu resiliencia y ganar puntos.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-tutorial-id="resilience-activities">
                 {ACTIVITIES.map((activity) => (
                   <button
                     key={activity.id}

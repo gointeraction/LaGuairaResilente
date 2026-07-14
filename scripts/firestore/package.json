@@ -1,0 +1,23 @@
+{
+  "name": "lgresiliente-firestore-seed",
+  "version": "1.0.0",
+  "description": "Firestore seed scripts for La Guaira Resiliente",
+  "type": "module",
+  "scripts": {
+    "seed": "node seed.js",
+    "seed:dev": "node seed.js --emulator",
+    "seed:clear": "node seed.js --clear",
+    "seed:users": "node seed.js --collection=users",
+    "seed:courses": "node seed.js --collection=courses",
+    "seed:tracks": "node seed.js --collection=tracks",
+    "seed:camps": "node seed.js --collection=camps",
+    "seed:wifi": "node seed.js --collection=wifiNodes",
+    "seed:psychologists": "node seed.js --collection=psychologists",
+    "seed:jobs": "node seed.js --collection=jobs",
+    "seed:sponsors": "node seed.js --collection=sponsors",
+    "seed:resilience": "node seed.js --collection=resilienceActivities"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

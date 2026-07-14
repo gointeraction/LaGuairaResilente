@@ -121,7 +121,7 @@ export default function Leaderboard() {
         </div>
 
         {filteredLeaders.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" data-tutorial-id="leaderboard-podium">
             {filteredLeaders.slice(0, 3).map((leader, idx) => (
               <motion.div
                 key={leader.id}
@@ -164,7 +164,7 @@ export default function Leaderboard() {
           </div>
         )}
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden" data-tutorial-id="leaderboard-ranking">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">

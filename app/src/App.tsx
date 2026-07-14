@@ -30,6 +30,8 @@ import MatchingPage from './pages/MatchingPage';
 import AnonymousDashboardPage from './pages/AnonymousDashboardPage';
 import PointsRedemptionPage from './pages/PointsRedemptionPage';
 import CertificatesPage from './pages/CertificatesPage';
+import GameLobby from './pages/GameLobby';
+import PhaserGame from './games/PhaserGame';
 
 // Protected Route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -59,6 +61,32 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   }
   
   return <>{children}</>;
+}
+
+import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+
+// Wrapper for Phaser Game
+function PhaserGameWrapper() {
+  const { gameType } = useParams<{ gameType: string }>();
+  const navigate = useNavigate();
+  const [sessionId] = useState(() => Math.random().toString(36).substring(2, 8).toUpperCase());
+  const username = 'Jugador'; // In real app, get from auth store
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-8">
+      <PhaserGame
+        gameType={gameType || 'glosario'}
+        sessionId={sessionId}
+        username={username}
+        onBack={() => navigate('/games')}
+        onGameOver={(scores) => {
+          console.log('Game over:', scores);
+          navigate('/games');
+        }}
+      />
+    </div>
+  );
 }
 
 function App() {
@@ -118,6 +146,8 @@ function App() {
         <Route path="/sponsor-portal/anonymous" element={<AnonymousDashboardPage />} />
         <Route path="/redemption" element={<PointsRedemptionPage />} />
         <Route path="/certificates" element={<CertificatesPage />} />
+        <Route path="/games" element={<GameLobby />} />
+        <Route path="/games/play/:gameType" element={<PhaserGameWrapper />} />
       </Route>
       
       {/* Default redirect */}

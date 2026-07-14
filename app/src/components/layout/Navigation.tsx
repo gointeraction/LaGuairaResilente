@@ -94,7 +94,7 @@ export default function Navigation() {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200" data-tutorial-id="sidebar-logo">
           <Link to="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">LR</span>
@@ -116,6 +116,7 @@ export default function Navigation() {
               key={item.path}
               to={item.path}
               onClick={() => setSidebarOpen(false)}
+              data-tutorial-id={`nav-${item.label.toLowerCase().replace(/\s+/g, '-').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u')}`}
               className={`
                 flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
                 ${location.pathname === item.path 
@@ -168,6 +169,7 @@ export default function Navigation() {
                   setNotificationsOpen(!notificationsOpen);
                   setUserMenuOpen(false);
                 }}
+                data-tutorial-id="header-notifications"
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg relative"
               >
                 <Bell className="w-5 h-5" />
@@ -205,6 +207,7 @@ export default function Navigation() {
                   setUserMenuOpen(!userMenuOpen);
                   setNotificationsOpen(false);
                 }}
+                data-tutorial-id="header-user-menu"
                 className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded-lg"
               >
                 <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">

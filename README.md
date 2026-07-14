@@ -15,7 +15,7 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 
 ---
 
-## 🎯 Módulos Principales (22 Módulos)
+## 🎯 Módulos Principales (22+ Módulos)
 
 ### 📚 Educación y Capacitación
 | Módulo | Descripción | Ruta |
@@ -62,6 +62,22 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 | 🏠 **Centro de Coordinación** | Gestión táctica de albergues | `/coordination` |
 | 🎤 **Charlas y Eventos** | Gestión de eventos por albergue | `/coordination/events` |
 | 👥 **Reuniones** | Coordinación y compromisos | `/coordination/meetings` |
+| 🏕️ **Gestión de Campamentos** | 15 campamentos en 4 municipios | `/coordination/camps` |
+| 📶 **Nodos WiFi** | 10 nodos de conectividad | `/coordination/wifi` |
+| 🚚 **Logística** | Entregas, distribución, recargas | `/coordination/logistics` |
+| 🤝 **Matching** | Asignación automática patrocinador-beneficiario | `/coordination/matching` |
+
+### 🎮 Gamificación y Juegos
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 🎮 **Sala de Juegos** | 9 juegos multijugador con Phaser.js | `/games` |
+| 🏅 **Canje de Puntos** | Catálogo de 10 items | `/redemption` |
+| 📜 **Certificados** | Certificados digitales con QR | `/certificates` |
+
+### 💰 Patrocinio
+| Módulo | Descripción | Ruta |
+|--------|-------------|------|
+| 👁️ **Dashboard Anónimo** | Monitoreo protegido de privacidad | `/sponsor-portal/anonymous` |
 
 ---
 
@@ -73,6 +89,7 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 ├─────────────────────────────────────────────────────────┤
 │  React 18 │ TypeScript │ Vite │ Tailwind CSS │ PWA     │
 │  Zustand │ Framer Motion │ Lucide Icons                │
+│  Phaser.js 3.80 │ Socket.io Client │ Driver.js         │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
@@ -81,6 +98,13 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 ├─────────────────────────────────────────────────────────┤
 │  Firebase Auth │ Cloud Firestore │ Cloud Functions      │
 │  Firebase Storage │ Firebase Hosting                    │
+└─────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                 GAMES SERVER                            │
+├─────────────────────────────────────────────────────────┤
+│  Node.js │ Express │ Socket.io │ 9 Juegos Phaser.js    │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -94,22 +118,35 @@ LaGuairaResiliente/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── admin/            # AdminDashboard, UserEvolution, ModuleProgress, UserTracking
-│   │   │   ├── layout/           # Layout y Navigation
+│   │   │   ├── layout/           # Layout, Navigation, TutorialProvider, TutorialButton
 │   │   │   ├── resilience/       # 6 actividades de resiliencia
 │   │   │   └── ui/               # 7 componentes reutilizables
-│   │   ├── pages/                # 22 páginas
-│   │   ├── services/             # 10 servicios
+│   │   ├── games/                # Phaser.js integration
+│   │   │   ├── PhaserGame.tsx    # Componente principal + 5 escenas
+│   │   │   └── socket/           # GameSocket client
+│   │   ├── pages/                # 22+ páginas
+│   │   ├── services/             # 15+ servicios
 │   │   ├── stores/               # 3 Zustand stores
 │   │   ├── hooks/                # Hooks personalizados
-│   │   ├── types/                # Tipos TypeScript (313 líneas)
+│   │   ├── types/                # Tipos TypeScript
 │   │   └── utils/                # Utilidades
 │   └── public/                   # Assets estáticos
 ├── functions/                    # Cloud Functions
 ├── firestore/                    # Security Rules (15 colecciones)
 ├── storage/                      # Storage Rules
+├── games-server/                 # Servidor de juegos (Express + Socket.io)
+│   ├── src/
+│   │   ├── server.js             # Servidor principal
+│   │   ├── games/                # 9 clases de juegos
+│   │   └── data/                 # Datos de juegos
+│   └── package.json
+├── scripts/
+│   └── firestore/                # Scripts de seed para Firestore
+│       ├── seed.js               # Script principal de seed
+│       └── package.json
 ├── design-system/                # Documentación UI
 ├── specs/                        # Especificaciones SDD
-├── docs/                         # Documentación (REPORTES.md)
+├── docs/                         # Documentación
 └── SPECIFICATIONS.md             # Doc técnica completa
 ```
 
@@ -118,9 +155,9 @@ LaGuairaResiliente/
 ## 📊 Estadísticas del Sistema
 
 ```
-Total Páginas:           22
-Total Componentes:       20+
-Total Servicios:         10
+Total Páginas:           22+
+Total Componentes:       30+
+Total Servicios:         15+
 Total Stores:            3
 Total Reportes:          35
 Cursos Disponibles:      19 (3 tracks)
@@ -128,6 +165,9 @@ Actividades Resiliencia: 6
 Psicólogos Registrados:  8
 Municipios Cubiertos:    4
 Preguntas Censo:         17
+Juegos Multijugador:     9
+Campamentos:             15
+Nodos WiFi:              10
 ```
 
 ---
@@ -175,6 +215,22 @@ Puntos por actividad:
 
 ---
 
+## 🎮 Juegos Multijugador (Phaser.js)
+
+| Juego | Tipo | Descripción |
+|-------|------|-------------|
+| 📖 Glosario de Emociones | Palabras | Identificar emociones en situaciones |
+| 🥢 Los Palitos | Destreza | Extraer palitos sin mover los demás |
+| 🧩 Las Parejas | Memoria | Emparejar disparadores con estrategias |
+| 🤩 Jugando con Emojis | Explosión | Destruir burbujas de emociones |
+| 🦸 El Antifaz | Identidad | Conocer superpoderes personales |
+| 🧩 Rompecabezas | Lógica | Reconstruir frases motivacionales |
+| 🎯 Tengo el Control | Acción | Recolectar emociones positivas |
+| 🛡️ Guardianes | Estrategia | Proteger el corazón de emociones |
+| ⭐ Persona Única | Autoestima | Celebrar fortalezas personales |
+
+---
+
 ## 📊 Centro de Reportes (35 Reportes)
 
 ### Por Módulo
@@ -207,25 +263,28 @@ Puntos por actividad:
 
 ## 🏠 Coordinación de Emergencias
 
-### Albergues
-- Gestión de 4 municipios
-- Control de ocupación
-- Coordinadores asignados
-- Amenidades disponibles
+### Campamentos (15)
+- **Catia La Mar**: 5 campamentos
+- **Maiquetía**: 4 campamentos
+- **Macuto**: 3 campamentos
+- **Caraballeda**: 3 campamentos
 
-### Charlas y Eventos
-- Charlas informativas
-- Talleres prácticos
-- Capacitaciones
-- Eventos sociales
-- Emergencias
+### Nodos WiFi (10)
+- Fibra Óptica: 4 nodos
+- 4G LTE: 3 nodos
+- Satelital: 2 nodos
+- MESH: 1 nodo
 
-### Reuniones
-- Reuniones ordinarias
-- Reuniones extraordinarias
-- Seguimiento
-- Emergencias
-- Sistema de compromisos
+### Logística
+- Seguimiento de entregas
+- Distribución de alimentos
+- Recargas móviles
+- Rutas de distribución
+
+### Matching
+- Algoritmo de puntuación automática
+- Asignación patrocinador-beneficiario
+- Seguimiento de progreso
 
 ---
 
@@ -237,6 +296,118 @@ Puntos por actividad:
 | ✈️ Maiquetía | 25,000+ | 🟢 Verde |
 | 🌴 Macuto | 20,000+ | 🟣 Púrpura |
 | 🏔️ Caraballeda | 20,000+ | 🟠 Naranja |
+
+---
+
+## 🎓 Sistema de Tutoriales (Driver.js)
+
+La plataforma incluye un sistema interactivo de tutoriales usando [Driver.js](https://driverjs.com) para guiar a los usuarios.
+
+### Tutoriales Disponibles
+| Tour | Descripción | Pasos |
+|------|-------------|-------|
+| 👋 Bienvenida | Tour general de la plataforma | 9 |
+| 📊 Dashboard | Panel de control personal | 3 |
+| 📚 Aula Resiliente | Cursos y tracks | 3 |
+| 🧠 Resiliencia | Actividades emocionales | 2 |
+| 🏆 Tabla de Líderes | Ranking y competencia | 2 |
+| 🤝 Coordinación | Campamentos y logística | 4 |
+| ⚙️ Administración | Panel admin | 2 |
+
+### Uso
+- **Primera visita**: El tutorial de bienvenida se muestra automáticamente
+- **Botón flotante**: Haz clic en `?` en la esquina inferior derecha
+- **Tutorial de página**: Selecciona "Tutorial de esta página" para la sección actual
+- **Reiniciar**: Opción para ver el tutorial de bienvenida de nuevo
+
+### Elementos Tutoriados
+- Logo de la plataforma
+- Navegación lateral (13 items)
+- Header (notificaciones, menú de usuario)
+- Dashboard (estadísticas, acciones rápidas, bienvenida)
+- Cursos (tracks, lista, progreso)
+- Resiliencia (puntos, actividades)
+- Líderes (podio, ranking)
+- Coordinación (tabs)
+- Admin (estadísticas, usuarios)
+
+---
+
+## 🗄️ Base de Datos Firestore
+
+### Scripts de Seed
+
+Scripts para poblar la base de datos con datos iniciales de prueba.
+
+```bash
+# Navegar al directorio de scripts
+cd scripts/firestore
+
+# Instalar dependencias
+npm install
+
+# Ejecutar seed completo (contra emulador)
+npm run seed:dev
+
+# Ejecutar seed completo (contra producción)
+npm run seed
+
+# Seed de colección específica
+npm run seed:users
+npm run seed:courses
+npm run seed:tracks
+npm run seed:camps
+npm run seed:wifi
+npm run seed:psychologists
+npm run seed:jobs
+npm run seed:sponsors
+npm run seed:resilience
+
+# Limpiar y re-sembrar
+npm run seed:clear
+```
+
+### Datos Semilla
+| Colección | Cantidad | Descripción |
+|-----------|----------|-------------|
+| `users` | ~100 | 1 admin, 5 trainers, 4 coordinadores, 85 estudiantes, 5 sponsors |
+| `tracks` | 3 | Continuidad Comercial, Micro-oficios, Logística |
+| `courses` | 19 | 8 + 6 + 5 módulos por track |
+| `enrollments` | ~50 | Inscripciones de estudiantes |
+| `camps` | 15 | Campamentos en 4 municipios |
+| `wifiNodes` | 10 | Nodos de conectividad |
+| `psychologists` | 8 | Especialistas pre-cargados |
+| `jobs` | 5 | Ofertas laborales |
+| `sponsors` | 5 | Patrocinadores corporativos |
+| `resilienceActivities` | 6 | Actividades de resiliencia |
+| `deliveries` | 5 | Entregas logísticas |
+| `points_transactions` | ~150 | Transacciones de puntos |
+
+### Colecciones Firestore
+```
+users/              # Usuarios de la plataforma
+├── uid
+├── email
+├── full_name
+├── role            # ADMIN | TRAINER | COORDINATOR | STUDENT | SPONSOR
+├── municipality    # CATIA_LA_MAR | MAIQUETIA | MACUTO | CARABALLEDA
+├── points
+├── courses_completed
+├── current_streak
+└── is_approved
+
+tracks/             # Rutas de aprendizaje
+courses/            # Cursos por track
+enrollments/        # Inscripciones de estudiantes
+points_transactions/ # Historial de puntos
+camps/              # Campamentos
+wifiNodes/          # Nodos WiFi
+psychologists/      # Directorio de psicólogos
+jobs/               # Ofertas de empleo
+sponsors/           # Patrocinadores
+resilienceActivities/ # Actividades de resiliencia
+deliveries/         # Entregas logísticas
+```
 
 ---
 
@@ -254,7 +425,7 @@ Puntos por actividad:
 git clone https://github.com/gointeraction/LaGuairaResiliente.git
 cd LaGuairaResiliente
 
-# Instalar dependencias
+# Instalar dependencias del frontend
 cd app
 npm install
 
@@ -281,6 +452,32 @@ firebase deploy --only firestore:rules
 firebase deploy --only functions
 ```
 
+### Ejecutar Servidor de Juegos
+
+```bash
+# Navegar al directorio de juegos
+cd games-server
+
+# Instalar dependencias
+npm install
+
+# Iniciar servidor (puerto 3001)
+npm start
+```
+
+### Poblar Base de Datos
+
+```bash
+# Navegar al directorio de scripts
+cd scripts/firestore
+
+# Instalar dependencias
+npm install
+
+# Ejecutar seed contra emulador
+npm run seed:dev
+```
+
 ---
 
 ## 🔐 Seguridad
@@ -289,6 +486,7 @@ firebase deploy --only functions
 - **Authentication**: Email/Password + Google OAuth
 - **Storage Rules**: Acceso controlado por usuario
 - **Roles**: ADMIN, TRAINER, COORDINATOR, STUDENT, SPONSOR
+- **Tutorial**: Driver.js para onboarding seguro
 
 ---
 
@@ -320,6 +518,8 @@ firebase deploy --only functions
 - 📐 [Guía de Escala](design-system/SCALE-GUIDE.md)
 - 📊 [Catálogo de Reportes](docs/REPORTES.md)
 - 🔧 [Specs Técnicos](specs/)
+- 🎓 [Guía de Tutoriales](#-sistema-de-tutoriales-driverjs)
+- 🗄️ [Scripts de Seed Firestore](#-base-de-datos-firestore)
 
 ---
 
@@ -344,7 +544,7 @@ git push origin feature/nueva-funcionalidad
 
 ## 👥 Equipo
 
-Desarrollado por **CAVECOM-E** para la reconstrucción de La Guaira.
+**Plataforma desarrollada por la Dirección Nacional de Inteligencia Artificial de CAVECOM-E 2026**
 
 ---
 
@@ -356,7 +556,21 @@ MIT License - Ver [LICENSE](LICENSE) para detalles.
 
 ## 🆕 Changelog
 
-### v1.1.0 (Actual)
+### v1.2.0 (Actual)
+- ✅ Sistema de tutoriales con Driver.js
+- ✅ 7 tours interactivos
+- ✅ 35+ elementos tutoriados
+- ✅ Scripts de seed para Firestore
+- ✅ Gestión de campamentos (15 camps)
+- ✅ Nodos WiFi (10 nodes)
+- ✅ Logística y distribución
+- ✅ Matching patrocinador-beneficiario
+- ✅ Dashboard anónimo de patrocinio
+- ✅ Canje de puntos
+- ✅ Certificados con QR
+- ✅ 9 juegos multijugador (Phaser.js + Socket.io)
+
+### v1.1.0
 - ✅ 22 páginas completas
 - ✅ 20+ componentes UI
 - ✅ 10 servicios
@@ -383,5 +597,6 @@ MIT License - Ver [LICENSE](LICENSE) para detalles.
 
 <p align="center">
   <strong>🌊 La Guaira Resiliente Digital</strong><br>
+  <em>Desarrollado por la Dirección Nacional de Inteligencia Artificial de CAVECOM-E 2026</em><br>
   <em>Construyendo futuro juntos</em>
 </p>

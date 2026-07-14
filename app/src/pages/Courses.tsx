@@ -75,7 +75,7 @@ export default function Courses() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Track Selection */}
-        <div className="mb-8">
+        <div className="mb-8" data-tutorial-id="courses-tracks">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Selecciona un Programa</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {tracks.map((track) => (
@@ -114,7 +114,7 @@ export default function Courses() {
 
         {/* Courses List */}
         {selectedTrack && (
-          <div>
+          <div data-tutorial-id="courses-list">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Módulos de {selectedTrack.name}
             </h2>

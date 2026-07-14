@@ -176,7 +176,7 @@ export default function AdminPanel() {
           <p className="text-gray-600 mt-2">Gestiona usuarios, cursos y configuración de la plataforma</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" data-tutorial-id="admin-stats">
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -345,6 +345,7 @@ export default function AdminPanel() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            data-tutorial-id="admin-users"
           >
             <Card className="p-6">
               <div className="flex flex-col md:flex-row gap-4 mb-6">

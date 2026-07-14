@@ -39,7 +39,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" data-tutorial-id="dashboard-stats">
           <div className="card">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
@@ -90,7 +90,7 @@ export default function Dashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-tutorial-id="dashboard-actions">
           <Link to="/courses" className="card hover:shadow-md transition-shadow">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
@@ -129,7 +129,7 @@ export default function Dashboard() {
         </div>
 
         {/* Welcome Message */}
-        <div className="mt-8 card bg-gradient-to-r from-primary-500 to-primary-700 text-white">
+        <div className="mt-8 card bg-gradient-to-r from-primary-500 to-primary-700 text-white" data-tutorial-id="dashboard-welcome">
           <h2 className="text-xl font-semibold mb-2">¡Bienvenido a la plataforma!</h2>
           <p className="text-primary-100">
             Esta plataforma está diseñada para apoyar la reconstrucción económica de La Guaira 
