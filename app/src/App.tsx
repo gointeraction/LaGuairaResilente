@@ -16,6 +16,9 @@ import Resilience from './pages/Resilience';
 import Directory from './pages/Directory';
 import SupportNetworkRegister from './pages/SupportNetworkRegister';
 import LoadingSpinner from './components/ui/LoadingSpinner';
+import AdminPanel from './pages/AdminPanel';
+import Leaderboard from './pages/Leaderboard';
+import CoverageMap from './pages/CoverageMap';
 
 // Protected Route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -90,6 +93,9 @@ function App() {
         <Route path="/resilience" element={<Resilience />} />
         <Route path="/directory" element={<Directory />} />
         <Route path="/support-network-register" element={<SupportNetworkRegister />} />
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/coverage-map" element={<CoverageMap />} />
       </Route>
       
       {/* Default redirect */}

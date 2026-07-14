@@ -14,7 +14,10 @@ import {
   X, 
   Bell, 
   ChevronDown,
-  User
+  User,
+  Shield,
+  Trophy,
+  MapPin
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -31,9 +34,12 @@ const navItems: NavItem[] = [
   { label: 'Centro de Resiliencia', path: '/resilience', icon: <Award className="w-5 h-5" /> },
   { label: 'Directorio', path: '/directory', icon: <Users className="w-5 h-5" /> },
   { label: 'Ofertas de Empleo', path: '/jobs', icon: <Briefcase className="w-5 h-5" /> },
+  { label: 'Tabla de Líderes', path: '/leaderboard', icon: <Trophy className="w-5 h-5" /> },
+  { label: 'Mapa de Cobertura', path: '/coverage-map', icon: <MapPin className="w-5 h-5" /> },
   { label: 'Censo Digital', path: '/census', icon: <Map className="w-5 h-5" /> },
   { label: 'Portal de Patrocinio', path: '/sponsor-portal', icon: <Users className="w-5 h-5" />, roles: ['SPONSOR', 'ADMIN'] },
   { label: 'Reportes', path: '/reports', icon: <Settings className="w-5 h-5" />, roles: ['ADMIN', 'COORDINATOR'] },
+  { label: 'Admin Panel', path: '/admin', icon: <Shield className="w-5 h-5" />, roles: ['ADMIN'] },
 ];
 
 export default function Navigation() {
