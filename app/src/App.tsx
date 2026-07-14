@@ -17,8 +17,12 @@ import Directory from './pages/Directory';
 import SupportNetworkRegister from './pages/SupportNetworkRegister';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import AdminPanel from './pages/AdminPanel';
+import AdminDashboard from './pages/AdminDashboard';
 import Leaderboard from './pages/Leaderboard';
 import CoverageMap from './pages/CoverageMap';
+import CoordinationDashboard from './pages/CoordinationDashboard';
+import EventsManagement from './pages/EventsManagement';
+import MeetingsManagement from './pages/MeetingsManagement';
 
 // Protected Route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -94,8 +98,12 @@ function App() {
         <Route path="/directory" element={<Directory />} />
         <Route path="/support-network-register" element={<SupportNetworkRegister />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/coverage-map" element={<CoverageMap />} />
+        <Route path="/coordination" element={<CoordinationDashboard />} />
+        <Route path="/coordination/events" element={<EventsManagement />} />
+        <Route path="/coordination/meetings" element={<MeetingsManagement />} />
       </Route>
       
       {/* Default redirect */}

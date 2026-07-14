@@ -17,7 +17,11 @@ import {
   User,
   Shield,
   Trophy,
-  MapPin
+  MapPin,
+  BarChart3,
+  Home,
+  Mic,
+  Users as UsersIcon
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -39,7 +43,11 @@ const navItems: NavItem[] = [
   { label: 'Censo Digital', path: '/census', icon: <Map className="w-5 h-5" /> },
   { label: 'Portal de Patrocinio', path: '/sponsor-portal', icon: <Users className="w-5 h-5" />, roles: ['SPONSOR', 'ADMIN'] },
   { label: 'Reportes', path: '/reports', icon: <Settings className="w-5 h-5" />, roles: ['ADMIN', 'COORDINATOR'] },
+  { label: 'Coordinación', path: '/coordination', icon: <Home className="w-5 h-5" />, roles: ['ADMIN', 'COORDINATOR'] },
+  { label: 'Charlas & Eventos', path: '/coordination/events', icon: <Mic className="w-5 h-5" />, roles: ['ADMIN', 'COORDINATOR'] },
+  { label: 'Reuniones', path: '/coordination/meetings', icon: <UsersIcon className="w-5 h-5" />, roles: ['ADMIN', 'COORDINATOR'] },
   { label: 'Admin Panel', path: '/admin', icon: <Shield className="w-5 h-5" />, roles: ['ADMIN'] },
+  { label: 'Admin Dashboard', path: '/admin/dashboard', icon: <BarChart3 className="w-5 h-5" />, roles: ['ADMIN'] },
 ];
 
 export default function Navigation() {
