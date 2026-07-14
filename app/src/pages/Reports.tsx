@@ -1,349 +1,485 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { dashboardService } from '../services/dashboard';
-import { censusService } from '../services/census';
-import { ArrowLeft, Users, BookOpen, Award, TrendingUp, Map, Download } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import Card from '../components/ui/Card';
+import Badge from '../components/ui/Badge';
+import Button from '../components/ui/Button';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import {
+  reportsService,
+  Report,
+  ReportModule,
+  ReportData
+} from '../services/reports';
+import toast from 'react-hot-toast';
 
-interface DashboardStats {
-  totalUsers: number;
-  totalStudents: number;
-  totalGraduates: number;
-  totalCourses: number;
-  totalSponsors: number;
-  totalEmployments: number;
-  activeEnrollments: number;
-  completedEnrollments: number;
-  totalResiliencePoints: number;
-  completionRate: number;
-}
-
-interface CensusStats {
-  total: number;
-  byMunicipality: Record<string, number>;
-  byDigitalLevel: Record<string, number>;
-}
+type ViewMode = 'catalog' | 'generator' | 'results';
 
 export default function Reports() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [censusStats, setCensusStats] = useState<CensusStats | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('catalog');
+  const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
-  const [timeRange, setTimeRange] = useState<'week' | 'month' | 'year'>('month');
+  const [selectedModule, setSelectedModule] = useState<ReportModule | 'ALL'>('ALL');
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [reportData, setReportData] = useState<ReportData | null>(null);
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
-    loadData();
+    loadReports();
   }, []);
 
-  const loadData = async () => {
+  const loadReports = async () => {
     try {
-      const [statsData, censusData] = await Promise.all([
-        dashboardService.getStats(),
-        censusService.getSurveyStats()
-      ]);
-      setStats(statsData);
-      setCensusStats(censusData);
+      const allReports = await reportsService.getAllReports();
+      setReports(allReports);
     } catch (error) {
-      toast.error('Error cargando reportes');
+      console.error('Error loading reports:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const exportToCSV = (data: any[], filename: string) => {
-    if (data.length === 0) return;
-    
-    const headers = Object.keys(data[0]);
-    const csvContent = [
-      headers.join(','),
-      ...data.map(row => headers.map(h => `"${row[h]}"`).join(','))
-    ].join('\n');
+  const filteredReports = selectedModule === 'ALL' 
+    ? reports 
+    : reports.filter(r => r.module === selectedModule);
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${filename}_${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
-  };
-
-  const handleExportUsers = () => {
-    if (!stats) return;
-    exportToCSV([
-      { metrica: 'Total Usuarios', valor: stats.totalUsers },
-      { metrica: 'Estudiantes', valor: stats.totalStudents },
-      { metrica: 'Graduados', valor: stats.totalGraduates }
-    ], 'usuarios_resumen');
-    toast.success('Reporte exportado');
-  };
-
-  const handleExportCourses = () => {
-    if (!stats) return;
-    exportToCSV([
-      { metrica: 'Total Cursos', valor: stats.totalCourses },
-      { metrica: 'Inscripciones Activas', valor: stats.activeEnrollments },
-      { metrica: 'Inscripciones Completadas', valor: stats.completedEnrollments },
-      { metrica: 'Tasa de Finalización', valor: `${stats.completionRate}%` }
-    ], 'cursos_resumen');
-    toast.success('Reporte exportado');
-  };
-
-  const handleExportCensus = () => {
-    if (!censusStats) return;
-    
-    const data = Object.entries(censusStats.byMunicipality).map(([municipality, count]) => ({
-      municipio: municipality.replace('_', ' '),
-      encuestas: count
+  const getModuleStats = () => {
+    const modules: ReportModule[] = ['EDUCATION', 'RESILIENCE', 'PSYCHOLOGISTS', 'EMPLOYMENT', 'SPONSORSHIP', 'CENSUS', 'GAMIFICATION', 'IMPACT'];
+    return modules.map(m => ({
+      module: m,
+      count: reports.filter(r => r.module === m).length,
+      label: reportsService.getModuleLabel(m),
+      color: reportsService.getModuleColor(m)
     }));
+  };
+
+  const handleGenerateReport = async (report: Report) => {
+    setSelectedReport(report);
+    setViewMode('generator');
+    setReportData(null);
+  };
+
+  const handleExecuteReport = async () => {
+    if (!selectedReport) return;
     
-    exportToCSV(data, 'censo_por_municipio');
-    toast.success('Reporte exportado');
+    setGenerating(true);
+    try {
+      const data = await reportsService.generateReport(selectedReport.id, {});
+      setReportData(data);
+      setViewMode('results');
+      toast.success('Reporte generado exitosamente');
+    } catch (error) {
+      toast.error('Error al generar reporte');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleExport = async (format: string) => {
+    if (!reportData || !selectedReport) return;
+    
+    try {
+      if (format === 'CSV') {
+        await reportsService.exportToCSV(reportData, selectedReport.name);
+        toast.success('Archivo CSV descargado');
+      } else if (format === 'EXCEL') {
+        await reportsService.exportToExcel(reportData, selectedReport.name);
+        toast.success('Archivo Excel descargado');
+      } else if (format === 'PDF') {
+        await reportsService.exportToPDF(reportData, selectedReport.name);
+        toast.success('PDF generado');
+      }
+    } catch (error) {
+      toast.error('Error al exportar');
+    }
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link to="/dashboard" className="text-gray-500 hover:text-gray-700">
-                <ArrowLeft className="w-5 h-5" />
-              </Link>
-              <h1 className="text-2xl font-bold text-primary-900">Reportes</h1>
-            </div>
-            
-            {/* Time Range Filter */}
-            <select
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value as any)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            >
-              <option value="week">Última Semana</option>
-              <option value="month">Último Mes</option>
-              <option value="year">Último Año</option>
-            </select>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Total Usuarios</p>
-                <p className="text-3xl font-bold text-gray-800">{stats?.totalUsers || 0}</p>
-              </div>
-              <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                <Users className="w-6 h-6 text-primary-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Estudiantes Activos</p>
-                <p className="text-3xl font-bold text-gray-800">{stats?.totalStudents || 0}</p>
-              </div>
-              <div className="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-success-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Graduados</p>
-                <p className="text-3xl font-bold text-gray-800">{stats?.totalGraduates || 0}</p>
-              </div>
-              <div className="w-12 h-12 bg-warning-100 rounded-full flex items-center justify-center">
-                <Award className="w-6 h-6 text-warning-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Tasa de Finalización</p>
-                <p className="text-3xl font-bold text-gray-800">{stats?.completionRate || 0}%</p>
-              </div>
-              <div className="w-12 h-12 bg-info-100 rounded-full flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-info-600" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Detailed Reports */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Users Report */}
-          <div className="card">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">Usuarios</h2>
-              <button 
-                onClick={handleExportUsers}
-                className="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700"
-              >
-                <Download className="w-4 h-4" />
-                Exportar
-              </button>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Total Registrados</span>
-                <span className="font-semibold">{stats?.totalUsers || 0}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Estudiantes</span>
-                <span className="font-semibold">{stats?.totalStudents || 0}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Graduados</span>
-                <span className="font-semibold">{stats?.totalGraduates || 0}</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-gray-600">Empresas Patrocinadoras</span>
-                <span className="font-semibold">{stats?.totalSponsors || 0}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Courses Report */}
-          <div className="card">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">Educación</h2>
-              <button 
-                onClick={handleExportCourses}
-                className="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700"
-              >
-                <Download className="w-4 h-4" />
-                Exportar
-              </button>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Total Cursos</span>
-                <span className="font-semibold">{stats?.totalCourses || 0}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Inscripciones Activas</span>
-                <span className="font-semibold">{stats?.activeEnrollments || 0}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Completados</span>
-                <span className="font-semibold">{stats?.completedEnrollments || 0}</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-gray-600">Tasa de Finalización</span>
-                <span className="font-semibold text-success-600">{stats?.completionRate || 0}%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Census Report */}
-        <div className="card mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-              <Map className="w-5 h-5" />
-              Censo Digital
-            </h2>
-            <button 
-              onClick={handleExportCensus}
-              className="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700"
-            >
-              <Download className="w-4 h-4" />
-              Exportar
-            </button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* By Municipality */}
             <div>
-              <h3 className="font-medium text-gray-700 mb-3">Por Municipio</h3>
-              <div className="space-y-2">
-                {censusStats && Object.entries(censusStats.byMunicipality).map(([municipality, count]) => (
-                  <div key={municipality} className="flex items-center gap-3">
-                    <div className="flex-1">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">{municipality.replace('_', ' ')}</span>
-                        <span className="font-medium">{count}</span>
-                      </div>
-                      <div className="w-full h-2 bg-gray-200 rounded-full">
-                        <div 
-                          className="h-2 bg-primary-500 rounded-full" 
-                          style={{ width: `${(count / (censusStats.total || 1)) * 100}%` }}
-                        />
-                      </div>
-                    </div>
+              <h1 className="text-3xl font-bold">Centro de Reportes</h1>
+              <p className="text-indigo-100 mt-1">35 reportes para monitorear el impacto del programa</p>
+            </div>
+            <div className="flex gap-3">
+              <Button
+                onClick={() => setViewMode('catalog')}
+                className={`${
+                  viewMode === 'catalog' 
+                    ? 'bg-white text-indigo-600' 
+                    : 'bg-indigo-500 text-white hover:bg-indigo-400'
+                }`}
+              >
+                📋 Catálogo
+              </Button>
+              <Button
+                onClick={() => setViewMode('generator')}
+                className={`${
+                  viewMode === 'generator' 
+                    ? 'bg-white text-indigo-600' 
+                    : 'bg-indigo-500 text-white hover:bg-indigo-400'
+                }`}
+              >
+                🔧 Generador
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Module Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          {getModuleStats().map(stat => (
+            <Card 
+              key={stat.module}
+              className={`p-4 cursor-pointer hover:shadow-md transition-all ${
+                selectedModule === stat.module ? 'ring-2 ring-indigo-500' : ''
+              }`}
+              onClick={() => setSelectedModule(selectedModule === stat.module ? 'ALL' : stat.module)}
+            >
+              <div className="text-center">
+                <div className="text-2xl font-bold">{stat.count}</div>
+                <div className={`text-sm ${stat.color} rounded-full px-2 py-1 mt-1`}>
+                  {stat.label}
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          {/* CATALOG VIEW */}
+          {viewMode === 'catalog' && (
+            <motion.div
+              key="catalog"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              <Card className="overflow-hidden">
+                <div className="p-4 border-b bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold">Catálogo de Reportes ({filteredReports.length})</h3>
+                    <select
+                      value={selectedModule}
+                      onChange={(e) => setSelectedModule(e.target.value as ReportModule | 'ALL')}
+                      className="px-3 py-2 border rounded-lg text-sm"
+                    >
+                      <option value="ALL">Todos los módulos</option>
+                      <option value="EDUCATION">📚 Educación</option>
+                      <option value="RESILIENCE">🧠 Resiliencia</option>
+                      <option value="PSYCHOLOGISTS">👨‍⚕️ Psicólogos</option>
+                      <option value="EMPLOYMENT">💼 Empleo</option>
+                      <option value="SPONSORSHIP">🤝 Patrocinio</option>
+                      <option value="CENSUS">📋 Censo</option>
+                      <option value="GAMIFICATION">🏆 Gamificación</option>
+                      <option value="IMPACT">📈 Impacto</option>
+                    </select>
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+                
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b bg-gray-50">
+                        <th className="text-left py-3 px-4">ID</th>
+                        <th className="text-left py-3 px-4">Nombre</th>
+                        <th className="text-left py-3 px-4">Módulo</th>
+                        <th className="text-left py-3 px-4">Frecuencia</th>
+                        <th className="text-left py-3 px-4">Métricas</th>
+                        <th className="text-left py-3 px-4">Formatos</th>
+                        <th className="text-left py-3 px-4">Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredReports.map(report => (
+                        <tr key={report.id} className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-4 font-mono text-sm text-gray-600">{report.id}</td>
+                          <td className="py-3 px-4">
+                            <div className="font-medium">{report.name}</div>
+                            <div className="text-sm text-gray-500 truncate max-w-xs">{report.description}</div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <Badge className={reportsService.getModuleColor(report.module)}>
+                              {reportsService.getModuleLabel(report.module)}
+                            </Badge>
+                          </td>
+                          <td className="py-3 px-4">
+                            <Badge className="bg-gray-100 text-gray-700">
+                              {reportsService.getFrequencyLabel(report.frequency)}
+                            </Badge>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="text-sm text-gray-600">{report.metrics.length} métricas</div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex gap-1">
+                              {report.formats.map(f => (
+                                <Badge key={f} className="bg-blue-100 text-blue-700 text-xs">{f}</Badge>
+                              ))}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <Button
+                              onClick={() => handleGenerateReport(report)}
+                              className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1"
+                            >
+                              Generar
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            </motion.div>
+          )}
 
-            {/* By Digital Level */}
-            <div>
-              <h3 className="font-medium text-gray-700 mb-3">Por Nivel Digital</h3>
-              <div className="space-y-2">
-                {censusStats && Object.entries(censusStats.byDigitalLevel).map(([level, count]) => {
-                  const levelLabels: Record<string, string> = {
-                    'NONE': 'Sin experiencia',
-                    'BASIC': 'Básico',
-                    'INTERMEDIATE': 'Intermedio',
-                    'ADVANCED': 'Avanzado'
-                  };
-                  return (
-                    <div key={level} className="flex items-center gap-3">
-                      <div className="flex-1">
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-600">{levelLabels[level] || level}</span>
-                          <span className="font-medium">{count}</span>
+          {/* GENERATOR VIEW */}
+          {viewMode === 'generator' && (
+            <motion.div
+              key="generator"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Report Selection */}
+                <div className="lg:col-span-1">
+                  <Card className="p-6">
+                    <h3 className="text-lg font-bold mb-4">Seleccionar Reporte</h3>
+                    <select
+                      value={selectedReport?.id || ''}
+                      onChange={(e) => {
+                        const report = reports.find(r => r.id === e.target.value);
+                        setSelectedReport(report || null);
+                      }}
+                      className="w-full px-4 py-2 border rounded-lg mb-4"
+                    >
+                      <option value="">Seleccione un reporte...</option>
+                      {reports.map(r => (
+                        <option key={r.id} value={r.id}>{r.id} - {r.name}</option>
+                      ))}
+                    </select>
+
+                    {selectedReport && (
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Descripción</h4>
+                          <p className="text-sm text-gray-600">{selectedReport.description}</p>
                         </div>
-                        <div className="w-full h-2 bg-gray-200 rounded-full">
-                          <div 
-                            className="h-2 bg-success-500 rounded-full" 
-                            style={{ width: `${(count / (censusStats.total || 1)) * 100}%` }}
-                          />
+                        
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Métricas</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {selectedReport.metrics.map(m => (
+                              <Badge key={m} className="bg-gray-100 text-gray-700 text-xs">{m}</Badge>
+                            ))}
+                          </div>
                         </div>
+
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Filtros Disponibles</h4>
+                          <div className="space-y-2">
+                            {selectedReport.filters.map(f => (
+                              <div key={f}>
+                                <label className="text-sm text-gray-600">{f}</label>
+                                <input
+                                  type={f.includes('Fecha') ? 'date' : 'text'}
+                                  className="w-full px-3 py-1 border rounded text-sm"
+                                  placeholder={f}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <Button
+                          onClick={handleExecuteReport}
+                          disabled={generating}
+                          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+                        >
+                          {generating ? 'Generando...' : '🔧 Generar Reporte'}
+                        </Button>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
+                    )}
+                  </Card>
+                </div>
 
-        {/* Impact Summary */}
-        <div className="card bg-gradient-to-r from-primary-500 to-primary-600 text-white">
-          <h2 className="text-xl font-bold mb-4">Resumen de Impacto</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div>
-              <p className="text-primary-100">Beneficiarios Totales</p>
-              <p className="text-3xl font-bold">{stats?.totalStudents || 0}</p>
-            </div>
-            <div>
-              <p className="text-primary-100">Horas de Capacitación</p>
-              <p className="text-3xl font-bold">{(stats?.completedEnrollments || 0) * 5}</p>
-            </div>
-            <div>
-              <p className="text-primary-100">Empleos Generados</p>
-              <p className="text-3xl font-bold">{stats?.totalEmployments || 0}</p>
-            </div>
-            <div>
-              <p className="text-primary-100">Puntos Totales</p>
-              <p className="text-3xl font-bold">{stats?.totalResiliencePoints || 0}</p>
-            </div>
-          </div>
-        </div>
-      </main>
+                {/* Report Results */}
+                <div className="lg:col-span-2">
+                  <Card className="p-6">
+                    {reportData ? (
+                      <>
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="text-lg font-bold">{selectedReport?.name}</h3>
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={() => handleExport('CSV')}
+                              className="bg-green-600 hover:bg-green-700 text-white text-sm"
+                            >
+                              📥 CSV
+                            </Button>
+                            <Button
+                              onClick={() => handleExport('EXCEL')}
+                              className="bg-blue-600 hover:bg-blue-700 text-white text-sm"
+                            >
+                              📊 Excel
+                            </Button>
+                            <Button
+                              onClick={() => handleExport('PDF')}
+                              className="bg-red-600 hover:bg-red-700 text-white text-sm"
+                            >
+                              📄 PDF
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Summary */}
+                        {reportData.summary && (
+                          <div className="grid grid-cols-3 gap-4 mb-6">
+                            {Object.entries(reportData.summary).map(([key, value]) => (
+                              <div key={key} className="bg-gray-50 rounded-lg p-3 text-center">
+                                <div className="text-xl font-bold text-indigo-600">{value}</div>
+                                <div className="text-sm text-gray-600 capitalize">{key.replace('_', ' ')}</div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Data Table */}
+                        <div className="overflow-x-auto">
+                          <table className="w-full border">
+                            <thead>
+                              <tr className="bg-gray-50">
+                                {reportData.headers.map((header, idx) => (
+                                  <th key={idx} className="text-left py-3 px-4 border-b font-medium">
+                                    {header}
+                                  </th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {reportData.rows.map((row, rowIdx) => (
+                                <tr key={rowIdx} className="hover:bg-gray-50">
+                                  {row.map((cell, cellIdx) => (
+                                    <td key={cellIdx} className="py-3 px-4 border-b text-sm">
+                                      {cell}
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-12">
+                        <div className="text-6xl mb-4">📊</div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">Selecciona un reporte</h3>
+                        <p className="text-gray-600">Elige un reporte del catálogo y haz clic en "Generar" para ver los resultados</p>
+                      </div>
+                    )}
+                  </Card>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* RESULTS VIEW */}
+          {viewMode === 'results' && reportData && (
+            <motion.div
+              key="results"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              <Card className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold">{selectedReport?.name}</h2>
+                    <p className="text-gray-600">{selectedReport?.description}</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={() => setViewMode('generator')}
+                      className="bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    >
+                      ← Volver
+                    </Button>
+                    <Button
+                      onClick={() => handleExport('CSV')}
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      📥 Exportar CSV
+                    </Button>
+                    <Button
+                      onClick={() => handleExport('PDF')}
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                    >
+                      📄 Exportar PDF
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Summary Cards */}
+                {reportData.summary && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    {Object.entries(reportData.summary).map(([key, value]) => (
+                      <Card key={key} className="p-4 text-center">
+                        <div className="text-2xl font-bold text-indigo-600">{value}</div>
+                        <div className="text-sm text-gray-600 capitalize">{key.replace('_', ' ')}</div>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+
+                {/* Data Table */}
+                <div className="overflow-x-auto border rounded-lg">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-indigo-50">
+                        {reportData.headers.map((header, idx) => (
+                          <th key={idx} className="text-left py-3 px-4 border-b font-semibold text-indigo-700">
+                            {header}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reportData.rows.map((row, rowIdx) => (
+                        <tr key={rowIdx} className="hover:bg-gray-50 border-b">
+                          {row.map((cell, cellIdx) => (
+                            <td key={cellIdx} className="py-3 px-4 text-sm">
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-4 text-sm text-gray-500 text-right">
+                  Generado: {new Date().toLocaleString()}
+                </div>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
