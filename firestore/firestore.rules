@@ -111,7 +111,6 @@ service cloud.firestore {
     match /points_transactions/{txId} {
       allow read: if isStaff()
                   || (isStudent() && resource.data.user_id == request.auth.uid);
-      // Points are created by Cloud Functions and admins only
       allow create: if isAdmin() || isStaff();
       allow update, delete: if false;
     }
@@ -131,16 +130,13 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow create: if isCoordinatorOrAdmin();
       allow update: if isCoordinatorOrAdmin();
-      // Prevent setting occupancy above capacity
-      allow update: if isCoordinatorOrAdmin()
-                    && request.resource.data.current_occupancy <= request.resource.data.capacity;
       allow delete: if isAdmin();
     }
 
     // ============================================
-    // WIFI NODES COLLECTION
+    // WIFI NODES COLLECTION (code uses wifi_nodes)
     // ============================================
-    match /wifiNodes/{nodeId} {
+    match /wifi_nodes/{nodeId} {
       allow read: if isAuthenticated();
       allow create: if isCoordinatorOrAdmin();
       allow update: if isCoordinatorOrAdmin();
@@ -153,12 +149,12 @@ service cloud.firestore {
     match /psychologists/{psyId} {
       allow read: if isAuthenticated();
       allow create: if isAdmin();
-      allow update: if isAdmin() || (isAuthenticated() && resource.data.email == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.email);
+      allow update: if isAdmin();
       allow delete: if isAdmin();
     }
 
     // ============================================
-    // RESILIENCE ACTIVITIES COLLECTION
+    // RESILIENCE ACTIVITIES (menu catalog)
     // ============================================
     match /resilienceActivities/{activityId} {
       allow read: if isAuthenticated();
@@ -168,9 +164,99 @@ service cloud.firestore {
     }
 
     // ============================================
+    // RESILIENCE: EMOTIONAL CANVAS
+    // ============================================
+    match /resilience_emotional_canvas/{entryId} {
+      allow read: if isStaff() || (isStudent() && resource.data.user_id == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isStudent() && resource.data.user_id == request.auth.uid;
+      allow delete: if isAdmin() || (isStudent() && resource.data.user_id == request.auth.uid);
+    }
+
+    // ============================================
+    // RESILIENCE: MY GIFTS
+    // ============================================
+    match /resilience_my_gifts/{entryId} {
+      allow read: if isStaff() || (isStudent() && resource.data.user_id == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isStudent() && resource.data.user_id == request.auth.uid;
+      allow delete: if isAdmin() || (isStudent() && resource.data.user_id == request.auth.uid);
+    }
+
+    // ============================================
+    // RESILIENCE: DAILY JOURNAL
+    // ============================================
+    match /resilience_journal/{entryId} {
+      allow read: if isStaff() || (isStudent() && resource.data.user_id == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isStudent() && resource.data.user_id == request.auth.uid;
+      allow delete: if isAdmin() || (isStudent() && resource.data.user_id == request.auth.uid);
+    }
+
+    // ============================================
+    // RESILIENCE: MINDFULNESS
+    // ============================================
+    match /resilience_mindfulness/{entryId} {
+      allow read: if isStaff() || (isStudent() && resource.data.user_id == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isStudent() && resource.data.user_id == request.auth.uid;
+      allow delete: if isAdmin() || (isStudent() && resource.data.user_id == request.auth.uid);
+    }
+
+    // ============================================
+    // RESILIENCE: ACTION PLANS
+    // ============================================
+    match /resilience_action_plans/{planId} {
+      allow read: if isStaff() || (isStudent() && resource.data.user_id == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isStudent() && resource.data.user_id == request.auth.uid;
+      allow delete: if isAdmin() || (isStudent() && resource.data.user_id == request.auth.uid);
+    }
+
+    // ============================================
+    // RESILIENCE: APA ASSESSMENTS
+    // ============================================
+    match /resilience_apa_assessments/{assessmentId} {
+      allow read: if isStaff() || (isStudent() && resource.data.user_id == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
     // DELIVERIES COLLECTION
     // ============================================
     match /deliveries/{deliveryId} {
+      allow read: if isStaff();
+      allow create: if isCoordinatorOrAdmin();
+      allow update: if isCoordinatorOrAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // DISTRIBUTION ROUTES
+    // ============================================
+    match /distribution_routes/{routeId} {
+      allow read: if isStaff();
+      allow create: if isCoordinatorOrAdmin();
+      allow update: if isCoordinatorOrAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // FOOD DISTRIBUTIONS
+    // ============================================
+    match /food_distributions/{distId} {
+      allow read: if isStaff();
+      allow create: if isCoordinatorOrAdmin();
+      allow update: if isCoordinatorOrAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // MOBILE TOPUPS
+    // ============================================
+    match /mobile_topups/{topupId} {
       allow read: if isStaff();
       allow create: if isCoordinatorOrAdmin();
       allow update: if isCoordinatorOrAdmin();
@@ -202,11 +288,31 @@ service cloud.firestore {
     }
 
     // ============================================
-    // BENEFICIARIES COLLECTION
+    // SPONSOR MATCHES (algorithm results)
+    // ============================================
+    match /sponsor_matches/{matchId} {
+      allow read: if isStaff() || isSponsor();
+      allow create: if isStaff();
+      allow update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // BENEFICIARIES COLLECTION (Anonymous profiles)
     // ============================================
     match /beneficiaries/{beneficiaryId} {
       allow read: if isSponsor() || isCoordinatorOrAdmin();
       allow write: if isCoordinatorOrAdmin();
+    }
+
+    // ============================================
+    // COMPANIES COLLECTION
+    // ============================================
+    match /companies/{companyId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin() || isSponsor();
+      allow update: if isAdmin() || (isSponsor() && resource.data.owner_id == request.auth.uid);
+      allow delete: if isAdmin();
     }
 
     // ============================================
@@ -274,9 +380,17 @@ service cloud.firestore {
     }
 
     // ============================================
-    // REDEMPTIONS COLLECTION
+    // REDEMPTION CATALOG (items available for points)
     // ============================================
-    match /redemptions/{redemptionId} {
+    match /redemption_catalog/{itemId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // ============================================
+    // USER REDEMPTIONS (redemption transactions)
+    // ============================================
+    match /user_redemptions/{redemptionId} {
       allow read: if isStaff()
                   || (isStudent() && resource.data.user_id == request.auth.uid);
       allow create: if isStudent() && request.resource.data.user_id == request.auth.uid;
@@ -304,9 +418,9 @@ service cloud.firestore {
     }
 
     // ============================================
-    // COORDINATION: EVENTS COLLECTION
+    // COORDINATION: EVENTS (code uses coordination_events)
     // ============================================
-    match /events/{eventId} {
+    match /coordination_events/{eventId} {
       allow read: if isAuthenticated();
       allow create: if isCoordinatorOrAdmin();
       allow update: if isCoordinatorOrAdmin();
@@ -314,9 +428,9 @@ service cloud.firestore {
     }
 
     // ============================================
-    // COORDINATION: MEETINGS COLLECTION
+    // COORDINATION: MEETINGS (code uses coordination_meetings)
     // ============================================
-    match /meetings/{meetingId} {
+    match /coordination_meetings/{meetingId} {
       allow read: if isAuthenticated();
       allow create: if isCoordinatorOrAdmin();
       allow update: if isCoordinatorOrAdmin();
@@ -324,7 +438,27 @@ service cloud.firestore {
     }
 
     // ============================================
-    // REPORTS CATALOG COLLECTION
+    // SHELTERS COLLECTION
+    // ============================================
+    match /shelters/{shelterId} {
+      allow read: if isAuthenticated();
+      allow create: if isCoordinatorOrAdmin();
+      allow update: if isCoordinatorOrAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // SUPPORT NETWORK REGISTRATIONS
+    // ============================================
+    match /support_network_registrations/{regId} {
+      allow read: if isStaff() || (isAuthenticated() && resource.data.user_id == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // REPORTS CATALOG
     // ============================================
     match /reports/{reportId} {
       allow read: if isStaff();
@@ -332,7 +466,7 @@ service cloud.firestore {
     }
 
     // ============================================
-    // POINTS CATALOG (Redemption items)
+    // POINTS CATALOG (legacy name compatibility)
     // ============================================
     match /points_catalog/{itemId} {
       allow read: if isAuthenticated();

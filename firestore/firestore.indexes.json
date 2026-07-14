@@ -57,6 +57,22 @@
       ]
     },
     {
+      "collectionGroup": "enrollments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "student_id", "order": "ASCENDING" },
+        { "fieldPath": "course_id", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "enrollments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "student_id", "order": "ASCENDING" },
+        { "fieldPath": "last_accessed", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "points_transactions",
       "queryScope": "COLLECTION",
       "fields": [
@@ -70,6 +86,15 @@
       "fields": [
         { "fieldPath": "user_id", "order": "ASCENDING" },
         { "fieldPath": "reason", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "points_transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "reason", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
       ]
     },
     {
@@ -99,6 +124,148 @@
       ]
     },
     {
+      "collectionGroup": "camps",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "zone", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "camps",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "wifi_nodes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "zone", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "wifi_nodes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "wifi_nodes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "psychologists",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "municipality", "order": "ASCENDING" },
+        { "fieldPath": "is_active", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "psychologists",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "is_solidarity_network", "order": "ASCENDING" },
+        { "fieldPath": "name", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_emotional_canvas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_my_gifts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_journal",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_journal",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_mindfulness",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_action_plans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_action_plans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "resilience_apa_assessments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "deliveries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "deliveries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "route", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "distribution_routes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "sponsorships",
       "queryScope": "COLLECTION",
       "fields": [
@@ -124,43 +291,18 @@
       ]
     },
     {
-      "collectionGroup": "camps",
+      "collectionGroup": "sponsor_matches",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "zone", "order": "ASCENDING" },
+        { "fieldPath": "sponsor_id", "order": "ASCENDING" },
         { "fieldPath": "status", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "wifiNodes",
+      "collectionGroup": "sponsor_matches",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "zone", "order": "ASCENDING" },
-        { "fieldPath": "status", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "wifiNodes",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "type", "order": "ASCENDING" },
-        { "fieldPath": "status", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "deliveries",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "type", "order": "ASCENDING" },
-        { "fieldPath": "date", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "deliveries",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "route", "order": "ASCENDING" },
+        { "fieldPath": "beneficiary_id", "order": "ASCENDING" },
         { "fieldPath": "status", "order": "ASCENDING" }
       ]
     },
@@ -256,12 +398,20 @@
       ]
     },
     {
-      "collectionGroup": "redemptions",
+      "collectionGroup": "user_redemptions",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "user_id", "order": "ASCENDING" },
         { "fieldPath": "status", "order": "ASCENDING" },
         { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "user_redemptions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "camp_id", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
       ]
     },
     {
@@ -273,7 +423,14 @@
       ]
     },
     {
-      "collectionGroup": "events",
+      "collectionGroup": "certificates",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "verification_code", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "coordination_events",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "status", "order": "ASCENDING" },
@@ -281,19 +438,66 @@
       ]
     },
     {
-      "collectionGroup": "events",
+      "collectionGroup": "coordination_events",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "coordination_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "shelter_id", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "coordination_meetings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "coordination_meetings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "shelter_id", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "shelters",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "municipality", "order": "ASCENDING" },
         { "fieldPath": "status", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "meetings",
+      "collectionGroup": "shelters",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "support_network_registrations",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "date", "order": "ASCENDING" }
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "support_network_registrations",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
       ]
     },
     {
@@ -305,11 +509,10 @@
       ]
     },
     {
-      "collectionGroup": "psychologists",
+      "collectionGroup": "companies",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "municipality", "order": "ASCENDING" },
-        { "fieldPath": "is_active", "order": "ASCENDING" }
+        { "fieldPath": "is_sponsor", "order": "ASCENDING" }
       ]
     }
   ],
