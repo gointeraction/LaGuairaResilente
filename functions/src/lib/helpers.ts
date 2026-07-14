@@ -1,4 +1,4 @@
-import { db } from './admin';
+import { db, auth } from './admin';
 
 export async function updateImpactMetrics() {
   const usersSnapshot = await db.collection('users').get();
@@ -72,7 +72,7 @@ export async function awardPoints(
 export async function getUserEmail(userId: string): Promise<string | null> {
   try {
     const userRecord = await auth.getUser(userId);
-    return userRecord.email;
+    return userRecord.email ?? null;
   } catch {
     return null;
   }
