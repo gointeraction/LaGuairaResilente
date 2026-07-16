@@ -78,7 +78,7 @@ export default function PointsRedemptionPage() {
     switch (type) {
       case 'RECARGA_MOVIL': return <Smartphone className="w-5 h-5 text-cyan-500" />;
       case 'BOLSA_ALIMENTOS': return <ShoppingBag className="w-5 h-5 text-green-500" />;
-      case 'CAPITAL_SEMILLA': return <CreditCard className="w-5 h-5 text-blue-500" />;
+      case 'CAPITAL_SEMILLA': return <CreditCard className="w-5 h-5 text-primary-500" />;
       case 'DISPOSITIVO': return <Gift className="w-5 h-5 text-purple-500" />;
       case 'CURSO_EXTRA': return <Award className="w-5 h-5 text-yellow-500" />;
       case 'CERTIFICADO': return <Award className="w-5 h-5 text-orange-500" />;
@@ -90,7 +90,7 @@ export default function PointsRedemptionPage() {
     switch (type) {
       case 'RECARGA_MOVIL': return 'bg-cyan-100 text-cyan-800';
       case 'BOLSA_ALIMENTOS': return 'bg-green-100 text-green-800';
-      case 'CAPITAL_SEMILLA': return 'bg-blue-100 text-blue-800';
+      case 'CAPITAL_SEMILLA': return 'bg-primary-100 text-primary-800';
       case 'DISPOSITIVO': return 'bg-purple-100 text-purple-800';
       case 'CURSO_EXTRA': return 'bg-yellow-100 text-yellow-800';
       case 'CERTIFICADO': return 'bg-orange-100 text-orange-800';
@@ -101,7 +101,7 @@ export default function PointsRedemptionPage() {
   const getStatusIcon = (status: RedemptionStatus) => {
     switch (status) {
       case 'PENDIENTE': return <Clock className="w-5 h-5 text-yellow-500" />;
-      case 'PROCESADO': return <CheckCircle2 className="w-5 h-5 text-blue-500" />;
+      case 'PROCESADO': return <CheckCircle2 className="w-5 h-5 text-primary-500" />;
       case 'ENTREGADO': return <Truck className="w-5 h-5 text-green-500" />;
       case 'CANCELADO': return <Truck className="w-5 h-5 text-red-500" />;
       default: return null;
@@ -111,7 +111,7 @@ export default function PointsRedemptionPage() {
   const getStatusColor = (status: RedemptionStatus) => {
     switch (status) {
       case 'PENDIENTE': return 'bg-yellow-100 text-yellow-800';
-      case 'PROCESADO': return 'bg-blue-100 text-blue-800';
+      case 'PROCESADO': return 'bg-primary-100 text-primary-800';
       case 'ENTREGADO': return 'bg-green-100 text-green-800';
       case 'CANCELADO': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -134,7 +134,7 @@ export default function PointsRedemptionPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando catálogo...</p>
         </div>
       </div>
@@ -149,15 +149,15 @@ export default function PointsRedemptionPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Gift className="w-8 h-8 text-blue-600" />
+                <Gift className="w-8 h-8 text-primary-600" />
                 Canje de Puntos de Resiliencia
               </h1>
               <p className="text-gray-600 mt-1">Intercambia tus puntos por beneficios reales</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="bg-blue-50 rounded-lg px-4 py-2">
+              <div className="bg-primary-50 rounded-lg px-4 py-2">
                 <div className="text-sm text-gray-600">Tus Puntos</div>
-                <div className="text-2xl font-bold text-blue-600">{userPoints}</div>
+                <div className="text-2xl font-bold text-primary-600">{userPoints}</div>
               </div>
               <button
                 onClick={loadData}
@@ -180,7 +180,7 @@ export default function PointsRedemptionPage() {
                 onClick={() => setActiveTab('catalog')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'catalog'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -193,7 +193,7 @@ export default function PointsRedemptionPage() {
                 onClick={() => setActiveTab('redemptions')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'redemptions'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -206,7 +206,7 @@ export default function PointsRedemptionPage() {
                 onClick={() => setActiveTab('history')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'history'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -231,7 +231,7 @@ export default function PointsRedemptionPage() {
                         placeholder="Buscar item..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
                   </div>
@@ -239,7 +239,7 @@ export default function PointsRedemptionPage() {
                   <select
                     value={filterType}
                     onChange={(e) => setFilterType(e.target.value as RedemptionType | 'ALL')}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="ALL">Todos</option>
                     <option value="RECARGA_MOVIL">Recargas Móvil</option>
@@ -263,7 +263,7 @@ export default function PointsRedemptionPage() {
                           </span>
                         </div>
                         <div className="text-right">
-                          <div className="text-lg font-bold text-blue-600">{item.points_cost}</div>
+                          <div className="text-lg font-bold text-primary-600">{item.points_cost}</div>
                           <div className="text-xs text-gray-500">puntos</div>
                         </div>
                       </div>
@@ -287,7 +287,7 @@ export default function PointsRedemptionPage() {
                       <button
                         onClick={() => handleRedeem(item)}
                         disabled={userPoints < item.points_cost || !item.available}
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {userPoints < item.points_cost ? 'Puntos Insuficientes' : 'Canjear'}
                       </button>
@@ -366,8 +366,8 @@ export default function PointsRedemptionPage() {
                     <div className="text-2xl font-bold text-yellow-600">+25</div>
                     <div className="text-xs text-gray-600">Bonus</div>
                   </div>
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-blue-600">500</div>
+                  <div className="bg-primary-50 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-primary-600">500</div>
                     <div className="text-xs text-gray-600">Balance</div>
                   </div>
                 </div>

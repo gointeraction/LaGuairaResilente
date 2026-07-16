@@ -503,9 +503,9 @@ export default function PublicSponsorPortal() {
             {/* Tracking code */}
             <div className="rounded-2xl p-5 mb-6"
               style={{ background: 'linear-gradient(135deg, #003893, #0a38a0)' }}>
-              <p className="text-blue-200 text-xs mb-1 font-medium">Código de seguimiento</p>
+              <p className="text-primary-200 text-xs mb-1 font-medium">Código de seguimiento</p>
               <p className="text-3xl font-black text-white tracking-widest">{trackingCode}</p>
-              <p className="text-blue-300 text-xs mt-1">Guarda este código para hacer seguimiento a tu registro</p>
+              <p className="text-primary-300 text-xs mt-1">Guarda este código para hacer seguimiento a tu registro</p>
             </div>
 
             <div className="rounded-xl p-4 mb-8 text-left"
@@ -592,7 +592,7 @@ export default function PublicSponsorPortal() {
                 <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
                   Sé Patrocinador Solidario
                 </h1>
-                <p className="text-blue-200 text-sm max-w-xl leading-relaxed">
+                <p className="text-primary-200 text-sm max-w-xl leading-relaxed">
                   Tu apoyo transforma vidas. Elige cómo quieres contribuir con la
                   red de acompañamiento profesional gratuito para la comunidad venezolana.
                   Todos los tipos de aporte son bienvenidos.

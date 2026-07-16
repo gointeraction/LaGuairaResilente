@@ -110,7 +110,7 @@ const APA_PRINCIPLES = [
 const RESPONSE_OPTIONS = [
   { value: 0, label: 'Nunca', color: 'bg-red-100 text-red-700' },
   { value: 1, label: 'A veces', color: 'bg-yellow-100 text-yellow-700' },
-  { value: 2, label: 'Frecuentemente', color: 'bg-blue-100 text-blue-700' },
+  { value: 2, label: 'Frecuentemente', color: 'bg-primary-100 text-primary-700' },
   { value: 3, label: 'Siempre', color: 'bg-green-100 text-green-700' }
 ];
 

@@ -12,7 +12,7 @@ const SESSIONS = [
     description: '5 minutos para calmar la mente',
     duration: 5,
     icon: <Wind className="w-6 h-6" />,
-    color: 'bg-blue-100 text-blue-600',
+    color: 'bg-primary-100 text-primary-600',
     steps: [
       { time: 0, instruction: 'Cierra los ojos y relaja los hombros' },
       { time: 10, instruction: 'Inhala por la nariz contando hasta 4' },

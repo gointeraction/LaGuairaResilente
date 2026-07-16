@@ -75,7 +75,7 @@ export default function MatchingPage() {
   const getStatusColor = (status: MatchStatus) => {
     switch (status) {
       case 'PENDIENTE': return 'bg-yellow-100 text-yellow-800';
-      case 'ASIGNADO': return 'bg-blue-100 text-blue-800';
+      case 'ASIGNADO': return 'bg-primary-100 text-primary-800';
       case 'EN_PROCESO': return 'bg-green-100 text-green-800';
       case 'COMPLETADO': return 'bg-purple-100 text-purple-800';
       case 'CANCELADO': return 'bg-red-100 text-red-800';
@@ -85,7 +85,7 @@ export default function MatchingPage() {
 
   const getMatchTypeColor = (type: string) => {
     switch (type) {
-      case 'COMERCIAL': return 'bg-blue-100 text-blue-800';
+      case 'COMERCIAL': return 'bg-primary-100 text-primary-800';
       case 'CONECTIVIDAD': return 'bg-cyan-100 text-cyan-800';
       case 'INFRAESTRUCTURA': return 'bg-purple-100 text-purple-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -94,7 +94,7 @@ export default function MatchingPage() {
 
   const getScoreColor = (score: number) => {
     if (score >= 90) return 'text-green-600';
-    if (score >= 70) return 'text-blue-600';
+    if (score >= 70) return 'text-primary-600';
     if (score >= 50) return 'text-yellow-600';
     return 'text-red-600';
   };
@@ -114,7 +114,7 @@ export default function MatchingPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando matching...</p>
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function MatchingPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Users className="w-8 h-8 text-blue-600" />
+                <Users className="w-8 h-8 text-primary-600" />
                 Matching Empresa-Beneficiario
               </h1>
               <p className="text-gray-600 mt-1">Asignación automática de patrocinadores</p>
@@ -150,7 +150,7 @@ export default function MatchingPage() {
                 <Target className="w-5 h-5" />
                 {autoMatching ? 'Procesando...' : 'Auto-Match'}
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                 <Plus className="w-5 h-5" />
                 Nuevo Match
               </button>
@@ -168,7 +168,7 @@ export default function MatchingPage() {
                 <p className="text-sm text-gray-600">Total Matches</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.total_matches || matches.length}</p>
               </div>
-              <Users className="w-8 h-8 text-blue-500" />
+              <Users className="w-8 h-8 text-primary-500" />
             </div>
           </div>
           
@@ -211,7 +211,7 @@ export default function MatchingPage() {
                 onClick={() => setActiveTab('matches')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'matches'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -224,7 +224,7 @@ export default function MatchingPage() {
                 onClick={() => setActiveTab('sponsors')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'sponsors'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -237,7 +237,7 @@ export default function MatchingPage() {
                 onClick={() => setActiveTab('beneficiaries')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'beneficiaries'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -250,7 +250,7 @@ export default function MatchingPage() {
                 onClick={() => setActiveTab('auto')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'auto'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -273,7 +273,7 @@ export default function MatchingPage() {
                       placeholder="Buscar match..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
                 </div>
@@ -284,7 +284,7 @@ export default function MatchingPage() {
                       <div className="flex items-start justify-between">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-2">
-                            <Building2 className="w-5 h-5 text-blue-500" />
+                            <Building2 className="w-5 h-5 text-primary-500" />
                             <span className="font-medium text-gray-900">{match.sponsor_name}</span>
                           </div>
                           <ArrowRight className="w-5 h-5 text-gray-400" />
@@ -332,7 +332,7 @@ export default function MatchingPage() {
                         <div className="mt-3">
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div 
-                              className="bg-blue-600 h-2 rounded-full" 
+                              className="bg-primary-600 h-2 rounded-full" 
                               style={{ width: `${match.progress_percentage}%` }}
                             ></div>
                           </div>
@@ -402,7 +402,7 @@ export default function MatchingPage() {
                       </div>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         beneficiary.status === 'ELEGIBLE' ? 'bg-green-100 text-green-800' :
-                        beneficiary.status === 'EN_CAPACITACION' ? 'bg-blue-100 text-blue-800' :
+                        beneficiary.status === 'EN_CAPACITACION' ? 'bg-primary-100 text-primary-800' :
                         'bg-gray-100 text-gray-800'
                       }`}>
                         {beneficiary.status}
@@ -451,8 +451,8 @@ export default function MatchingPage() {
                   El sistema asigna automáticamente patrocinadores a beneficiarios basado en:
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-6">
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-blue-600">25</div>
+                  <div className="bg-primary-50 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-primary-600">25</div>
                     <div className="text-xs text-gray-600">Tipo Beneficiario</div>
                   </div>
                   <div className="bg-green-50 rounded-lg p-3">

@@ -102,7 +102,7 @@ export default function UserTracking({ user }: UserTrackingProps) {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       'COMPLETED': 'bg-green-100 text-green-800',
-      'IN_PROGRESS': 'bg-blue-100 text-blue-800',
+      'IN_PROGRESS': 'bg-primary-100 text-primary-800',
       'NOT_STARTED': 'bg-gray-100 text-gray-800',
       'FAILED': 'bg-red-100 text-red-800'
     };
@@ -118,14 +118,14 @@ export default function UserTracking({ user }: UserTrackingProps) {
       {/* User Header */}
       <Card className="p-6">
         <div className="flex items-center gap-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-3xl font-bold">
+          <div className="w-20 h-20 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full flex items-center justify-center text-white text-3xl font-bold">
             {user.full_name?.charAt(0)}
           </div>
           <div className="flex-1">
             <h2 className="text-2xl font-bold">{user.full_name}</h2>
             <p className="text-gray-600">{user.email}</p>
             <div className="flex items-center gap-4 mt-2">
-              <Badge className="bg-blue-100 text-blue-800">{user.role}</Badge>
+              <Badge className="bg-primary-100 text-primary-800">{user.role}</Badge>
               <Badge className="bg-gray-100 text-gray-800">{user.municipality}</Badge>
             </div>
           </div>
@@ -134,8 +134,8 @@ export default function UserTracking({ user }: UserTrackingProps) {
               <div className="text-2xl font-bold text-yellow-600">{user.points || 0}</div>
               <div className="text-xs text-gray-600">Puntos</div>
             </div>
-            <div className="bg-blue-50 rounded-lg p-3">
-              <div className="text-2xl font-bold text-blue-600">{user.courses_completed || 0}</div>
+            <div className="bg-primary-50 rounded-lg p-3">
+              <div className="text-2xl font-bold text-primary-600">{user.courses_completed || 0}</div>
               <div className="text-xs text-gray-600">Cursos</div>
             </div>
             <div className="bg-orange-50 rounded-lg p-3">
@@ -163,7 +163,7 @@ export default function UserTracking({ user }: UserTrackingProps) {
             onClick={() => setActiveTab(tab.id)}
             className={`px-4 py-3 font-medium border-b-2 transition-colors ${
               activeTab === tab.id
-                ? 'border-blue-600 text-blue-600'
+                ? 'border-primary-600 text-primary-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -189,7 +189,7 @@ export default function UserTracking({ user }: UserTrackingProps) {
                   <span className="font-medium">{courses.length > 0 ? Math.round(courses.reduce((sum, c) => sum + (c.progress || 0), 0) / courses.length) : 0}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-blue-500 h-3 rounded-full" style={{ width: `${courses.length > 0 ? courses.reduce((sum, c) => sum + (c.progress || 0), 0) / courses.length : 0}%` }} />
+                  <div className="bg-primary-500 h-3 rounded-full" style={{ width: `${courses.length > 0 ? courses.reduce((sum, c) => sum + (c.progress || 0), 0) / courses.length : 0}%` }} />
                 </div>
               </div>
               <div>
@@ -229,7 +229,7 @@ export default function UserTracking({ user }: UserTrackingProps) {
               {activityLogs.slice(0, 5).map(log => (
                 <div key={log.id} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm ${
-                    log.module === 'EDUCATION' ? 'bg-blue-500' :
+                    log.module === 'EDUCATION' ? 'bg-primary-500' :
                     log.module === 'RESILIENCE' ? 'bg-purple-500' :
                     log.module === 'EMPLOYMENT' ? 'bg-green-500' : 'bg-orange-500'
                   }`}>
@@ -279,7 +279,7 @@ export default function UserTracking({ user }: UserTrackingProps) {
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
                           <div className="w-24 bg-gray-200 rounded-full h-2">
-                            <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${course.progress || 0}%` }} />
+                            <div className="bg-primary-500 h-2 rounded-full" style={{ width: `${course.progress || 0}%` }} />
                           </div>
                           <span className="text-sm font-medium">{course.progress || 0}%</span>
                         </div>
@@ -357,7 +357,7 @@ export default function UserTracking({ user }: UserTrackingProps) {
               {activityLogs.map(log => (
                 <div key={log.id} className="flex items-start gap-4 p-4 border rounded-lg hover:bg-gray-50">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
-                    log.module === 'EDUCATION' ? 'bg-blue-500' :
+                    log.module === 'EDUCATION' ? 'bg-primary-500' :
                     log.module === 'RESILIENCE' ? 'bg-purple-500' :
                     log.module === 'EMPLOYMENT' ? 'bg-green-500' : 'bg-orange-500'
                   }`}>

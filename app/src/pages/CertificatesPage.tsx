@@ -73,7 +73,7 @@ export default function CertificatesPage() {
 
   const getTypeIcon = (type: CertificateType) => {
     switch (type) {
-      case 'MODULO': return <Award className="w-5 h-5 text-blue-500" />;
+      case 'MODULO': return <Award className="w-5 h-5 text-primary-500" />;
       case 'CURSO': return <Award className="w-5 h-5 text-green-500" />;
       case 'TRACK': return <Award className="w-5 h-5 text-purple-500" />;
       case 'ESPECIALIDAD': return <Award className="w-5 h-5 text-yellow-500" />;
@@ -83,7 +83,7 @@ export default function CertificatesPage() {
 
   const getTypeColor = (type: CertificateType) => {
     switch (type) {
-      case 'MODULO': return 'bg-blue-100 text-blue-800';
+      case 'MODULO': return 'bg-primary-100 text-primary-800';
       case 'CURSO': return 'bg-green-100 text-green-800';
       case 'TRACK': return 'bg-purple-100 text-purple-800';
       case 'ESPECIALIDAD': return 'bg-yellow-100 text-yellow-800';
@@ -94,7 +94,7 @@ export default function CertificatesPage() {
   const getStatusColor = (status: CertificateStatus) => {
     switch (status) {
       case 'EMITIDO': return 'bg-green-100 text-green-800';
-      case 'VERIFICADO': return 'bg-blue-100 text-blue-800';
+      case 'VERIFICADO': return 'bg-primary-100 text-primary-800';
       case 'REVOCADO': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -117,7 +117,7 @@ export default function CertificatesPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando certificados...</p>
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function CertificatesPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Award className="w-8 h-8 text-blue-600" />
+                <Award className="w-8 h-8 text-primary-600" />
                 Certificados QR Verificables
               </h1>
               <p className="text-gray-600 mt-1">Certificados digitales con código QR verificable</p>
@@ -150,7 +150,7 @@ export default function CertificatesPage() {
                 onClick={() => setActiveTab('my')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'my'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -163,7 +163,7 @@ export default function CertificatesPage() {
                 onClick={() => setActiveTab('verify')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'verify'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -176,7 +176,7 @@ export default function CertificatesPage() {
                 onClick={() => setActiveTab('catalog')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'catalog'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -201,7 +201,7 @@ export default function CertificatesPage() {
                         placeholder="Buscar certificado..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
                   </div>
@@ -209,7 +209,7 @@ export default function CertificatesPage() {
                   <select
                     value={filterType}
                     onChange={(e) => setFilterType(e.target.value as CertificateType | 'ALL')}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="ALL">Todos</option>
                     <option value="MODULO">Módulos</option>
@@ -305,11 +305,11 @@ export default function CertificatesPage() {
                     placeholder="Ej: CERT-2025-001"
                     value={verifyCode}
                     onChange={(e) => setVerifyCode(e.target.value)}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                   <button
                     onClick={handleVerify}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
                   >
                     Verificar
                   </button>
@@ -346,9 +346,9 @@ export default function CertificatesPage() {
 
             {activeTab === 'catalog' && (
               <div className="space-y-6">
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <h3 className="font-medium text-blue-900 mb-2">Tipos de Certificados</h3>
-                  <p className="text-sm text-blue-700">
+                <div className="bg-primary-50 rounded-lg p-4">
+                  <h3 className="font-medium text-primary-900 mb-2">Tipos de Certificados</h3>
+                  <p className="text-sm text-primary-700">
                     Los certificados se emiten al completar módulos, cursos o tracks de capacitación.
                     Cada certificado incluye un código QR verificable.
                   </p>
@@ -357,7 +357,7 @@ export default function CertificatesPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-gray-50 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <Award className="w-5 h-5 text-blue-500" />
+                      <Award className="w-5 h-5 text-primary-500" />
                       <h4 className="font-medium text-gray-900">Certificado de Módulo</h4>
                     </div>
                     <p className="text-sm text-gray-600">Se emite al completar un módulo individual</p>

@@ -132,7 +132,7 @@ export default function ModuleProgress({ stats }: ModuleProgressProps) {
 
   const getColorClasses = (color: string) => {
     const colors: Record<string, { bg: string; text: string; border: string; bar: string }> = {
-      blue: { bg: 'bg-blue-50', text: 'text-blue-600', border: 'border-blue-200', bar: 'bg-blue-500' },
+      blue: { bg: 'bg-primary-50', text: 'text-primary-600', border: 'border-primary-200', bar: 'bg-primary-500' },
       purple: { bg: 'bg-purple-50', text: 'text-purple-600', border: 'border-purple-200', bar: 'bg-purple-500' },
       green: { bg: 'bg-green-50', text: 'text-green-600', border: 'border-green-200', bar: 'bg-green-500' },
       orange: { bg: 'bg-orange-50', text: 'text-orange-600', border: 'border-orange-200', bar: 'bg-orange-500' },
@@ -206,28 +206,28 @@ export default function ModuleProgress({ stats }: ModuleProgressProps) {
       </div>
 
       {/* Summary Card */}
-      <Card className="p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+      <Card className="p-6 bg-gradient-to-r from-primary-500 to-purple-600 text-white">
         <h3 className="text-xl font-bold mb-4">Resumen General de Módulos</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div className="text-center">
             <div className="text-3xl font-bold">{stats.education.enrolled}</div>
-            <div className="text-blue-100">En Educación</div>
+            <div className="text-primary-100">En Educación</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold">{stats.resilience.active_users}</div>
-            <div className="text-blue-100">En Resiliencia</div>
+            <div className="text-primary-100">En Resiliencia</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold">{stats.employment.applied}</div>
-            <div className="text-blue-100">En Empleo</div>
+            <div className="text-primary-100">En Empleo</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold">{stats.census.completed}</div>
-            <div className="text-blue-100">Censos</div>
+            <div className="text-primary-100">Censos</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold">{stats.psychologists.approved}</div>
-            <div className="text-blue-100">Psicólogos</div>
+            <div className="text-primary-100">Psicólogos</div>
           </div>
         </div>
       </Card>

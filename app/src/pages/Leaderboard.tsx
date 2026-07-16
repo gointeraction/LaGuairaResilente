@@ -60,7 +60,7 @@ export default function Leaderboard() {
 
   const getMunicipalityColor = (municipality?: string) => {
     const colors: Record<string, string> = {
-      'Catia La Mar': 'bg-blue-100 text-blue-800',
+      'Catia La Mar': 'bg-primary-100 text-primary-800',
       'Maiquetía': 'bg-green-100 text-green-800',
       'Macuto': 'bg-purple-100 text-purple-800',
       'Caraballeda': 'bg-orange-100 text-orange-800'
@@ -70,14 +70,14 @@ export default function Leaderboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100">
         <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-primary-50 to-purple-50 p-6">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -110,7 +110,7 @@ export default function Leaderboard() {
                 onClick={() => setTimeFrame(tf)}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   timeFrame === tf
-                    ? 'bg-blue-600 text-white rounded-lg'
+                    ? 'bg-primary-600 text-white rounded-lg'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -135,7 +135,7 @@ export default function Leaderboard() {
                   'ring-2 ring-orange-300 bg-gradient-to-b from-orange-50 to-white'
                 }`}>
                   <div className="text-5xl mb-3">{getMedalEmoji(idx + 1)}</div>
-                  <div className="w-20 h-20 mx-auto mb-3 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                  <div className="w-20 h-20 mx-auto mb-3 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
                     {leader.full_name?.charAt(0) || '?'}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900">{leader.full_name}</h3>
@@ -147,7 +147,7 @@ export default function Leaderboard() {
                   <div className="mt-4 space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Puntos</span>
-                      <span className="font-bold text-blue-600">{leader.points}</span>
+                      <span className="font-bold text-primary-600">{leader.points}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Cursos</span>
@@ -185,7 +185,7 @@ export default function Leaderboard() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.02 }}
                     className={`border-t hover:bg-gray-50 transition-colors ${
-                      idx < 3 ? 'bg-gradient-to-r from-blue-50 to-transparent' : ''
+                      idx < 3 ? 'bg-gradient-to-r from-primary-50 to-transparent' : ''
                     }`}
                   >
                     <td className="py-4 px-6">
@@ -200,7 +200,7 @@ export default function Leaderboard() {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
                           {leader.full_name?.charAt(0) || '?'}
                         </div>
                         <div>
@@ -219,11 +219,11 @@ export default function Leaderboard() {
                       <div className="flex items-center gap-2">
                         <div className="w-16 bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-blue-500 h-2 rounded-full"
+                            className="bg-primary-500 h-2 rounded-full"
                             style={{ width: `${Math.min((leader.points / 500) * 100, 100)}%` }}
                           />
                         </div>
-                        <span className="font-bold text-blue-600">{leader.points}</span>
+                        <span className="font-bold text-primary-600">{leader.points}</span>
                       </div>
                     </td>
                     <td className="py-4 px-6">

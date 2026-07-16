@@ -59,7 +59,7 @@ export default function EventsManagement() {
 
   const getEventTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      'CHARLA': 'bg-blue-100 text-blue-800',
+      'CHARLA': 'bg-primary-100 text-primary-800',
       'TALLER': 'bg-green-100 text-green-800',
       'CAPACITACION': 'bg-purple-100 text-purple-800',
       'SOCIAL': 'bg-pink-100 text-pink-800',
@@ -71,7 +71,7 @@ export default function EventsManagement() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      'PROGRAMADO': 'bg-blue-100 text-blue-800',
+      'PROGRAMADO': 'bg-primary-100 text-primary-800',
       'EN_CURSO': 'bg-green-100 text-green-800',
       'FINALIZADO': 'bg-gray-100 text-gray-800',
       'CANCELADO': 'bg-red-100 text-red-800',
@@ -175,7 +175,7 @@ export default function EventsManagement() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">{events.length}</div>
+            <div className="text-2xl font-bold text-primary-600">{events.length}</div>
             <div className="text-sm text-gray-600">Total Eventos</div>
           </Card>
           <Card className="p-4 text-center">
@@ -215,7 +215,7 @@ export default function EventsManagement() {
                 onClick={() => openEventDetail(event)}
               >
                 <div className={`h-2 ${
-                  event.type === 'CHARLA' ? 'bg-blue-500' :
+                  event.type === 'CHARLA' ? 'bg-primary-500' :
                   event.type === 'TALLER' ? 'bg-green-500' :
                   event.type === 'CAPACITACION' ? 'bg-purple-500' :
                   event.type === 'SOCIAL' ? 'bg-pink-500' :
@@ -270,7 +270,7 @@ export default function EventsManagement() {
 
                 <div className="px-6 py-4 bg-gray-50 border-t">
                   <div className="flex gap-2">
-                    <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm">
+                    <Button className="flex-1 bg-primary-600 hover:bg-primary-700 text-white text-sm">
                       Ver Detalles
                     </Button>
                     {event.status === 'PROGRAMADO' && (
@@ -336,7 +336,7 @@ export default function EventsManagement() {
                         <div className="flex gap-2">
                           <button 
                             onClick={() => openEventDetail(event)}
-                            className="text-blue-600 hover:text-blue-700 text-sm"
+                            className="text-primary-600 hover:text-primary-700 text-sm"
                           >
                             Ver
                           </button>
@@ -442,7 +442,7 @@ export default function EventsManagement() {
                     <input type="text" className="px-3 py-2 border rounded-lg" placeholder="Tema" />
                     <input type="text" className="px-3 py-2 border rounded-lg" placeholder="Contacto" />
                   </div>
-                  <button className="text-sm text-blue-600 hover:text-blue-700">+ Agregar otro ponente</button>
+                  <button className="text-sm text-primary-600 hover:text-primary-700">+ Agregar otro ponente</button>
                 </div>
               </div>
 
@@ -455,7 +455,7 @@ export default function EventsManagement() {
                     <input type="text" className="col-span-2 px-3 py-2 border rounded-lg" placeholder="Actividad" />
                     <input type="number" className="px-3 py-2 border rounded-lg" placeholder="Min" />
                   </div>
-                  <button className="text-sm text-blue-600 hover:text-blue-700">+ Agregar punto a agenda</button>
+                  <button className="text-sm text-primary-600 hover:text-primary-700">+ Agregar punto a agenda</button>
                 </div>
               </div>
             </div>
@@ -549,7 +549,7 @@ export default function EventsManagement() {
                     <div className="space-y-2">
                       {selectedEvent.agenda.map((item, idx) => (
                         <div key={idx} className="flex items-start gap-3 p-2 bg-gray-50 rounded">
-                          <div className="text-sm font-medium text-blue-600">{item.time}</div>
+                          <div className="text-sm font-medium text-primary-600">{item.time}</div>
                           <div>
                             <div className="text-sm font-medium">{item.title}</div>
                             <div className="text-xs text-gray-500">{item.duration_minutes} min - {item.speaker}</div>
@@ -568,7 +568,7 @@ export default function EventsManagement() {
               </Button>
               {selectedEvent.status === 'PROGRAMADO' && (
                 <>
-                  <Button className="flex-1 bg-blue-600 text-white hover:bg-blue-700">
+                  <Button className="flex-1 bg-primary-600 text-white hover:bg-primary-700">
                     Editar
                   </Button>
                   <Button className="flex-1 bg-green-600 text-white hover:bg-green-700">

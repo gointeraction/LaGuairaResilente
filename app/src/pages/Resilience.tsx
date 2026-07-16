@@ -47,7 +47,7 @@ const ACTIVITIES = [
     title: 'Diario de Reflexión',
     description: 'Reflexiona sobre tu día y cultiva la gratitud',
     icon: <BookOpen className="w-6 h-6" />,
-    color: 'bg-blue-100 text-blue-600',
+    color: 'bg-primary-100 text-primary-600',
     points: 10
   },
   {

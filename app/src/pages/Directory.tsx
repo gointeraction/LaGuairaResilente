@@ -140,7 +140,7 @@ export default function Directory() {
                   <Users className="w-6 h-6" style={{ color: '#FCD116' }} />
                 </div>
                 <h2 className="text-xl font-bold mb-2">¿Eres especialista en salud mental?</h2>
-                <p className="text-blue-200 text-sm mb-6 leading-relaxed">
+                <p className="text-primary-200 text-sm mb-6 leading-relaxed">
                   Únete a nuestra Red de Apoyo Solidario como profesional o estudiante y ayuda a la comunidad venezolana.
                 </p>
               </div>

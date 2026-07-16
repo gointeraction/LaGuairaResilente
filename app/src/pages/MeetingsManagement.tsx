@@ -57,7 +57,7 @@ export default function MeetingsManagement() {
 
   const getMeetingTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      'ORDINARIA': 'bg-blue-100 text-blue-800',
+      'ORDINARIA': 'bg-primary-100 text-primary-800',
       'EXTRAORDINARIA': 'bg-orange-100 text-orange-800',
       'SEGUIMIENTO': 'bg-green-100 text-green-800',
       'EMERGENCIA': 'bg-red-100 text-red-800'
@@ -67,7 +67,7 @@ export default function MeetingsManagement() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      'PROGRAMADO': 'bg-blue-100 text-blue-800',
+      'PROGRAMADO': 'bg-primary-100 text-primary-800',
       'EN_CURSO': 'bg-green-100 text-green-800',
       'FINALIZADO': 'bg-gray-100 text-gray-800',
       'CANCELADO': 'bg-red-100 text-red-800'
@@ -116,7 +116,7 @@ export default function MeetingsManagement() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-purple-600 to-primary-700 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -189,7 +189,7 @@ export default function MeetingsManagement() {
             <div className="text-sm text-gray-600">Total Reuniones</div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-primary-600">
               {meetings.filter(m => m.status === 'PROGRAMADO').length}
             </div>
             <div className="text-sm text-gray-600">Programadas</div>
@@ -214,7 +214,7 @@ export default function MeetingsManagement() {
             {/* Programadas */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 bg-blue-500 rounded-full" />
+                <div className="w-3 h-3 bg-primary-500 rounded-full" />
                 <h3 className="font-bold text-gray-700">Programadas ({filteredMeetings.filter(m => m.status === 'PROGRAMADO').length})</h3>
               </div>
               <div className="space-y-3">
@@ -412,7 +412,7 @@ export default function MeetingsManagement() {
                           <div className="flex gap-2">
                             <button 
                               onClick={() => openMeetingDetail(meeting)}
-                              className="text-blue-600 hover:text-blue-700 text-sm"
+                              className="text-primary-600 hover:text-primary-700 text-sm"
                             >
                               Ver
                             </button>
@@ -620,7 +620,7 @@ export default function MeetingsManagement() {
                         <span className="font-medium text-sm">{topic.title}</span>
                         <Badge className={
                           topic.status === 'COMPLETADO' ? 'bg-green-100 text-green-800' :
-                          topic.status === 'EN_CURSO' ? 'bg-blue-100 text-blue-800' :
+                          topic.status === 'EN_CURSO' ? 'bg-primary-100 text-primary-800' :
                           'bg-gray-100 text-gray-800'
                         }>
                           {topic.status}
@@ -654,7 +654,7 @@ export default function MeetingsManagement() {
                       <div className="mt-2">
                         <Badge className={
                           action.status === 'COMPLETADO' ? 'bg-green-100 text-green-800' :
-                          action.status === 'EN_PROGRESO' ? 'bg-blue-100 text-blue-800' :
+                          action.status === 'EN_PROGRESO' ? 'bg-primary-100 text-primary-800' :
                           'bg-gray-100 text-gray-800'
                         }>
                           {action.status}
@@ -687,7 +687,7 @@ export default function MeetingsManagement() {
               </Button>
               {selectedMeeting.status === 'PROGRAMADO' && (
                 <>
-                  <Button className="flex-1 bg-blue-600 text-white hover:bg-blue-700">
+                  <Button className="flex-1 bg-primary-600 text-white hover:bg-primary-700">
                     Editar
                   </Button>
                   <Button className="flex-1 bg-green-600 text-white hover:bg-green-700">

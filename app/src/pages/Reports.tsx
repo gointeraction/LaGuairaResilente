@@ -104,20 +104,20 @@ export default function Reports() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-primary-600 to-purple-700 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">Centro de Reportes</h1>
-              <p className="text-indigo-100 mt-1">35 reportes para monitorear el impacto del programa</p>
+              <p className="text-primary-100 mt-1">35 reportes para monitorear el impacto del programa</p>
             </div>
             <div className="flex gap-3">
               <Button
                 onClick={() => setViewMode('catalog')}
                 className={`${
                   viewMode === 'catalog' 
-                    ? 'bg-white text-indigo-600' 
-                    : 'bg-indigo-500 text-white hover:bg-indigo-400'
+                    ? 'bg-white text-primary-600' 
+                    : 'bg-primary-500 text-white hover:bg-primary-400'
                 }`}
               >
                 📋 Catálogo
@@ -126,8 +126,8 @@ export default function Reports() {
                 onClick={() => setViewMode('generator')}
                 className={`${
                   viewMode === 'generator' 
-                    ? 'bg-white text-indigo-600' 
-                    : 'bg-indigo-500 text-white hover:bg-indigo-400'
+                    ? 'bg-white text-primary-600' 
+                    : 'bg-primary-500 text-white hover:bg-primary-400'
                 }`}
               >
                 🔧 Generador
@@ -144,7 +144,7 @@ export default function Reports() {
             <Card 
               key={stat.module}
               className={`p-4 cursor-pointer hover:shadow-md transition-all ${
-                selectedModule === stat.module ? 'ring-2 ring-indigo-500' : ''
+                selectedModule === stat.module ? 'ring-2 ring-primary-500' : ''
               }`}
               onClick={() => setSelectedModule(selectedModule === stat.module ? 'ALL' : stat.module)}
             >
@@ -226,14 +226,14 @@ export default function Reports() {
                           <td className="py-3 px-4">
                             <div className="flex gap-1">
                               {report.formats.map(f => (
-                                <Badge key={f} className="bg-blue-100 text-blue-700 text-xs">{f}</Badge>
+                                <Badge key={f} className="bg-primary-100 text-primary-700 text-xs">{f}</Badge>
                               ))}
                             </div>
                           </td>
                           <td className="py-3 px-4">
                             <Button
                               onClick={() => handleGenerateReport(report)}
-                              className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1"
+                              className="bg-primary-600 hover:bg-primary-700 text-white text-sm px-3 py-1"
                             >
                               Generar
                             </Button>
@@ -309,7 +309,7 @@ export default function Reports() {
                         <Button
                           onClick={handleExecuteReport}
                           disabled={generating}
-                          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+                          className="w-full bg-primary-600 hover:bg-primary-700 text-white"
                         >
                           {generating ? 'Generando...' : '🔧 Generar Reporte'}
                         </Button>
@@ -334,7 +334,7 @@ export default function Reports() {
                             </Button>
                             <Button
                               onClick={() => handleExport('EXCEL')}
-                              className="bg-blue-600 hover:bg-blue-700 text-white text-sm"
+                              className="bg-primary-600 hover:bg-primary-700 text-white text-sm"
                             >
                               📊 Excel
                             </Button>
@@ -352,7 +352,7 @@ export default function Reports() {
                           <div className="grid grid-cols-3 gap-4 mb-6">
                             {Object.entries(reportData.summary).map(([key, value]) => (
                               <div key={key} className="bg-gray-50 rounded-lg p-3 text-center">
-                                <div className="text-xl font-bold text-indigo-600">{value}</div>
+                                <div className="text-xl font-bold text-primary-600">{value}</div>
                                 <div className="text-sm text-gray-600 capitalize">{key.replace('_', ' ')}</div>
                               </div>
                             ))}
@@ -439,7 +439,7 @@ export default function Reports() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     {Object.entries(reportData.summary).map(([key, value]) => (
                       <Card key={key} className="p-4 text-center">
-                        <div className="text-2xl font-bold text-indigo-600">{value}</div>
+                        <div className="text-2xl font-bold text-primary-600">{value}</div>
                         <div className="text-sm text-gray-600 capitalize">{key.replace('_', ' ')}</div>
                       </Card>
                     ))}
@@ -450,9 +450,9 @@ export default function Reports() {
                 <div className="overflow-x-auto border rounded-lg">
                   <table className="w-full">
                     <thead>
-                      <tr className="bg-indigo-50">
+                      <tr className="bg-primary-50">
                         {reportData.headers.map((header, idx) => (
-                          <th key={idx} className="text-left py-3 px-4 border-b font-semibold text-indigo-700">
+                          <th key={idx} className="text-left py-3 px-4 border-b font-semibold text-primary-700">
                             {header}
                           </th>
                         ))}

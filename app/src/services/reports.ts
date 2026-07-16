@@ -535,14 +535,14 @@ export const reportsService = {
 
   getModuleColor(module: ReportModule): string {
     const colors: Record<ReportModule, string> = {
-      'EDUCATION': 'bg-blue-100 text-blue-800',
+      'EDUCATION': 'bg-primary-100 text-primary-800',
       'RESILIENCE': 'bg-purple-100 text-purple-800',
       'PSYCHOLOGISTS': 'bg-teal-100 text-teal-800',
       'EMPLOYMENT': 'bg-green-100 text-green-800',
       'SPONSORSHIP': 'bg-orange-100 text-orange-800',
       'CENSUS': 'bg-yellow-100 text-yellow-800',
       'GAMIFICATION': 'bg-red-100 text-red-800',
-      'IMPACT': 'bg-indigo-100 text-indigo-800'
+      'IMPACT': 'bg-primary-100 text-primary-800'
     };
     return colors[module];
   }

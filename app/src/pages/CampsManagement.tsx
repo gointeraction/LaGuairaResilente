@@ -99,7 +99,7 @@ export default function CampsManagement() {
 
   const getMunicipalityColor = (municipality: string) => {
     switch (municipality) {
-      case 'Catia La Mar': return 'bg-blue-100 text-blue-800';
+      case 'Catia La Mar': return 'bg-primary-100 text-primary-800';
       case 'Maiquetía': return 'bg-green-100 text-green-800';
       case 'Macuto': return 'bg-purple-100 text-purple-800';
       case 'Caraballeda': return 'bg-orange-100 text-orange-800';
@@ -116,7 +116,7 @@ export default function CampsManagement() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando campamentos...</p>
         </div>
       </div>
@@ -131,13 +131,13 @@ export default function CampsManagement() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Building2 className="w-8 h-8 text-blue-600" />
+                <Building2 className="w-8 h-8 text-primary-600" />
                 Campamentos Transitorios
               </h1>
               <p className="text-gray-600 mt-1">Gestión de 15 campamentos en 4 municipios</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                 <Plus className="w-5 h-5" />
                 Nuevo Campamento
               </button>
@@ -155,7 +155,7 @@ export default function CampsManagement() {
                 <p className="text-sm text-gray-600">Total Campamentos</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.total_camps || camps.length}</p>
               </div>
-              <Building2 className="w-8 h-8 text-blue-500" />
+              <Building2 className="w-8 h-8 text-primary-500" />
             </div>
           </div>
           
@@ -201,7 +201,7 @@ export default function CampsManagement() {
                   placeholder="Buscar campamento..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function CampsManagement() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               >
                 <option value="ALL">Todos</option>
                 <option value="ACTIVO">Activos</option>
@@ -222,13 +222,13 @@ export default function CampsManagement() {
               <div className="flex border border-gray-300 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`px-4 py-2 ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                  className={`px-4 py-2 ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                 >
                   <Grid className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                  className={`px-4 py-2 ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                 >
                   <List className="w-5 h-5" />
                 </button>
@@ -267,7 +267,7 @@ export default function CampsManagement() {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
-                        className="bg-blue-600 h-2 rounded-full" 
+                        className="bg-primary-600 h-2 rounded-full" 
                         style={{ width: `${(camp.current_occupancy / camp.capacity) * 100}%` }}
                       ></div>
                     </div>
@@ -289,7 +289,7 @@ export default function CampsManagement() {
                       </span>
                     )}
                     {camp.water_available && (
-                      <span className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                      <span className="flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-800 rounded text-xs">
                         <Droplets className="w-3 h-3" /> Agua
                       </span>
                     )}
@@ -316,7 +316,7 @@ export default function CampsManagement() {
                     </div>
                     <button
                       onClick={() => handleViewDetails(camp)}
-                      className="flex items-center gap-1 px-3 py-1 text-blue-600 hover:bg-blue-50 rounded text-sm"
+                      className="flex items-center gap-1 px-3 py-1 text-primary-600 hover:bg-primary-50 rounded text-sm"
                     >
                       <Eye className="w-4 h-4" />
                       Ver
@@ -357,7 +357,7 @@ export default function CampsManagement() {
                       <div className="text-sm text-gray-900">{camp.current_occupancy}/{camp.capacity}</div>
                       <div className="w-20 bg-gray-200 rounded-full h-1.5 mt-1">
                         <div 
-                          className="bg-blue-600 h-1.5 rounded-full" 
+                          className="bg-primary-600 h-1.5 rounded-full" 
                           style={{ width: `${(camp.current_occupancy / camp.capacity) * 100}%` }}
                         ></div>
                       </div>
@@ -378,7 +378,7 @@ export default function CampsManagement() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleViewDetails(camp)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-primary-600 hover:text-primary-900"
                       >
                         <Eye className="w-5 h-5" />
                       </button>
@@ -451,7 +451,7 @@ export default function CampsManagement() {
                       </span>
                     )}
                     {selectedCamp.water_available && (
-                      <span className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                      <span className="flex items-center gap-1 px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm">
                         <Droplets className="w-4 h-4" /> Agua
                       </span>
                     )}
@@ -492,7 +492,7 @@ export default function CampsManagement() {
                 >
                   Cerrar
                 </button>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                   Editar
                 </button>
               </div>

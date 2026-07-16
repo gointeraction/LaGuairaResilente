@@ -281,7 +281,7 @@ export default function SupportNetworkRegister() {
                   <BookOpen className="w-3.5 h-3.5" style={{ color: '#FCD116' }} />
                   Antes de registrarte, léelo con calma
                 </div>
-                <p className="text-blue-200 text-sm leading-relaxed max-w-lg">
+                <p className="text-primary-200 text-sm leading-relaxed max-w-lg">
                   Voluntariado por Venezuela es una red de acompañamiento profesional gratuito.
                   Para proteger a las personas afectadas y a ti, todo voluntario acepta estas condiciones antes de continuar.
                 </p>
@@ -362,7 +362,7 @@ export default function SupportNetworkRegister() {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold">Introduce tus datos</h2>
-                  <p className="text-blue-200 text-xs mt-0.5">Los campos con * son obligatorios</p>
+                  <p className="text-primary-200 text-xs mt-0.5">Los campos con * son obligatorios</p>
                 </div>
               </div>
             </div>

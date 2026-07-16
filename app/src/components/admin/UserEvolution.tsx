@@ -155,7 +155,7 @@ export default function UserEvolution({ users, onSelectUser }: UserEvolutionProp
                 onClick={() => onSelectUser(user)}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-primary-500 rounded-full flex items-center justify-center text-white font-bold">
                     {user.full_name?.charAt(0)}
                   </div>
                   <div>
@@ -218,7 +218,7 @@ export default function UserEvolution({ users, onSelectUser }: UserEvolutionProp
               onClick={() => onSelectUser(user)}
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                   {user.full_name?.charAt(0)}
                 </div>
                 <div>
@@ -228,8 +228,8 @@ export default function UserEvolution({ users, onSelectUser }: UserEvolutionProp
               </div>
               
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="bg-blue-50 rounded p-2 text-center">
-                  <div className="font-bold text-blue-600">{user.points || 0}</div>
+                <div className="bg-primary-50 rounded p-2 text-center">
+                  <div className="font-bold text-primary-600">{user.points || 0}</div>
                   <div className="text-xs text-gray-600">Puntos</div>
                 </div>
                 <div className="bg-green-50 rounded p-2 text-center">

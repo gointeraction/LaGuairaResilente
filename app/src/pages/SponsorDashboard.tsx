@@ -319,7 +319,7 @@ export default function SponsorDashboard() {
                     {filtered.map((r) => (
                       <tr key={r.id}
                         onClick={() => handleSelectRecord(r)}
-                        className={`border-b border-gray-50 cursor-pointer transition-colors hover:bg-gray-50 ${selected?.id === r.id ? 'bg-blue-50/50' : ''}`}>
+                        className={`border-b border-gray-50 cursor-pointer transition-colors hover:bg-gray-50 ${selected?.id === r.id ? 'bg-primary-50/50' : ''}`}>
                         <td className="px-4 py-3">
                           <span className="font-mono text-xs font-bold text-gray-600">{r.tracking_code}</span>
                         </td>

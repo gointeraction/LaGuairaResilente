@@ -66,7 +66,7 @@ export default function CoordinationDashboard() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      'PROGRAMADO': 'bg-blue-100 text-blue-800',
+      'PROGRAMADO': 'bg-primary-100 text-primary-800',
       'EN_CURSO': 'bg-green-100 text-green-800',
       'FINALIZADO': 'bg-gray-100 text-gray-800',
       'CANCELADO': 'bg-red-100 text-red-800',
@@ -115,23 +115,23 @@ export default function CoordinationDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">Centro de Coordinación</h1>
-              <p className="text-blue-100 mt-1">Gestión táctica de albergues, charlas y eventos</p>
+              <p className="text-primary-100 mt-1">Gestión táctica de albergues, charlas y eventos</p>
             </div>
             <div className="flex gap-3">
               <Button
                 onClick={() => setShowCreateEvent(true)}
-                className="bg-white text-blue-600 hover:bg-blue-50"
+                className="bg-white text-primary-600 hover:bg-primary-50"
               >
                 + Nuevo Evento
               </Button>
               <Button
                 onClick={() => setShowCreateMeeting(true)}
-                className="bg-blue-500 text-white hover:bg-blue-400 border border-blue-400"
+                className="bg-primary-500 text-white hover:bg-primary-400 border border-primary-400"
               >
                 + Nueva Reunión
               </Button>
@@ -145,7 +145,7 @@ export default function CoordinationDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <Card className="p-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">{stats?.active_shelters || 0}</div>
+              <div className="text-3xl font-bold text-primary-600">{stats?.active_shelters || 0}</div>
               <div className="text-sm text-gray-600">Albergues Activos</div>
             </div>
           </Card>
@@ -183,7 +183,7 @@ export default function CoordinationDashboard() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 font-medium border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'border-blue-600 text-blue-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -247,7 +247,7 @@ export default function CoordinationDashboard() {
                     <h3 className="text-lg font-bold">Próximos Eventos</h3>
                     <button 
                       onClick={() => setActiveTab('events')}
-                      className="text-sm text-blue-600 hover:text-blue-700"
+                      className="text-sm text-primary-600 hover:text-primary-700"
                     >
                       Ver todos →
                     </button>
@@ -255,7 +255,7 @@ export default function CoordinationDashboard() {
                   <div className="space-y-3">
                     {getUpcomingEvents().map(event => (
                       <div key={event.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-xl">
+                        <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center text-xl">
                           {event.type === 'CHARLA' ? '🎤' :
                            event.type === 'TALLER' ? '🛠️' :
                            event.type === 'CAPACITACION' ? '📚' : '📅'}
@@ -282,7 +282,7 @@ export default function CoordinationDashboard() {
                     <h3 className="text-lg font-bold">Próximas Reuniones</h3>
                     <button 
                       onClick={() => setActiveTab('meetings')}
-                      className="text-sm text-blue-600 hover:text-blue-700"
+                      className="text-sm text-primary-600 hover:text-primary-700"
                     >
                       Ver todas →
                     </button>
@@ -360,7 +360,7 @@ export default function CoordinationDashboard() {
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold">Albergues de La Guaira</h3>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button className="bg-primary-600 hover:bg-primary-700 text-white">
                     + Agregar Albergue
                   </Button>
                 </div>
@@ -375,7 +375,7 @@ export default function CoordinationDashboard() {
                         className="border rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer"
                       >
                         <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">
+                          <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-2xl">
                             🏠
                           </div>
                           <Badge className={shelter.status === 'ACTIVO' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
@@ -448,7 +448,7 @@ export default function CoordinationDashboard() {
                   <h3 className="text-xl font-bold">Charlas y Eventos</h3>
                   <Button 
                     onClick={() => setShowCreateEvent(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    className="bg-primary-600 hover:bg-primary-700 text-white"
                   >
                     + Crear Evento
                   </Button>
@@ -476,7 +476,7 @@ export default function CoordinationDashboard() {
                             <div className="text-sm text-gray-500 truncate max-w-xs">{event.description}</div>
                           </td>
                           <td className="py-3 px-4">
-                            <Badge className="bg-blue-100 text-blue-800">{getEventTypeLabel(event.type)}</Badge>
+                            <Badge className="bg-primary-100 text-primary-800">{getEventTypeLabel(event.type)}</Badge>
                           </td>
                           <td className="py-3 px-4 text-sm">{event.shelter_name}</td>
                           <td className="py-3 px-4 text-sm">
@@ -491,7 +491,7 @@ export default function CoordinationDashboard() {
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex gap-2">
-                              <button className="text-blue-600 hover:text-blue-700 text-sm">Editar</button>
+                              <button className="text-primary-600 hover:text-primary-700 text-sm">Editar</button>
                               <button className="text-green-600 hover:text-green-700 text-sm">Iniciar</button>
                             </div>
                           </td>
@@ -532,7 +532,7 @@ export default function CoordinationDashboard() {
                     >
                       <div className="flex items-center justify-between mb-3">
                         <Badge className={
-                          meeting.type === 'ORDINARIA' ? 'bg-blue-100 text-blue-800' :
+                          meeting.type === 'ORDINARIA' ? 'bg-primary-100 text-primary-800' :
                           meeting.type === 'EXTRAORDINARIA' ? 'bg-orange-100 text-orange-800' :
                           meeting.type === 'EMERGENCIA' ? 'bg-red-100 text-red-800' :
                           'bg-purple-100 text-purple-800'
@@ -578,7 +578,7 @@ export default function CoordinationDashboard() {
                       )}
 
                       <div className="flex gap-2 mt-4">
-                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm">
+                        <Button className="flex-1 bg-primary-600 hover:bg-primary-700 text-white text-sm">
                           Ver Detalles
                         </Button>
                         {meeting.status === 'PROGRAMADO' && (
@@ -628,16 +628,16 @@ export default function CoordinationDashboard() {
                       <div 
                         key={i} 
                         className={`min-h-[80px] p-2 border rounded ${
-                          isToday ? 'bg-blue-50 border-blue-300' : 'hover:bg-gray-50'
+                          isToday ? 'bg-primary-50 border-primary-300' : 'hover:bg-gray-50'
                         }`}
                       >
-                        <div className={`text-sm font-medium ${isToday ? 'text-blue-600' : 'text-gray-700'}`}>
+                        <div className={`text-sm font-medium ${isToday ? 'text-primary-600' : 'text-gray-700'}`}>
                           {date.getDate()}
                         </div>
                         {dayEvents.slice(0, 2).map(event => (
                           <div 
                             key={event.id} 
-                            className="text-xs bg-blue-100 text-blue-700 rounded px-1 py-0.5 mt-1 truncate"
+                            className="text-xs bg-primary-100 text-primary-700 rounded px-1 py-0.5 mt-1 truncate"
                           >
                             {event.title}
                           </div>
@@ -733,7 +733,7 @@ export default function CoordinationDashboard() {
               <Button onClick={() => setShowCreateEvent(false)} className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300">
                 Cancelar
               </Button>
-              <Button className="flex-1 bg-blue-600 text-white hover:bg-blue-700">
+              <Button className="flex-1 bg-primary-600 text-white hover:bg-primary-700">
                 Crear Evento
               </Button>
             </div>

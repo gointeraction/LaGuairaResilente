@@ -64,7 +64,7 @@ export default function LogisticsPage() {
   const getStatusIcon = (status: DeliveryStatus) => {
     switch (status) {
       case 'PENDIENTE': return <Clock className="w-5 h-5 text-yellow-500" />;
-      case 'EN_TRANSITO': return <Truck className="w-5 h-5 text-blue-500" />;
+      case 'EN_TRANSITO': return <Truck className="w-5 h-5 text-primary-500" />;
       case 'ENTREGADO': return <CheckCircle2 className="w-5 h-5 text-green-500" />;
       case 'CANCELADO': return <XCircle className="w-5 h-5 text-red-500" />;
       default: return null;
@@ -74,7 +74,7 @@ export default function LogisticsPage() {
   const getStatusColor = (status: DeliveryStatus) => {
     switch (status) {
       case 'PENDIENTE': return 'bg-yellow-100 text-yellow-800';
-      case 'EN_TRANSITO': return 'bg-blue-100 text-blue-800';
+      case 'EN_TRANSITO': return 'bg-primary-100 text-primary-800';
       case 'ENTREGADO': return 'bg-green-100 text-green-800';
       case 'CANCELADO': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -85,7 +85,7 @@ export default function LogisticsPage() {
     switch (type) {
       case 'ALIMENTOS': return <Package className="w-5 h-5 text-green-500" />;
       case 'MEDICAMENTOS': return <Package className="w-5 h-5 text-red-500" />;
-      case 'EQUIPOS': return <Package className="w-5 h-5 text-blue-500" />;
+      case 'EQUIPOS': return <Package className="w-5 h-5 text-primary-500" />;
       case 'BOLSAS': return <Package className="w-5 h-5 text-purple-500" />;
       case 'RECARGAS': return <Package className="w-5 h-5 text-cyan-500" />;
       default: return <Package className="w-5 h-5" />;
@@ -96,7 +96,7 @@ export default function LogisticsPage() {
     switch (type) {
       case 'ALIMENTOS': return 'bg-green-100 text-green-800';
       case 'MEDICAMENTOS': return 'bg-red-100 text-red-800';
-      case 'EQUIPOS': return 'bg-blue-100 text-blue-800';
+      case 'EQUIPOS': return 'bg-primary-100 text-primary-800';
       case 'BOLSAS': return 'bg-purple-100 text-purple-800';
       case 'RECARGAS': return 'bg-cyan-100 text-cyan-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -130,7 +130,7 @@ export default function LogisticsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando logística...</p>
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function LogisticsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Truck className="w-8 h-8 text-blue-600" />
+                <Truck className="w-8 h-8 text-primary-600" />
                 Red de Distribución Logística
               </h1>
               <p className="text-gray-600 mt-1">Gestión de entregas, rutas y distribución</p>
@@ -158,7 +158,7 @@ export default function LogisticsPage() {
                 <RefreshCw className="w-5 h-5" />
                 Actualizar
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                 <Plus className="w-5 h-5" />
                 Nueva Entrega
               </button>
@@ -176,7 +176,7 @@ export default function LogisticsPage() {
                 <p className="text-sm text-gray-600">Total Entregas</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.total_deliveries || deliveries.length}</p>
               </div>
-              <Package className="w-8 h-8 text-blue-500" />
+              <Package className="w-8 h-8 text-primary-500" />
             </div>
           </div>
           
@@ -196,7 +196,7 @@ export default function LogisticsPage() {
                 <p className="text-sm text-gray-600">En Tránsito</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.in_transit_deliveries || deliveries.filter(d => d.status === 'EN_TRANSITO').length}</p>
               </div>
-              <Truck className="w-8 h-8 text-blue-500" />
+              <Truck className="w-8 h-8 text-primary-500" />
             </div>
           </div>
           
@@ -219,7 +219,7 @@ export default function LogisticsPage() {
                 onClick={() => setActiveTab('deliveries')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'deliveries'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -232,7 +232,7 @@ export default function LogisticsPage() {
                 onClick={() => setActiveTab('routes')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'routes'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -245,7 +245,7 @@ export default function LogisticsPage() {
                 onClick={() => setActiveTab('food')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'food'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -258,7 +258,7 @@ export default function LogisticsPage() {
                 onClick={() => setActiveTab('topups')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === 'topups'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -283,7 +283,7 @@ export default function LogisticsPage() {
                         placeholder="Buscar entrega..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
                   </div>
@@ -291,7 +291,7 @@ export default function LogisticsPage() {
                   <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value as DeliveryStatus | 'ALL')}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="ALL">Todos</option>
                     <option value="PENDIENTE">Pendientes</option>
@@ -352,7 +352,7 @@ export default function LogisticsPage() {
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button className="text-blue-600 hover:text-blue-900">
+                            <button className="text-primary-600 hover:text-primary-900">
                               <Eye className="w-5 h-5" />
                             </button>
                           </td>
@@ -369,7 +369,7 @@ export default function LogisticsPage() {
                 <MapPin className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">Rutas de Distribución</h3>
                 <p className="text-gray-600 mb-4">Gestión de rutas de entrega optimizadas</p>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                   <Plus className="w-5 h-5 inline mr-2" />
                   Crear Ruta
                 </button>
@@ -395,7 +395,7 @@ export default function LogisticsPage() {
                       <span className="text-gray-600">Proveedor: <strong>{dist.supplier}</strong></span>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         dist.status === 'COMPLETADO' ? 'bg-green-100 text-green-800' :
-                        dist.status === 'EN_CURSO' ? 'bg-blue-100 text-blue-800' :
+                        dist.status === 'EN_CURSO' ? 'bg-primary-100 text-primary-800' :
                         'bg-yellow-100 text-yellow-800'
                       }`}>
                         {dist.status}

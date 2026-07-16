@@ -183,7 +183,7 @@ export default function AdminPanel() {
                 <p className="text-sm text-gray-600">Usuarios Totales</p>
                 <p className="text-3xl font-bold text-gray-900">{stats.totalUsers}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
                 <span className="text-2xl">👥</span>
               </div>
             </div>
@@ -233,7 +233,7 @@ export default function AdminPanel() {
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-3 font-medium border-b-2 transition-colors ${
                 activeTab === tab
-                  ? 'border-blue-600 text-blue-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -268,7 +268,7 @@ export default function AdminPanel() {
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
                             className={`h-2 rounded-full ${
-                              ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500'][i]
+                              ['bg-primary-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500'][i]
                             }`}
                             style={{ width: `${percentage}%` }}
                           />
@@ -293,7 +293,7 @@ export default function AdminPanel() {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className="h-2 rounded-full bg-indigo-500"
+                            className="h-2 rounded-full bg-primary-500"
                             style={{ width: `${percentage}%` }}
                           />
                         </div>
@@ -354,12 +354,12 @@ export default function AdminPanel() {
                   placeholder="Buscar por nombre o email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:outline-none"
                 />
                 <select
                   value={filterRole}
                   onChange={(e) => setFilterRole(e.target.value)}
-                  className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:outline-none"
                 >
                   <option value="all">Todos los roles</option>
                   <option value="STUDENT">Estudiantes</option>
@@ -525,7 +525,7 @@ export default function AdminPanel() {
                     className="w-full px-4 py-2 border rounded-lg"
                   />
                 </div>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">
+                <Button className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2">
                   Guardar Configuración
                 </Button>
               </div>

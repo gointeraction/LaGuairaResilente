@@ -102,7 +102,7 @@ export default function WiFiNodesManagement() {
 
   const getTypeIcon = (type: WiFiType) => {
     switch (type) {
-      case 'FIBRA_OPTICA': return <Server className="w-5 h-5 text-blue-500" />;
+      case 'FIBRA_OPTICA': return <Server className="w-5 h-5 text-primary-500" />;
       case 'SATELITAL': return <Activity className="w-5 h-5 text-purple-500" />;
       case '4G_LTE': return <Signal className="w-5 h-5 text-cyan-500" />;
       case 'MESH': return <Wifi className="w-5 h-5 text-green-500" />;
@@ -112,7 +112,7 @@ export default function WiFiNodesManagement() {
 
   const getTypeColor = (type: WiFiType) => {
     switch (type) {
-      case 'FIBRA_OPTICA': return 'bg-blue-100 text-blue-800';
+      case 'FIBRA_OPTICA': return 'bg-primary-100 text-primary-800';
       case 'SATELITAL': return 'bg-purple-100 text-purple-800';
       case '4G_LTE': return 'bg-cyan-100 text-cyan-800';
       case 'MESH': return 'bg-green-100 text-green-800';
@@ -134,7 +134,7 @@ export default function WiFiNodesManagement() {
 
   const getMunicipalityColor = (municipality: string) => {
     switch (municipality) {
-      case 'Catia La Mar': return 'bg-blue-100 text-blue-800';
+      case 'Catia La Mar': return 'bg-primary-100 text-primary-800';
       case 'Maiquetía': return 'bg-green-100 text-green-800';
       case 'Macuto': return 'bg-purple-100 text-purple-800';
       case 'Caraballeda': return 'bg-orange-100 text-orange-800';
@@ -151,7 +151,7 @@ export default function WiFiNodesManagement() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando nodos WiFi...</p>
         </div>
       </div>
@@ -166,7 +166,7 @@ export default function WiFiNodesManagement() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Wifi className="w-8 h-8 text-blue-600" />
+                <Wifi className="w-8 h-8 text-primary-600" />
                 Nodos de Conectividad WiFi
               </h1>
               <p className="text-gray-600 mt-1">Gestión de infraestructura de conectividad</p>
@@ -179,7 +179,7 @@ export default function WiFiNodesManagement() {
                 <RefreshCw className="w-5 h-5" />
                 Actualizar
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                 <Plus className="w-5 h-5" />
                 Nuevo Nodo
               </button>
@@ -197,7 +197,7 @@ export default function WiFiNodesManagement() {
                 <p className="text-sm text-gray-600">Total Nodos</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.total_nodes || nodes.length}</p>
               </div>
-              <Wifi className="w-8 h-8 text-blue-500" />
+              <Wifi className="w-8 h-8 text-primary-500" />
             </div>
           </div>
           
@@ -243,7 +243,7 @@ export default function WiFiNodesManagement() {
                   placeholder="Buscar nodo..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
             </div>
@@ -252,7 +252,7 @@ export default function WiFiNodesManagement() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               >
                 <option value="ALL">Todos</option>
                 <option value="ACTIVO">Activos</option>
@@ -264,7 +264,7 @@ export default function WiFiNodesManagement() {
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as FilterType)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               >
                 <option value="ALL">Todos los tipos</option>
                 <option value="FIBRA_OPTICA">Fibra Óptica</option>
@@ -276,13 +276,13 @@ export default function WiFiNodesManagement() {
               <div className="flex border border-gray-300 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`px-4 py-2 ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                  className={`px-4 py-2 ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                 >
                   <Grid className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                  className={`px-4 py-2 ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                 >
                   <List className="w-5 h-5" />
                 </button>
@@ -347,7 +347,7 @@ export default function WiFiNodesManagement() {
                     
                     <div className="bg-gray-50 rounded-lg p-2">
                       <div className="flex items-center gap-2">
-                        <Server className="w-4 h-4 text-blue-500" />
+                        <Server className="w-4 h-4 text-primary-500" />
                         <span className="text-sm font-medium">{node.provider}</span>
                       </div>
                       <span className="text-xs text-gray-500">Proveedor</span>
@@ -373,7 +373,7 @@ export default function WiFiNodesManagement() {
                     </span>
                     <button
                       onClick={() => handleViewDetails(node)}
-                      className="flex items-center gap-1 px-3 py-1 text-blue-600 hover:bg-blue-50 rounded text-sm"
+                      className="flex items-center gap-1 px-3 py-1 text-primary-600 hover:bg-primary-50 rounded text-sm"
                     >
                       <Eye className="w-4 h-4" />
                       Ver
@@ -423,7 +423,7 @@ export default function WiFiNodesManagement() {
                       <div className="text-sm text-gray-900">{node.connected_users}/{node.max_users}</div>
                       <div className="w-20 bg-gray-200 rounded-full h-1.5 mt-1">
                         <div 
-                          className="bg-blue-600 h-1.5 rounded-full" 
+                          className="bg-primary-600 h-1.5 rounded-full" 
                           style={{ width: `${(node.connected_users / node.max_users) * 100}%` }}
                         ></div>
                       </div>
@@ -441,7 +441,7 @@ export default function WiFiNodesManagement() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleViewDetails(node)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-primary-600 hover:text-primary-900"
                       >
                         <Eye className="w-5 h-5" />
                       </button>
@@ -540,7 +540,7 @@ export default function WiFiNodesManagement() {
                 >
                   Cerrar
                 </button>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                   Configurar
                 </button>
               </div>

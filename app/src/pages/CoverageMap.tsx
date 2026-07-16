@@ -84,7 +84,7 @@ export default function CoverageMap() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -93,7 +93,7 @@ export default function CoverageMap() {
   const totals = getTotalStats();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-primary-50 to-purple-50 p-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -109,7 +109,7 @@ export default function CoverageMap() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card className="p-4 text-center">
             <div className="text-3xl mb-2">👥</div>
-            <div className="text-2xl font-bold text-blue-600">{totals.users}</div>
+            <div className="text-2xl font-bold text-primary-600">{totals.users}</div>
             <div className="text-sm text-gray-600">Ciudadanos Registrados</div>
           </Card>
           <Card className="p-4 text-center">
@@ -133,7 +133,7 @@ export default function CoverageMap() {
           <div className="lg:col-span-2">
             <Card className="p-6">
               <h3 className="text-lg font-bold mb-4">Mapa de Municipios</h3>
-              <div className="relative bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl p-8 min-h-[400px]">
+              <div className="relative bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl p-8 min-h-[400px]">
                 <svg viewBox="0 0 100 80" className="w-full h-full">
                   <defs>
                     <linearGradient id="seaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -276,7 +276,7 @@ export default function CoverageMap() {
               <h3 className="text-lg font-bold mb-4">Leyenda</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-blue-500" />
+                  <div className="w-4 h-4 rounded-full bg-primary-500" />
                   <span>Catia La Mar</span>
                 </div>
                 <div className="flex items-center gap-2">

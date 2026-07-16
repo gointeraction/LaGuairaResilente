@@ -259,7 +259,7 @@ export default function AdminDashboard() {
               onClick={() => setSelectedView(tab.id)}
               className={`px-4 py-3 font-medium border-b-2 transition-colors whitespace-nowrap ${
                 selectedView === tab.id
-                  ? 'border-blue-600 text-blue-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -282,7 +282,7 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Card className="p-4">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-blue-600">{users.length}</div>
+                    <div className="text-3xl font-bold text-primary-600">{users.length}</div>
                     <div className="text-sm text-gray-600">Usuarios Totales</div>
                   </div>
                 </Card>
@@ -321,7 +321,7 @@ export default function AdminDashboard() {
                         <div className="w-full bg-gray-200 rounded-full h-3">
                           <div
                             className={`h-3 rounded-full ${
-                              ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500'][idx]
+                              ['bg-primary-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500'][idx]
                             }`}
                             style={{ width: `${users.length > 0 ? (m.users / users.length) * 100 : 0}%` }}
                           />
@@ -341,7 +341,7 @@ export default function AdminDashboard() {
                         <span className="font-medium">{moduleStats?.education.avg_progress || 0}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div className="bg-blue-500 h-3 rounded-full" style={{ width: `${moduleStats?.education.avg_progress || 0}%` }} />
+                        <div className="bg-primary-500 h-3 rounded-full" style={{ width: `${moduleStats?.education.avg_progress || 0}%` }} />
                       </div>
                     </div>
                     <div>
@@ -393,7 +393,7 @@ export default function AdminDashboard() {
                           }`}>
                             {idx + 1}
                           </span>
-                          <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                          <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
                             {user.full_name?.charAt(0)}
                           </div>
                           <div>
@@ -414,7 +414,7 @@ export default function AdminDashboard() {
                     {getRecentActivity().slice(0, 5).map((log) => (
                       <div key={log.id} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm ${
-                          log.module === 'Educación' ? 'bg-blue-500' :
+                          log.module === 'Educación' ? 'bg-primary-500' :
                           log.module === 'Resiliencia' ? 'bg-purple-500' :
                           log.module === 'Empleo' ? 'bg-green-500' : 'bg-orange-500'
                         }`}>
@@ -450,7 +450,7 @@ export default function AdminDashboard() {
                     placeholder="Buscar por nombre o email..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                   <select
                     value={filterMunicipality}
@@ -483,7 +483,7 @@ export default function AdminDashboard() {
                         <tr key={user.id} className="border-b hover:bg-gray-50">
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                              <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
                                 {user.full_name?.charAt(0)}
                               </div>
                               <div>
@@ -504,7 +504,7 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="py-3 px-4">
-                            <span className="font-medium text-blue-600">{user.courses_completed || 0}</span>
+                            <span className="font-medium text-primary-600">{user.courses_completed || 0}</span>
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-1">
@@ -518,7 +518,7 @@ export default function AdminDashboard() {
                           <td className="py-3 px-4">
                             <Button
                               onClick={() => { setSelectedUser(user); setSelectedView('tracking'); }}
-                              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1"
+                              className="bg-primary-600 hover:bg-primary-700 text-white text-sm px-3 py-1"
                             >
                               Ver Detalle
                             </Button>

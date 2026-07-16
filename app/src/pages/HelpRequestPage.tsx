@@ -224,11 +224,11 @@ export default function HelpRequestPage() {
             </div>
 
             {/* Main text */}
-            <p className="text-blue-100 text-sm leading-relaxed mb-5 max-w-2xl">
+            <p className="text-primary-100 text-sm leading-relaxed mb-5 max-w-2xl">
               La salud mental y el bienestar emocional de nuestra gente es prioridad. Por eso, nos unimos en solidaridad
               para tender un puente de apoyo a quienes más lo necesitan en este momento.
             </p>
-            <p className="text-blue-100 text-sm leading-relaxed mb-6 max-w-2xl">
+            <p className="text-primary-100 text-sm leading-relaxed mb-6 max-w-2xl">
               El <strong className="text-white">Colegio de Psicólogos del Distrito Capital</strong> pone a tu disposición
               la <strong className="text-white">Línea de Soporte Emocional</strong>, un servicio de atención psicológica
               telefónica completamente <span className="font-bold" style={{ color: '#FCD116' }}>GRATUITO</span> y confidencial.
@@ -240,7 +240,7 @@ export default function HelpRequestPage() {
               <h3 className="text-sm font-bold mb-2 flex items-center gap-2" style={{ color: '#FCD116' }}>
                 💻 Tecnología al servicio de la gente
               </h3>
-              <p className="text-xs text-blue-200 leading-relaxed">
+              <p className="text-xs text-primary-200 leading-relaxed">
                 CAVECOM-e ha facilitado una plataforma en la nube y un sistema de redireccionamiento para conectar de forma
                 segura y confidencial a las personas con más de{' '}
                 <strong className="text-white">50 psicólogos voluntarios</strong> listos para escuchar y orientar.
@@ -258,7 +258,7 @@ export default function HelpRequestPage() {
                   className="flex flex-col gap-1 rounded-xl p-3.5"
                   style={{ background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.15)' }}>
                   <span className="text-lg leading-none">{emoji}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-300">{label}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary-300">{label}</span>
                   <span className="text-sm font-semibold text-white leading-snug">{value}</span>
                 </div>
               ))}

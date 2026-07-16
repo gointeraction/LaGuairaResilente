@@ -150,7 +150,7 @@ export default function GameLobby() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-purple-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -217,7 +217,7 @@ export default function GameLobby() {
                 <p className="text-sm text-gray-600 mb-3">{game.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-3">
-                  <span className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                  <span className="flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-800 rounded text-xs">
                     <Users className="w-3 h-3" /> {game.players} jugadores
                   </span>
                   <span className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
