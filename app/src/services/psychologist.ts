@@ -41,25 +41,20 @@ export interface Psychologist {
 export interface SupportNetworkRegistration {
   id: string;
   user_id?: string;
-  full_name: string;
+  first_name: string;
+  last_name: string;
   cedula: string;
-  specialty: string;
-  sub_specialty?: string;
-  university: string;
-  verification_number: string;
-  verification_entity: 'FPV' | 'MPPS' | 'COP' | 'OPQ' | 'OTHER';
-  phone: string;
-  whatsapp?: string;
   email: string;
+  phone_prefix: string;
+  phone: string;
+  address: string;
+  postal_code: string;
+  locality: string;
+  province: string;
   country: string;
-  city: string;
-  modality: 'ONLINE' | 'IN_PERSON' | 'BOTH';
-  availability: string;
-  description: string;
-  languages: string[];
-  approach?: string;
-  experience_years?: number;
-  accepts_solidarity: boolean;
+  situation: 'STUDENT' | 'PROFESSIONAL' | 'OTHER';
+  hours_confirmation: boolean;
+  policy_acceptance: boolean;
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
   created_at: string;
 }
@@ -295,19 +290,25 @@ export const psychologistService = {
     if (regSnap.exists()) {
       const regData = regSnap.data() as SupportNetworkRegistration;
       
+      const specialtyMap = {
+        'PROFESSIONAL': 'Psicólogo Profesional',
+        'STUDENT': 'Estudiante de Psicología',
+        'OTHER': 'Voluntario de Apoyo'
+      };
+      
       // Create psychologist entry
       await addDoc(collection(db, 'psychologists'), {
-        name: regData.full_name,
-        specialty: regData.specialty,
-        description: regData.description,
-        university: regData.university,
-        location: regData.city,
-        country: regData.country,
-        modality: regData.modality,
-        verification: `${regData.verification_entity} ${regData.verification_number}`,
-        phone: regData.whatsapp || regData.phone,
-        email: regData.email,
-        is_solidarity_network: regData.accepts_solidarity,
+        name: `${regData.first_name} ${regData.last_name}`,
+        specialty: specialtyMap[regData.situation] || 'Especialista',
+        description: `Voluntario de la Red de Apoyo Solidario. Dirección: ${regData.address || ''}, Localidad: ${regData.locality || ''}, Provincia: ${regData.province || ''}.`,
+        university: regData.situation === 'STUDENT' ? 'Estudiante de Psicología' : 'N/A',
+        location: regData.locality || '',
+        country: regData.country || 'Venezuela',
+        modality: 'ONLINE',
+        verification: regData.cedula || 'N/A',
+        phone: `${regData.phone_prefix || ''}${regData.phone || ''}`,
+        email: regData.email || '',
+        is_solidarity_network: true,
         is_available: true,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()

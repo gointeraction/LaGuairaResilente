@@ -15,6 +15,9 @@ import Reports from './pages/Reports';
 import Resilience from './pages/Resilience';
 import Directory from './pages/Directory';
 import SupportNetworkRegister from './pages/SupportNetworkRegister';
+import HelpRequestPage from './pages/HelpRequestPage';
+import PublicSponsorPortal from './pages/PublicSponsorPortal';
+import SponsorDashboard from './pages/SponsorDashboard';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import AdminPanel from './pages/AdminPanel';
 import AdminDashboard from './pages/AdminDashboard';
@@ -115,6 +118,14 @@ function App() {
         </PublicRoute>
       } />
       
+      {/* Public routes with Layout */}
+      <Route element={<Layout />}>
+        <Route path="/directory" element={<Directory />} />
+        <Route path="/support-network-register" element={<SupportNetworkRegister />} />
+        <Route path="/solicitar-ayuda" element={<HelpRequestPage />} />
+        <Route path="/patrocinadores" element={<PublicSponsorPortal />} />
+      </Route>
+
       {/* Protected routes with Layout */}
       <Route element={
         <ProtectedRoute>
@@ -130,8 +141,6 @@ function App() {
         <Route path="/sponsor-portal" element={<SponsorPortal />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/resilience" element={<Resilience />} />
-        <Route path="/directory" element={<Directory />} />
-        <Route path="/support-network-register" element={<SupportNetworkRegister />} />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
@@ -143,6 +152,7 @@ function App() {
         <Route path="/coordination/wifi" element={<WiFiNodesManagement />} />
         <Route path="/coordination/logistics" element={<LogisticsPage />} />
         <Route path="/coordination/matching" element={<MatchingPage />} />
+        <Route path="/coordination/patrocinadores" element={<SponsorDashboard />} />
         <Route path="/sponsor-portal/anonymous" element={<AnonymousDashboardPage />} />
         <Route path="/redemption" element={<PointsRedemptionPage />} />
         <Route path="/certificates" element={<CertificatesPage />} />
@@ -150,9 +160,9 @@ function App() {
         <Route path="/games/play/:gameType" element={<PhaserGameWrapper />} />
       </Route>
       
-      {/* Default redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      {/* Default redirect — public landing */}
+      <Route path="/" element={<Navigate to="/directory" replace />} />
+      <Route path="*" element={<Navigate to="/directory" replace />} />
     </Routes>
   );
 }

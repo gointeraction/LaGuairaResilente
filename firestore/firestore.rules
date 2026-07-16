@@ -151,7 +151,7 @@ service cloud.firestore {
     // PSYCHOLOGISTS COLLECTION
     // ============================================
     match /psychologists/{psyId} {
-      allow read: if isAuthenticated();
+      allow read: if true;
       allow create: if isAdmin();
       allow update: if isAdmin();
       allow delete: if isAdmin();
@@ -456,8 +456,17 @@ service cloud.firestore {
     // ============================================
     match /support_network_registrations/{regId} {
       allow read: if isStaff() || (isAuthenticated() && resource.data.user_id == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.user_id == request.auth.uid;
+      allow create: if true;
       allow update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // HELP REQUESTS
+    // ============================================
+    match /help_requests/{requestId} {
+      allow read, update: if isStaff();
+      allow create: if true;
       allow delete: if isAdmin();
     }
 
@@ -475,6 +484,15 @@ service cloud.firestore {
     match /points_catalog/{itemId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
+    }
+
+    // ============================================
+    // PUBLIC SPONSOR REGISTRATIONS (no login required)
+    // ============================================
+    match /public_sponsor_registrations/{regId} {
+      allow create: if true;
+      allow read, update: if isCoordinatorOrAdmin();
+      allow delete: if isAdmin();
     }
   }
 }
