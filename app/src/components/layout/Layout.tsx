@@ -8,7 +8,7 @@ export default function Layout() {
     <TutorialProvider>
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        <main className="lg:pl-64">
+        <main className="lg:pl-64 min-h-[calc(100vh-4rem)]">
           <Outlet />
         </main>
         <TutorialButton />

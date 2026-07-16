@@ -89,12 +89,12 @@ export default function Navigation() {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out
-        lg:translate-x-0 lg:static lg:z-auto
+        fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out flex flex-col
+        lg:translate-x-0 lg:fixed
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200" data-tutorial-id="sidebar-logo">
+        <div className="h-16 shrink-0 flex items-center justify-between px-4 border-b border-gray-200" data-tutorial-id="sidebar-logo">
           <Link to="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">LR</span>
@@ -110,7 +110,7 @@ export default function Navigation() {
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-1">
+        <nav className="p-4 space-y-1 flex-1 overflow-y-auto">
           {filteredNavItems.map((item) => (
             <Link
               key={item.path}
@@ -131,7 +131,7 @@ export default function Navigation() {
         </nav>
 
         {/* User info at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 shrink-0 bg-white">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
               <span className="text-primary-700 font-semibold">{initials}</span>
@@ -145,7 +145,7 @@ export default function Navigation() {
       </aside>
 
       {/* Main content header */}
-      <header className="sticky top-0 z-30 bg-white border-b border-gray-200">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 lg:pl-64">
         <div className="flex items-center justify-between h-16 px-4 sm:px-6">
           {/* Left side */}
           <div className="flex items-center gap-4">
