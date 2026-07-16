@@ -2,11 +2,16 @@
   "name": "la-guaira-resiliente",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "npm run dev --prefix app",
     "build": "npm run build --prefix app",
+    "start": "node server.js",
     "preview": "npm run preview --prefix app",
     "install:all": "npm install --prefix app && npm install --prefix functions && npm install --prefix games-server",
     "postinstall": "cd app && npm install"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
