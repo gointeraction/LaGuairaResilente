@@ -75,8 +75,11 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       set({ error: null, loading: true });
       await authService.signInWithGoogle();
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Error al iniciar sesión con Google';
+    } catch (error: any) {
+      console.error('authStore loginWithGoogle error:', error);
+      const message = error?.code === 'auth/unauthorized-domain'
+        ? 'Dominio no autorizado en Firebase Console'
+        : (error instanceof Error ? error.message : 'Error al iniciar sesión con Google');
       set({ error: message });
       throw error;
     } finally {

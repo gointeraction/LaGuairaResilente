@@ -34,8 +34,15 @@ export default function Login() {
       await loginWithGoogle();
       toast.success('¡Bienvenido!');
       navigate('/dashboard');
-    } catch (err) {
-      toast.error('Error al iniciar sesión con Google');
+    } catch (err: any) {
+      console.error('Google Sign In Error:', err);
+      if (err?.code === 'auth/unauthorized-domain') {
+        toast.error('Este dominio no está autorizado en Firebase Console (Authentication > Dominios autorizados)');
+      } else if (err?.code === 'auth/popup-closed-by-user') {
+        toast.error('Has cerrado la ventana de inicio de sesión');
+      } else {
+        toast.error(err?.message || 'Error al iniciar sesión con Google');
+      }
     } finally {
       setIsLoading(false);
     }
