@@ -84,6 +84,30 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 
 ---
 
+## 📖 Descripción Detallada de Módulos
+
+### 📚 Educación y Capacitación
+- **Aula Resiliente:** Plataforma e-learning gamificada con 19 cursos enfocados en resiliencia, salud mental, y alfabetización digital. Los usuarios ganan puntos al completar lecciones y quizzes.
+- **Tabla de Líderes (Leaderboard):** Sistema competitivo sano que motiva a los ciudadanos a completar cursos mostrando un ranking basado en los puntos de resiliencia obtenidos.
+
+### 🧠 Bienestar Emocional y Salud Mental
+- **Centro de Resiliencia:** Espacio terapéutico con 6 actividades interactivas diseñadas con base en los principios de la Asociación Americana de Psicología (APA).
+- **Portales Públicos de Salud Mental:** Incluye un directorio público de especialistas, un sistema de solicitud de apoyo emocional en crisis gestionado por el CPDC, y un embudo de registro riguroso para psicólogos voluntarios con validación del FPV/MPPS.
+
+### 💼 Empleo, Logística y Patrocinio
+- **Portal de Empleo & Patrocinio:** Conecta a ciudadanos afectados con empresas dispuestas a apadrinar su recuperación mediante donaciones (dinero, insumos, servicios) o empleos directos.
+- **Centro de Coordinación:** Panel táctico para administradores que permite organizar refugios (campamentos), rastrear inventarios logísticos, organizar reuniones y coordinar entregas de suministros.
+
+### 🎮 Gamificación (Reconstrucción del Tejido Social)
+- **Sala de Juegos Multijugador:** Entorno lúdico desarrollado con Phaser.js que permite a los usuarios jugar partidas en tiempo real para aliviar el estrés postraumático y reconstruir lazos comunitarios.
+- **Canje de Puntos:** Los puntos de resiliencia ganados por educarse pueden canjearse por bienes tangibles o certificados digitales emitidos por la plataforma.
+
+### 📊 Administración y Privacidad
+- **Censo Digital:** Sistema de recolección de datos críticos para evaluar el grado de afectación de los ciudadanos y mapear necesidades urgentes en los municipios de La Guaira.
+- **Dashboard Anónimo:** Panel diseñado específicamente para donantes y patrocinadores que permite monitorear el impacto de las donaciones sin comprometer la identidad y privacidad de los ciudadanos vulnerables.
+
+---
+
 ## 🛠️ Stack Tecnológico
 
 ```
