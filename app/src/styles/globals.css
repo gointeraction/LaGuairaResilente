@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix: Tailwind preflight sets height:auto on media elements which
+   causes an SVG attribute warning in browsers. Override for inline SVGs. */
+@layer base {
+  svg {
+    display: inline-block;
+  }
+}
+
 /* ============================================================
    CSS CUSTOM PROPERTIES — Venezuelan Flag Design System
    ============================================================ */
