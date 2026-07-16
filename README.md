@@ -35,11 +35,12 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 | 📊 **APA Assessment** | Evaluación de 10 principios | Componente |
 | 🎁 **My Gifts Quiz** | 20 talentos predefinidos | Componente |
 
-### 👨‍⚕️ Salud Mental
+### 👨‍⚕️ Salud Mental y Voluntariado (Portales Públicos)
 | Módulo | Descripción | Ruta |
 |--------|-------------|------|
-| 👨‍⚕️ **Directorio Psicólogos** | 8 especialistas pre-cargados | `/directory` |
-| 📝 **Registro Red Apoyo** | Flujo de verificación FPV/MPPS | `/support-network-register` |
+| 👨‍⚕️ **Directorio Psicólogos** | Especialistas verificados (Acceso Público) | `/directory` |
+| 📝 **Quiero Formar Parte** | Registro para voluntarios FPV/MPPS (Acceso Público) | `/support-network-register` |
+| 💙 **Solicitar Ayuda** | Línea de soporte emocional CPDC (Acceso Público) | `/solicitar-ayuda` |
 
 ### 💼 Empleo y Patrocinio
 | Módulo | Descripción | Ruta |
@@ -74,9 +75,11 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 | 🏅 **Canje de Puntos** | Catálogo de 10 items | `/redemption` |
 | 📜 **Certificados** | Certificados digitales con QR | `/certificates` |
 
-### 💰 Patrocinio
+### 💰 Patrocinio y Donaciones
 | Módulo | Descripción | Ruta |
 |--------|-------------|------|
+| 💛 **Portal Público Patrocinador** | 6 tipos de aportes (Acceso Público) | `/patrocinadores` |
+| 🤝 **Coordinación Patrocinadores** | Dashboard de gestión y estados | `/coordination/patrocinadores` |
 | 👁️ **Dashboard Anónimo** | Monitoreo protegido de privacidad | `/sponsor-portal/anonymous` |
 
 ---
