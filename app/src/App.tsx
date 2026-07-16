@@ -66,6 +66,21 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+// Root Redirect component
+function RootRedirect() {
+  const { user, loading } = useAuthStore();
+  
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <Navigate to="/directory" replace />;
+}
+
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -160,9 +175,9 @@ function App() {
         <Route path="/games/play/:gameType" element={<PhaserGameWrapper />} />
       </Route>
       
-      {/* Default redirect — public landing */}
-      <Route path="/" element={<Navigate to="/directory" replace />} />
-      <Route path="*" element={<Navigate to="/directory" replace />} />
+      {/* Default redirect */}
+      <Route path="/" element={<RootRedirect />} />
+      <Route path="*" element={<RootRedirect />} />
     </Routes>
   );
 }
