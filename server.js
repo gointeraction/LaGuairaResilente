@@ -1,12 +1,21 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Proxy all Firebase Auth / helper requests (/__) to official Firebase Hosting origin
+// This allows Google OAuth popups and handlers to run cleanly under the hosted.app domain
+app.use('/__', createProxyMiddleware({
+  target: 'https://laguairaresilente.firebaseapp.com',
+  changeOrigin: true,
+  secure: true
+}));
 
 // Serve static files from the Vite build output
 const distPath = path.join(__dirname, 'app', 'dist');

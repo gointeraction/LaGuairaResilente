@@ -19,9 +19,10 @@ env:
     availability:
       - BUILD
   - variable: VITE_FIREBASE_AUTH_DOMAIN
-    value: laguairaresilente.firebaseapp.com
+    value: laguiairaresilente--laguairaresilente.us-east4.hosted.app
     availability:
       - BUILD
+      - RUNTIME
   - variable: VITE_FIREBASE_PROJECT_ID
     value: laguairaresilente
     availability:
