@@ -138,7 +138,11 @@ export const authService = {
   },
 
   async resetPassword(email: string): Promise<void> {
-    await sendPasswordResetEmail(auth, email);
+    const actionCodeSettings = {
+      url: `${import.meta.env.VITE_APP_URL || 'https://laguiairaresilente--laguairaresilente.us-east4.hosted.app'}/login`,
+      handleCodeInApp: true
+    };
+    await sendPasswordResetEmail(auth, email, actionCodeSettings);
   },
 
   async getCurrentUser(uid: string): Promise<User | null> {

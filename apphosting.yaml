@@ -9,6 +9,11 @@ runConfig:
   maxInstances: 2
 
 env:
+  - variable: VITE_APP_URL
+    value: "https://laguiairaresilente--laguairaresilente.us-east4.hosted.app"
+    availability:
+      - BUILD
+      - RUNTIME
   - variable: VITE_FIREBASE_API_KEY
     value: "AIzaSyAM6WRejGzA8sVKsqvk42aGrDtEtBH-f34"
     availability:
