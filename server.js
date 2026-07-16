@@ -34,8 +34,11 @@ app.use(express.static(distPath, {
   }
 }));
 
-// SPA fallback: serve index.html for all non-file routes
+// SPA fallback: return 404 for missing static assets, otherwise serve index.html
 app.get('*', (req, res) => {
+  if (req.path.startsWith('/assets/') || /\.(js|css|json|png|jpg|jpeg|svg|ico|woff|woff2|map)$/i.test(req.path)) {
+    return res.status(404).send('Asset not found');
+  }
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
