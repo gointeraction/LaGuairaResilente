@@ -9,6 +9,10 @@ runConfig:
   maxInstances: 2
 
 env:
+  - variable: VITE_FIREBASE_API_KEY
+    value: "AIzaSyAM6WRejGzA8sVKsqvk42aGrDtEtBH-f34"
+    availability:
+      - BUILD
   - variable: VITE_FIREBASE_AUTH_DOMAIN
     value: laguairaresilente.firebaseapp.com
     availability:
