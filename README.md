@@ -15,6 +15,35 @@ Plataforma digital diseñada para apoyar a **100,000+ ciudadanos damnificados** 
 
 ---
 
+## 🔗 Enlaces Oficiales de la Plataforma
+
+Todas las rutas operan sobre el dominio principal: `https://laguiairaresilente--laguairaresilente.us-east4.hosted.app`
+
+### 🌍 Acceso Público
+- **Directorio de Especialistas:** [/directory](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/directory)
+- **Registro para Psicólogos/Voluntarios:** [/support-network-register](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/support-network-register)
+- **Solicitud de Ayuda Emocional:** [/solicitar-ayuda](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/solicitar-ayuda)
+- **Portal de Aportes para Patrocinadores:** [/patrocinadores](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/patrocinadores)
+- **Inicio de Sesión:** [/login](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/login)
+- **Registro General:** [/register](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/register)
+
+### 🔐 Acceso Privado (Requiere Sesión)
+**Beneficiarios:**
+- **Panel Principal:** [/dashboard](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/dashboard)
+- **Aula Resiliente (Cursos):** [/courses](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/courses)
+- **Censo Digital:** [/census](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/census)
+- **Bolsa de Empleo:** [/jobs](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/jobs)
+- **Centro de Resiliencia (APA):** [/resilience](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/resilience)
+- **Sala de Juegos:** [/games](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/games)
+
+**Administración y Coordinación:**
+- **Panel Administrativo:** [/admin](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/admin)
+- **Centro de Reportes:** [/reports](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/reports)
+- **Centro de Coordinación Táctico:** [/coordination](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/coordination)
+- **Dashboard de Patrocinadores (Anónimo):** [/sponsor-portal/anonymous](https://laguiairaresilente--laguairaresilente.us-east4.hosted.app/sponsor-portal/anonymous)
+
+---
+
 ## 🎯 Módulos Principales (22+ Módulos)
 
 ### 📚 Educación y Capacitación
