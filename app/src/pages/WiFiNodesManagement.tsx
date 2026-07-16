@@ -24,8 +24,7 @@ import {
   WiFiNode, 
   WiFiStats, 
   WiFiStatus,
-  WiFiType,
-  WIFI_NODES_DATA
+  WiFiType
 } from '../services/wifiNodes';
 
 type ViewMode = 'grid' | 'list';
@@ -56,12 +55,12 @@ export default function WiFiNodesManagement() {
     setLoading(true);
     try {
       const data = await wifiService.getNodes();
-      setNodes(data.length > 0 ? data : WIFI_NODES_DATA as WiFiNode[]);
+      setNodes(data);
       const statsData = await wifiService.getWiFiStats();
       setStats(statsData);
     } catch (error) {
       console.error('Error loading WiFi nodes:', error);
-      setNodes(WIFI_NODES_DATA as WiFiNode[]);
+      setNodes([]);
     } finally {
       setLoading(false);
     }

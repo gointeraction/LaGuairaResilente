@@ -15,9 +15,6 @@ import {
   Beneficiary, 
   SponsorMatch, 
   MatchingStats,
-  SPONSORS_DATA,
-  BENEFICIARIES_DATA,
-  MATCHES_DATA,
   MatchStatus
 } from '../services/matching';
 import toast from 'react-hot-toast';
@@ -48,15 +45,15 @@ export default function MatchingPage() {
         matchingService.getMatchingStats()
       ]);
       
-      setSponsors(sponsorsData.length > 0 ? sponsorsData : SPONSORS_DATA as Sponsor[]);
-      setBeneficiaries(beneficiariesData.length > 0 ? beneficiariesData : BENEFICIARIES_DATA as Beneficiary[]);
-      setMatches(matchesData.length > 0 ? matchesData : MATCHES_DATA as SponsorMatch[]);
+      setSponsors(sponsorsData);
+      setBeneficiaries(beneficiariesData);
+      setMatches(matchesData);
       setStats(statsData);
     } catch (error) {
       console.error('Error loading matching data:', error);
-      setSponsors(SPONSORS_DATA as Sponsor[]);
-      setBeneficiaries(BENEFICIARIES_DATA as Beneficiary[]);
-      setMatches(MATCHES_DATA as SponsorMatch[]);
+      setSponsors([]);
+      setBeneficiaries([]);
+      setMatches([]);
     } finally {
       setLoading(false);
     }

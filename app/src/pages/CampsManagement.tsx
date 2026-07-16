@@ -21,7 +21,6 @@ import {
   campService, 
   Camp, 
   CampStats, 
-  CAMPS_DATA,
   CampStatus 
 } from '../services/camps';
 
@@ -51,12 +50,12 @@ export default function CampsManagement() {
     setLoading(true);
     try {
       const data = await campService.getCamps();
-      setCamps(data.length > 0 ? data : CAMPS_DATA as Camp[]);
+      setCamps(data);
       const statsData = await campService.getCampStats();
       setStats(statsData);
     } catch (error) {
       console.error('Error loading camps:', error);
-      setCamps(CAMPS_DATA as Camp[]);
+      setCamps([]);
     } finally {
       setLoading(false);
     }

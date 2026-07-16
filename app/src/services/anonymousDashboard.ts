@@ -156,21 +156,35 @@ export const ANONYMOUS_BENEFICIARY_DATA: AnonymousBeneficiary[] = [
 // ANONYMOUS DASHBOARD SERVICE
 // ============================================
 
+import { db } from '../lib/firebase';
+import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firestore';
+
 export const anonymousDashboardService = {
   async getAnonymousBeneficiaries(sponsorId?: string): Promise<AnonymousBeneficiary[]> {
-    // In production, this would filter by sponsor_id
-    // For now, return mock data
-    let data = ANONYMOUS_BENEFICIARY_DATA;
-    
-    if (sponsorId) {
-      data = data.filter(b => b.sponsor_id === sponsorId);
+    try {
+      const q = sponsorId 
+        ? query(collection(db, 'beneficiaries'), where('sponsor_id', '==', sponsorId))
+        : collection(db, 'beneficiaries');
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(d => ({
+        id: d.id,
+        ...d.data()
+      })) as AnonymousBeneficiary[];
+    } catch (e) {
+      console.error('Error fetching anonymous beneficiaries from Firestore:', e);
+      return [];
     }
-    
-    return data;
   },
 
   async getAnonymousBeneficiaryById(id: string): Promise<AnonymousBeneficiary | null> {
-    return ANONYMOUS_BENEFICIARY_DATA.find(b => b.id === id) || null;
+    try {
+      const docSnap = await getDoc(doc(db, 'beneficiaries', id));
+      if (!docSnap.exists()) return null;
+      return { id: docSnap.id, ...docSnap.data() } as AnonymousBeneficiary;
+    } catch (e) {
+      console.error('Error fetching anonymous beneficiary by id:', e);
+      return null;
+    }
   },
 
   async getSponsorDashboardStats(sponsorId: string): Promise<SponsorDashboardStats> {
@@ -181,14 +195,14 @@ export const anonymousDashboardService = {
     const byStatus: Record<string, number> = {};
     
     beneficiaries.forEach(b => {
-      byMunicipality[b.municipality] = (byMunicipality[b.municipality] || 0) + 1;
-      byType[b.beneficiary_type] = (byType[b.beneficiary_type] || 0) + 1;
-      byStatus[b.status] = (byStatus[b.status] || 0) + 1;
+      if (b.municipality) byMunicipality[b.municipality] = (byMunicipality[b.municipality] || 0) + 1;
+      if (b.beneficiary_type) byType[b.beneficiary_type] = (byType[b.beneficiary_type] || 0) + 1;
+      if (b.status) byStatus[b.status] = (byStatus[b.status] || 0) + 1;
     });
 
-    const activeCount = beneficiaries.filter(b => b.status === 'EN_CAPACITACION').length;
-    const totalCourses = beneficiaries.reduce((sum, b) => sum + b.courses_completed, 0);
-    const totalPoints = beneficiaries.reduce((sum, b) => sum + b.points_balance, 0);
+    const activeCount = beneficiaries.filter(b => b.status === 'EN_CAPACITACION' || b.status === 'ACTIVO').length;
+    const totalCourses = beneficiaries.reduce((sum, b) => sum + (b.courses_completed || 0), 0);
+    const totalPoints = beneficiaries.reduce((sum, b) => sum + (b.points_balance || 0), 0);
 
     return {
       total_beneficiaries: beneficiaries.length,
@@ -202,30 +216,17 @@ export const anonymousDashboardService = {
       beneficiaries_by_type: byType,
       beneficiaries_by_status: byStatus,
       progress_distribution: {
-        not_started: beneficiaries.filter(b => b.courses_completed === 0).length,
-        in_progress: beneficiaries.filter(b => b.courses_completed > 0 && b.courses_completed < 8).length,
-        completed: beneficiaries.filter(b => b.courses_completed >= 8).length
+        not_started: beneficiaries.filter(b => !b.courses_completed || b.courses_completed === 0).length,
+        in_progress: beneficiaries.filter(b => b.courses_completed && b.courses_completed > 0 && b.courses_completed < 8).length,
+        completed: beneficiaries.filter(b => b.courses_completed && b.courses_completed >= 8).length
       },
-      monthly_activity: [
-        { month: 'Ene 2025', active_users: 45, courses_completed: 120, points_awarded: 2500 },
-        { month: 'Feb 2025', active_users: 62, courses_completed: 180, points_awarded: 3800 },
-        { month: 'Mar 2025', active_users: 78, courses_completed: 240, points_awarded: 5200 },
-        { month: 'Abr 2025', active_users: 85, courses_completed: 310, points_awarded: 6800 },
-        { month: 'May 2025', active_users: 92, courses_completed: 380, points_awarded: 8500 },
-        { month: 'Jun 2025', active_users: 98, courses_completed: 450, points_awarded: 10200 }
-      ]
+      monthly_activity: []
     };
   },
 
   async generateImpactReport(sponsorId: string, period: string): Promise<ImpactReport> {
     const stats = await this.getSponsorDashboardStats(sponsorId);
     
-    const topTracks = [
-      { track: 'Continuidad Comercial Digital', count: 35 },
-      { track: 'Micro-oficios Remotos', count: 28 },
-      { track: 'Logística de Suministros', count: 15 }
-    ];
-
     return {
       id: `RPT-IMP-${Date.now()}`,
       sponsor_id: sponsorId,
@@ -237,7 +238,7 @@ export const anonymousDashboardService = {
       points_awarded: stats.total_points_awarded,
       average_progress: stats.average_progress,
       municipality_distribution: stats.beneficiaries_by_municipality,
-      top_tracks: topTracks,
+      top_tracks: [],
       highlights: [
         `${stats.active_beneficiaries} beneficiarios activos en capacitación`,
         `${stats.total_courses_completed} módulos completados este período`,
@@ -250,13 +251,6 @@ export const anonymousDashboardService = {
   },
 
   async getImpactTimeline(_sponsorId: string): Promise<{date: string; active: number; completed: number}[]> {
-    return [
-      { date: '2025-01', active: 20, completed: 5 },
-      { date: '2025-02', active: 35, completed: 12 },
-      { date: '2025-03', active: 50, completed: 25 },
-      { date: '2025-04', active: 65, completed: 40 },
-      { date: '2025-05', active: 78, completed: 58 },
-      { date: '2025-06', active: 92, completed: 75 }
-    ];
+    return [];
   }
 };

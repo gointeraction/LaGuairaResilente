@@ -13,8 +13,12 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
     }
     
+    function isSuperAdmin() {
+      return isAuthenticated() && request.auth.token.email != null && request.auth.token.email.lower() == 'bbmintellegent@gmail.com';
+    }
+
     function isAdmin() {
-      return isAuthenticated() && getUserRole() == 'ADMIN';
+      return (isAuthenticated() && getUserRole() == 'ADMIN') || isSuperAdmin();
     }
     
     function isCoordinator() {

@@ -1,3 +1,6 @@
+import { db } from '../lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+
 // ============================================
 // TYPES
 // ============================================
@@ -410,78 +413,74 @@ export const reportsService = {
   },
 
   async generateReport(reportId: string, _filters: Record<string, any>): Promise<ReportData> {
-    // Mock data generation - in production, this would query Firestore
     const report = REPORTS_CATALOG.find(r => r.id === reportId);
     if (!report) throw new Error('Report not found');
 
-    // Generate mock data based on report type
-    return this.getMockData(reportId);
+    try {
+      if (report.module === 'EDUCATION') {
+        const [coursesSnap, enrollSnap] = await Promise.all([
+          getDocs(collection(db, 'courses')),
+          getDocs(collection(db, 'enrollments'))
+        ]);
+        const courses = coursesSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+        const enrollments = enrollSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+
+        if (reportId === 'RPT-001') {
+          const rows: (string | number)[][] = courses.map(c => {
+            const courseEnrollments = enrollments.filter(e => e.course_id === c.id);
+            const total = courseEnrollments.length;
+            const activos = courseEnrollments.filter(e => e.status === 'ENROLLED' || e.status === 'IN_PROGRESS').length;
+            const completados = courseEnrollments.filter(e => e.status === 'COMPLETED').length;
+            const tasa = total > 0 ? `${Math.round((completados / total) * 100)}%` : '0%';
+            return [c.title || c.name || 'Curso', total, activos, completados, tasa];
+          });
+          const totalEnroll = enrollments.length;
+          const activosTotal = enrollments.filter(e => e.status === 'ENROLLED' || e.status === 'IN_PROGRESS').length;
+          const completadosTotal = enrollments.filter(e => e.status === 'COMPLETED').length;
+          return {
+            headers: ['Curso', 'Inscritos', 'Activos', 'Completados', 'Tasa Éxito'],
+            rows,
+            summary: { total: totalEnroll, activos: activosTotal, completados: completadosTotal }
+          };
+        }
+      }
+
+      if (report.module === 'EMPLOYMENT') {
+        const jobsSnap = await getDocs(collection(db, 'employments'));
+        const jobs = jobsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+        const rows: (string | number)[][] = jobs.map(j => [
+          j.municipality || 'Catia La Mar',
+          1,
+          `$${j.salary || 0}`,
+          j.work_modality || 'Presencial'
+        ]);
+        return {
+          headers: ['Municipio', 'Empleos', 'Salario Promedio', 'Modalidad'],
+          rows,
+          summary: { total_empleos: jobs.length }
+        };
+      }
+
+      // Default generic Firestore query fallback for any report type
+      const usersSnap = await getDocs(collection(db, 'users'));
+      const usersCount = usersSnap.size;
+      return {
+        headers: ['Dato', 'Valor'],
+        rows: [['Total Usuarios en Firestore', usersCount]],
+        summary: { total_usuarios: usersCount }
+      };
+    } catch (e) {
+      console.error('Error querying Firestore for report:', e);
+      return {
+        headers: ['Dato', 'Valor'],
+        rows: [],
+        summary: { total: 0 }
+      };
+    }
   },
 
   async getMockData(reportId: string): Promise<ReportData> {
-    // Mock data for demonstration
-    const mockData: Record<string, ReportData> = {
-      'RPT-001': {
-        headers: ['Curso', 'Inscritos', 'Activos', 'Completados', 'Tasa Éxito'],
-        rows: [
-          ['Continuidad Comercial Digital - Módulo 1', 150, 120, 85, '56.7%'],
-          ['Continuidad Comercial Digital - Módulo 2', 140, 110, 75, '53.6%'],
-          ['Micro-oficios Remotos - Módulo 1', 95, 80, 60, '63.2%'],
-          ['Logística de Suministros - Módulo 1', 75, 65, 45, '60.0%'],
-        ],
-        summary: { total: 460, activos: 375, completados: 265 }
-      },
-      'RPT-002': {
-        headers: ['Estudiante', 'Municipio', 'Cursos Inscritos', 'Completados', 'Progreso'],
-        rows: [
-          ['María García', 'Catia La Mar', 3, 2, '66.7%'],
-          ['Juan Pérez', 'Maiquetía', 2, 1, '50.0%'],
-          ['Ana López', 'Macuto', 4, 3, '75.0%'],
-          ['Carlos Ruiz', 'Caraballeda', 1, 1, '100%'],
-        ],
-        summary: { total_estudiantes: 4, promedio_progreso: 72.9 }
-      },
-      'RPT-009': {
-        headers: ['Actividad', 'Usos', 'Tiempo Promedio', 'Completación'],
-        rows: [
-          ['Emotional Canvas', 250, '15 min', '85%'],
-          ['My Gifts Quiz', 180, '20 min', '90%'],
-          ['Daily Journal', 320, '10 min', '75%'],
-          ['Mindfulness', 200, '25 min', '80%'],
-          ['Action Plan', 150, '30 min', '70%'],
-          ['APA Assessment', 120, '15 min', '88%'],
-        ],
-        summary: { total_usos: 1220, tiempo_promedio: '19 min' }
-      },
-      'RPT-022': {
-        headers: ['Municipio', 'Empleos', 'Salario Promedio', 'Modalidad'],
-        rows: [
-          ['Catia La Mar', 25, '$450', 'Presencial'],
-          ['Maiquetía', 18, '$520', 'Híbrido'],
-          ['Macuto', 15, '$480', 'Remoto'],
-          ['Caraballeda', 12, '$550', 'Presencial'],
-        ],
-        summary: { total_empleos: 70, salario_promedio: '$500' }
-      },
-      'RPT-034': {
-        headers: ['Métrica', 'Valor', 'Meta', 'Cumplimiento'],
-        rows: [
-          ['Beneficiarios Registrados', 1250, 100000, '1.25%'],
-          ['Cursos Completados', 265, '-', '-'],
-          ['Empleos Generados', 70, '-', '-'],
-          ['Horas Capacitación', 5300, '-', '-'],
-          ['Inversión Total', '$50,000', '-', '-'],
-          ['ROI Social', '2.8x', '3x', '93.3%'],
-        ],
-        summary: { beneficiarios: 1250, empleos: 70, horas: 5300 }
-      }
-    };
-
-    return mockData[reportId] || {
-      headers: ['Dato', 'Valor'],
-      rows: [['Sin datos disponibles', '-']],
-      summary: {}
-    };
+    return this.generateReport(reportId, {});
   },
 
   async exportToCSV(data: ReportData, filename: string): Promise<void> {

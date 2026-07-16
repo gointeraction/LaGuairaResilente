@@ -147,7 +147,8 @@ export const autoMatchSponsors = functions.https.onCall(async (data, context) =>
   }
 
   const userDoc = await db.collection('users').doc(context.auth.uid).get();
-  if (userDoc.data()?.role !== 'ADMIN' && userDoc.data()?.role !== 'COORDINATOR') {
+  const isSuperAdmin = context.auth.token.email?.toLowerCase() === 'bbmintellegent@gmail.com';
+  if (userDoc.data()?.role !== 'ADMIN' && userDoc.data()?.role !== 'COORDINATOR' && !isSuperAdmin) {
     throw new functions.https.HttpsError('permission-denied', 'No autorizado');
   }
 
@@ -220,7 +221,8 @@ export const approveUser = functions.https.onCall(async (data, context) => {
   }
 
   const adminDoc = await db.collection('users').doc(context.auth.uid).get();
-  if (adminDoc.data()?.role !== 'ADMIN') {
+  const isSuperAdmin = context.auth.token.email?.toLowerCase() === 'bbmintellegent@gmail.com';
+  if (adminDoc.data()?.role !== 'ADMIN' && !isSuperAdmin) {
     throw new functions.https.HttpsError('permission-denied', 'Solo admins pueden aprobar usuarios');
   }
 

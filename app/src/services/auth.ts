@@ -40,11 +40,14 @@ export const authService = {
     });
     
     // Create user document in Firestore
-    const userDoc: User = {
+    const isSuperAdmin = data.email.toLowerCase() === 'bbmintellegent@gmail.com';
+    const userDoc: any = {
       uid: firebaseUser.uid,
       email: data.email,
-      role: data.role || 'STUDENT',
+      role: isSuperAdmin ? 'ADMIN' : (data.role || 'STUDENT'),
       status: 'ACTIVE',
+      is_active: true,
+      is_approved: isSuperAdmin ? true : false,
       profile: {
         first_name: data.first_name,
         last_name: data.last_name,
@@ -62,23 +65,26 @@ export const authService = {
     
     await setDoc(doc(db, 'users', firebaseUser.uid), userDoc);
     
-    return userDoc;
+    return userDoc as User;
   },
 
   async signInWithGoogle(): Promise<User> {
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(auth, provider);
     const firebaseUser = userCredential.user;
+    const isSuperAdmin = (firebaseUser.email || '').toLowerCase() === 'bbmintellegent@gmail.com';
 
     const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
 
     if (!userDoc.exists()) {
       const names = (firebaseUser.displayName || '').split(' ');
-      const userDocData: User = {
+      const userDocData: any = {
         uid: firebaseUser.uid,
         email: firebaseUser.email || '',
-        role: 'STUDENT',
+        role: isSuperAdmin ? 'ADMIN' : 'STUDENT',
         status: 'ACTIVE',
+        is_active: true,
+        is_approved: isSuperAdmin ? true : false,
         profile: {
           first_name: names[0] || '',
           last_name: names.slice(1).join(' ') || '',
@@ -95,14 +101,22 @@ export const authService = {
       };
 
       await setDoc(doc(db, 'users', firebaseUser.uid), userDocData);
-      return userDocData;
+      return userDocData as User;
     }
 
     const userData = userDoc.data() as User;
-
-    await updateDoc(doc(db, 'users', firebaseUser.uid), {
+    const updatePayload: any = {
       last_login: new Date().toISOString()
-    });
+    };
+
+    if (isSuperAdmin && userData.role !== 'ADMIN') {
+      userData.role = 'ADMIN';
+      updatePayload.role = 'ADMIN';
+      updatePayload.is_approved = true;
+      updatePayload.is_active = true;
+    }
+
+    await updateDoc(doc(db, 'users', firebaseUser.uid), updatePayload);
 
     return userData;
   },
@@ -115,6 +129,7 @@ export const authService = {
     );
     
     const firebaseUser = userCredential.user;
+    const isSuperAdmin = email.toLowerCase() === 'bbmintellegent@gmail.com';
     
     // Get user document from Firestore
     const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
@@ -124,11 +139,18 @@ export const authService = {
     }
     
     const userData = userDoc.data() as User;
-    
-    // Update last login
-    await updateDoc(doc(db, 'users', firebaseUser.uid), {
+    const updatePayload: any = {
       last_login: new Date().toISOString()
-    });
+    };
+
+    if (isSuperAdmin && userData.role !== 'ADMIN') {
+      userData.role = 'ADMIN';
+      updatePayload.role = 'ADMIN';
+      updatePayload.is_approved = true;
+      updatePayload.is_active = true;
+    }
+
+    await updateDoc(doc(db, 'users', firebaseUser.uid), updatePayload);
     
     return userData;
   },

@@ -16,14 +16,15 @@ import {
   certificateService, 
   Certificate, 
   CertificateType,
-  CertificateStatus,
-  CERTIFICATES_DATA
+  CertificateStatus
 } from '../services/certificates';
+import { useAuthStore } from '../stores/authStore';
 import toast from 'react-hot-toast';
 
 type TabType = 'my' | 'verify' | 'catalog';
 
 export default function CertificatesPage() {
+  const user = useAuthStore(state => state.user);
   const [activeTab, setActiveTab] = useState<TabType>('my');
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [filterType, setFilterType] = useState<CertificateType | 'ALL'>('ALL');
@@ -34,16 +35,21 @@ export default function CertificatesPage() {
 
   useEffect(() => {
     loadCertificates();
-  }, []);
+  }, [user]);
 
   const loadCertificates = async () => {
+    if (!user?.uid) {
+      setCertificates([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
-      const data = await certificateService.getUserCertificates('USR-001');
-      setCertificates(data.length > 0 ? data : CERTIFICATES_DATA as Certificate[]);
+      const data = await certificateService.getUserCertificates(user.uid);
+      setCertificates(data);
     } catch (error) {
       console.error('Error loading certificates:', error);
-      setCertificates(CERTIFICATES_DATA as Certificate[]);
+      setCertificates([]);
     } finally {
       setLoading(false);
     }

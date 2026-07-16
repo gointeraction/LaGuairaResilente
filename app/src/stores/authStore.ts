@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { auth, db } from '../lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, setDoc } from 'firebase/firestore';
 import type { User } from '../types';
 import { authService } from '../services/auth';
 
@@ -29,17 +29,67 @@ export const useAuthStore = create<AuthState>((set) => ({
     const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         set({ firebaseUser, loading: true });
+        const isSuperAdmin = (firebaseUser.email || '').toLowerCase() === 'bbmintellegent@gmail.com';
         
         // Subscribe to Firestore user document
         const unsubscribeUser = onSnapshot(
           doc(db, 'users', firebaseUser.uid),
-          (docSnap) => {
+          async (docSnap) => {
             if (docSnap.exists()) {
+              const data = docSnap.data();
+              if (isSuperAdmin && data.role !== 'ADMIN') {
+                try {
+                  await updateDoc(doc(db, 'users', firebaseUser.uid), {
+                    role: 'ADMIN',
+                    is_approved: true,
+                    is_active: true
+                  });
+                } catch (e) {
+                  console.error('Error auto-upgrading super admin:', e);
+                }
+              }
               set({ 
-                user: { uid: docSnap.id, ...docSnap.data() } as User,
+                user: { 
+                  uid: docSnap.id, 
+                  ...data, 
+                  role: isSuperAdmin ? 'ADMIN' : (data as any).role,
+                  is_approved: isSuperAdmin ? true : (data as any).is_approved,
+                  is_active: isSuperAdmin ? true : (data as any).is_active
+                } as unknown as User,
                 loading: false 
               });
             } else {
+              if (isSuperAdmin) {
+                const names = (firebaseUser.displayName || 'Super Admin').split(' ');
+                const adminDoc: any = {
+                  uid: firebaseUser.uid,
+                  email: firebaseUser.email || 'bbmintellegent@gmail.com',
+                  role: 'ADMIN',
+                  status: 'ACTIVE',
+                  is_active: true,
+                  is_approved: true,
+                  profile: {
+                    first_name: names[0] || 'Super',
+                    last_name: names.slice(1).join(' ') || 'Admin',
+                    phone: firebaseUser.phoneNumber || null,
+                    cedula: 'ADMIN-001',
+                    municipality: 'CATIA_LA_MAR',
+                    digital_literacy_level: 'ADVANCED',
+                    is_affected: false,
+                    camp_id: null
+                  },
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString(),
+                  last_login: new Date().toISOString()
+                };
+                try {
+                  await setDoc(doc(db, 'users', firebaseUser.uid), adminDoc);
+                  set({ user: adminDoc as unknown as User, loading: false });
+                  return;
+                } catch (e) {
+                  console.error('Error auto-creating super admin doc:', e);
+                }
+              }
               set({ user: null, loading: false });
             }
           },

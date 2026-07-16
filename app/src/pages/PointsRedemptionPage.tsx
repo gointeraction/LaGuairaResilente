@@ -16,41 +16,47 @@ import {
   RedemptionItem, 
   UserRedemption, 
   RedemptionType,
-  RedemptionStatus,
-  REDEMPTION_CATALOG,
-  USER_REDEMPTIONS_DATA
+  RedemptionStatus
 } from '../services/redemption';
+import { useAuthStore } from '../stores/authStore';
 import toast from 'react-hot-toast';
 
 type TabType = 'catalog' | 'redemptions' | 'history';
 
 export default function PointsRedemptionPage() {
+  const user = useAuthStore(state => state.user);
   const [activeTab, setActiveTab] = useState<TabType>('catalog');
   const [catalog, setCatalog] = useState<RedemptionItem[]>([]);
   const [redemptions, setRedemptions] = useState<UserRedemption[]>([]);
   const [filterType, setFilterType] = useState<RedemptionType | 'ALL'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [userPoints, setUserPoints] = useState(500);
+  const [userPoints, setUserPoints] = useState<number>((user?.profile as any)?.resilience_points || 0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if ((user?.profile as any)?.resilience_points !== undefined) {
+      setUserPoints((user?.profile as any).resilience_points);
+    }
+  }, [user]);
+
+  useEffect(() => {
     loadData();
-  }, []);
+  }, [user]);
 
   const loadData = async () => {
     setLoading(true);
     try {
       const [catalogData, redemptionsData] = await Promise.all([
         redemptionService.getCatalog(),
-        redemptionService.getUserRedemptions('USR-001')
+        user?.uid ? redemptionService.getUserRedemptions(user.uid) : Promise.resolve([])
       ]);
       
-      setCatalog(catalogData.length > 0 ? catalogData : REDEMPTION_CATALOG as RedemptionItem[]);
-      setRedemptions(redemptionsData.length > 0 ? redemptionsData : USER_REDEMPTIONS_DATA as UserRedemption[]);
+      setCatalog(catalogData);
+      setRedemptions(redemptionsData);
     } catch (error) {
       console.error('Error loading redemption data:', error);
-      setCatalog(REDEMPTION_CATALOG as RedemptionItem[]);
-      setRedemptions(USER_REDEMPTIONS_DATA as UserRedemption[]);
+      setCatalog([]);
+      setRedemptions([]);
     } finally {
       setLoading(false);
     }
@@ -64,7 +70,7 @@ export default function PointsRedemptionPage() {
     
     toast.success(`Canjeando ${item.name}...`);
     // In production, this would call the service
-    setUserPoints(prev => prev - item.points_cost);
+    setUserPoints((prev: number) => prev - item.points_cost);
     toast.success('Canje registrado exitosamente');
   };
 

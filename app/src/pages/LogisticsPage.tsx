@@ -18,10 +18,7 @@ import {
   DeliveryType,
   FoodDistribution,
   MobileTopUp,
-  LogisticsStats,
-  DELIVERIES_DATA,
-  FOOD_DISTRIBUTION_DATA,
-  MOBILE_TOPUP_DATA
+  LogisticsStats
 } from '../services/logistics';
 
 type TabType = 'deliveries' | 'routes' | 'food' | 'topups';
@@ -50,15 +47,15 @@ export default function LogisticsPage() {
         logisticsService.getLogisticsStats()
       ]);
       
-      setDeliveries(deliveriesData.length > 0 ? deliveriesData : DELIVERIES_DATA as Delivery[]);
-      setFoodDistributions(foodData.length > 0 ? foodData : FOOD_DISTRIBUTION_DATA as FoodDistribution[]);
-      setTopUps(topUpsData.length > 0 ? topUpsData : MOBILE_TOPUP_DATA as MobileTopUp[]);
+      setDeliveries(deliveriesData);
+      setFoodDistributions(foodData);
+      setTopUps(topUpsData);
       setStats(statsData);
     } catch (error) {
       console.error('Error loading logistics data:', error);
-      setDeliveries(DELIVERIES_DATA as Delivery[]);
-      setFoodDistributions(FOOD_DISTRIBUTION_DATA as FoodDistribution[]);
-      setTopUps(MOBILE_TOPUP_DATA as MobileTopUp[]);
+      setDeliveries([]);
+      setFoodDistributions([]);
+      setTopUps([]);
     } finally {
       setLoading(false);
     }
