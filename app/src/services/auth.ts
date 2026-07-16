@@ -1,6 +1,8 @@
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   sendPasswordResetEmail,
   updateProfile,
@@ -61,6 +63,48 @@ export const authService = {
     await setDoc(doc(db, 'users', firebaseUser.uid), userDoc);
     
     return userDoc;
+  },
+
+  async signInWithGoogle(): Promise<User> {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(auth, provider);
+    const firebaseUser = userCredential.user;
+
+    const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+
+    if (!userDoc.exists()) {
+      const names = (firebaseUser.displayName || '').split(' ');
+      const userDocData: User = {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email || '',
+        role: 'STUDENT',
+        status: 'ACTIVE',
+        profile: {
+          first_name: names[0] || '',
+          last_name: names.slice(1).join(' ') || '',
+          phone: firebaseUser.phoneNumber,
+          cedula: '',
+          municipality: 'CATIA_LA_MAR',
+          digital_literacy_level: 'NONE',
+          is_affected: false,
+          camp_id: null
+        },
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        last_login: new Date().toISOString()
+      };
+
+      await setDoc(doc(db, 'users', firebaseUser.uid), userDocData);
+      return userDocData;
+    }
+
+    const userData = userDoc.data() as User;
+
+    await updateDoc(doc(db, 'users', firebaseUser.uid), {
+      last_login: new Date().toISOString()
+    });
+
+    return userData;
   },
 
   async login(email: string, password: string): Promise<User> {

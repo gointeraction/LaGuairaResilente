@@ -12,6 +12,7 @@ interface AuthState {
   error: string | null;
   initialize: () => (() => void) | undefined;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   register: (data: Parameters<typeof authService.register>[0]) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -63,6 +64,19 @@ export const useAuthStore = create<AuthState>((set) => ({
       await authService.login(email, password);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Error al iniciar sesión';
+      set({ error: message });
+      throw error;
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  loginWithGoogle: async () => {
+    try {
+      set({ error: null, loading: true });
+      await authService.signInWithGoogle();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error al iniciar sesión con Google';
       set({ error: message });
       throw error;
     } finally {
