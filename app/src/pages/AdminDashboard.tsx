@@ -99,9 +99,9 @@ export default function AdminDashboard() {
       const [usersSnap, enrollmentsSnap, resilienceSnap, jobsSnap, censusSnap, psychSnap] = await Promise.all([
         getDocs(query(collection(db, 'users'), orderBy('points', 'desc'), limit(100))),
         getDocs(collection(db, 'enrollments')),
-        getDocs(collection(db, 'resilience_activities')),
-        getDocs(collection(db, 'job_applications')),
-        getDocs(collection(db, 'census_responses')),
+        getDocs(collection(db, 'resilience_points')),
+        getDocs(collection(db, 'employments')),
+        getDocs(collection(db, 'census_surveys')),
         getDocs(collection(db, 'psychologists'))
       ]);
 
