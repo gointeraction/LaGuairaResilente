@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 
 export default defineConfig({
-  base: '/LaGuairaResilente/',
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [
     react(),
     VitePWA({
@@ -18,8 +18,8 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
+        scope: process.env.VITE_BASE_PATH || '/',
+        start_url: process.env.VITE_BASE_PATH || '/',
         icons: [
           {
             src: 'icons/icon-192x192.png',
