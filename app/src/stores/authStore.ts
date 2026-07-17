@@ -29,7 +29,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         set({ firebaseUser, loading: true });
-        const isSuperAdmin = (firebaseUser.email || '').toLowerCase() === 'bbmintellegent@gmail.com';
+        const email = (firebaseUser.email || '').toLowerCase();
+        const isSuperAdmin = email === 'bbmintellegent@gmail.com' || email === 'jibohorquez@gmail.com';
         
         // Subscribe to Firestore user document
         const unsubscribeUser = onSnapshot(
